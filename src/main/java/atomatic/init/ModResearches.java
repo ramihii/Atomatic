@@ -44,7 +44,7 @@ public class ModResearches
         atomAL.add(Aspect.WATER, 1);
         atomAL.add(Aspect.ORDER, 1);
         atomAL.add(Aspect.ENTROPY, 1);
-        atom = new ResearchItem(Researches.ATOM, Researches.CATEGORY, atomAL, 2, 2, 2, new ItemStack(Items.apple));
+        atom = new ResearchItem(Researches.ATOM, Researches.CATEGORY, atomAL, 0, 0, 2, new ItemStack(Items.apple));
         atom.setSecondary();
         atom.setPages(new ResearchPage(Researches.ATOM_P + "1"));
         atom.registerResearchItem();
@@ -52,7 +52,7 @@ public class ModResearches
         quantumAL.add(Aspect.VOID, 1);
         quantumAL.add(Aspect.ENERGY, 2);
         quantumAL.add(Aspect.MECHANISM, 2);
-        quantum = new ResearchItem(Researches.QUANTUM, Researches.CATEGORY, quantumAL, 4, 2, 3,
+        quantum = new ResearchItem(Researches.QUANTUM, Researches.CATEGORY, quantumAL, 3, 0, 3,
                                    new ItemStack(Items.diamond));
         quantum.setParents(Researches.ATOM);
         quantum.setSpecial();
