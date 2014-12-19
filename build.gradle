@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-	compile "codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev"
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev"
     compile "codechicken:NotEnoughItems:1.7.10-1.0.3.77:dev"
 }
 
