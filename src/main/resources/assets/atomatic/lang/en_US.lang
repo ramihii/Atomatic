@@ -1,0 +1,25 @@
+# Configuration
+general.debug.mode.label=Debug Mode
+general.debug.mode.comment=Allows easier debugging for developers
+
+# Keys
+key.categories.atomatic=Atomatic
+
+# Creative Tabs
+itemGroup.atomatic=Atomatic
+
+# Items
+
+# Tools
+
+# Weapons
+
+# Blocks
+
+# GUIs
+
+# NEI
+
+# Commands
+
+# Tooltips
