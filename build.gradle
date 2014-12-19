@@ -1,0 +1,118 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+repositories {
+    maven { 
+		// The repo from which to get waila
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+    maven { 
+		// the repo from which to get NEI and stuff
+        name 'ChickenBones Repo'
+        url "http://chickenbones.net/maven/"
+    }
+}
+
+dependencies {
+	compile "codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.3.77:dev"
+}
+
+ext.configFile = file "build.properties"
+
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+version = config.mod_version
+group = "atomatic" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = project.getName()
+
+minecraft {
+    version = config.minecraft_version + "-" + config.forge_version
+	runDir = "run"
+	
+    replaceIn "reference/Reference.java"
+    replace "@VERSION@", "${config.mod_version}.${config.build_number}"
+}
+
+version = "${config.minecraft_version}-${config.mod_version}.${config.build_number}"
+
+processResources {
+    // exclude xcf files, as they are for development only
+    exclude '**/*.xcf'
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include '*.info'
+
+        // replace version and mcversion
+        expand 'mod_version': project.version, 'minecraft_version': project.config.minecraft_version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude '**/*.info'
+    }
+}
+
+task devJar(type: Jar, dependsOn: 'classes') {
+    from(sourceSets.main.output) {
+        include '**'
+    }
+
+    extension = 'jar'
+    classifier = 'dev'
+}
+
+artifacts {
+    archives devJar
+}
+
+task copyChicken(type: Copy, dependsOn: "extractUserDev") {
+    from { 
+		configurations.compile
+	}
+    include "**/*Chicken*.jar", "**/*NotEnoughItems*.jar"
+    exclude "**/CodeChickenLib*"
+    into file(minecraft.runDir + "/mods")
+    mustRunAfter "deobfBinJar"
+    mustRunAfter "repackMinecraft"
+}
+
+tasks.setupDevWorkspace.dependsOn copyChicken
+tasks.setupDecompWorkspace.dependsOn copyChicken
+
+task incrementBuildNumber(dependsOn: ['build', 'reobf', 'devJar']) {
+    doLast {
+        config.build_number = (config.build_number.toString().toInteger()) + 1
+        configFile.withWriter {
+            config.toProperties().store(it, "")
+        }
+    }
+}
+
+task release(dependsOn: 'incrementBuildNumber') {
+    doLast {
+        logger.lifecycle "I think I'm done"
+    }
+}
