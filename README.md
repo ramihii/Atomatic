@@ -133,4 +133,4 @@ Atomatic crashes every time? Have a suggestion? Found a bug? Create an issue now
 		* Detailed description of the bug and pictures if applicable
 5. Click `Submit new issue`, and wait for feedback!
 
-##:)
+#Thanks for reading this :)
