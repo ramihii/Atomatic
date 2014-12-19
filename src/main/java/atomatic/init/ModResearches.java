@@ -26,33 +26,39 @@ public class ModResearches
 
     public static void init()
     {
-        ResearchCategories.registerCategory(Researches.CATEGORY, Textures.Thaumonomicon.THAUMONOMICON_TAB, Textures.Thaumonomicon.THAUMONOMICON_BACKGROUND);
-
+        initCategories();
         initResearches();
+    }
+
+    private static void initCategories()
+    {
+        ResearchCategories.registerCategory(Researches.CATEGORY, Textures.Thaumonomicon.THAUMONOMICON_TAB,
+                                            Textures.Thaumonomicon.THAUMONOMICON_BACKGROUND);
     }
 
     private static void initResearches()
     {
         atomAL.add(Aspect.AIR, 1);
-        /* atomAL.add(Aspect.EARTH, 1);
+        atomAL.add(Aspect.EARTH, 1);
         atomAL.add(Aspect.FIRE, 1);
         atomAL.add(Aspect.WATER, 1);
         atomAL.add(Aspect.ORDER, 1);
-        atomAL.add(Aspect.ENTROPY, 1); */
+        atomAL.add(Aspect.ENTROPY, 1);
         atom = new ResearchItem(Researches.ATOM, Researches.CATEGORY, atomAL, 6, 2, 2, new ItemStack(Items.apple));
         atom.setSecondary();
-        atom.setPages(new ResearchPage("1"));
+        atom.setPages(new ResearchPage(Researches.ATOM_P + "1"));
         atom.registerResearchItem();
 
         quantumAL.add(Aspect.VOID, 1);
         quantumAL.add(Aspect.ENERGY, 2);
         quantumAL.add(Aspect.MECHANISM, 2);
-        quantum = new ResearchItem(Researches.QUANTUM, Researches.CATEGORY, atomAL, 7, 3, 3, new ItemStack(Items.diamond));
+        quantum = new ResearchItem(Researches.QUANTUM, Researches.CATEGORY, atomAL, 7, 3, 3,
+                                   new ItemStack(Items.diamond));
         quantum.setParents(Researches.ATOM);
         quantum.setSpecial();
-        quantum.setPages(new ResearchPage("1"));
+        quantum.setPages(new ResearchPage(Researches.QUANTUM_P + "1"));
         quantum.registerResearchItem();
 
-        ThaumcraftApi.addWarpToResearch(Researches.QUANTUM, 5);
+        ThaumcraftApi.addWarpToResearch(Researches.QUANTUM, 3);
     }
 }
