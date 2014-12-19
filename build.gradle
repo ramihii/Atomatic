@@ -109,6 +109,12 @@ task getThaumcraft(type: Download, dependsOn: "extractUserDev") {
 tasks.setupDevWorkspace.dependsOn getThaumcraft
 tasks.setupDecompWorkspace.dependsOn getThaumcraft
 
+task devBuild(dependsOn: ['build', 'reobf', 'devJar']) {
+    doLast {
+        logger.lifecycle "I think I'm done"
+    }
+}
+
 task incrementBuildNumber(dependsOn: ['build', 'reobf', 'devJar']) {
     doLast {
         config.build_number = (config.build_number.toString().toInteger()) + 1
