@@ -37,6 +37,7 @@ repositories {
 }
 
 dependencies {
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.1.99:dev"
     compile "codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev"
     compile "codechicken:NotEnoughItems:1.7.10-1.0.3.77:dev"
 }
@@ -99,13 +100,15 @@ task copyChicken(type: Copy, dependsOn: "extractUserDev") {
 		configurations.compile
 	}
     include "**/*Chicken*.jar", "**/*NotEnoughItems*.jar", "**/*Thaumcraft*.jar"
-    exclude "**/CodeChickenLib*"
     into file(minecraft.runDir + "/mods")
     mustRunAfter "deobfBinJar"
     mustRunAfter "repackMinecraft"
 }
 
 task getThaumcraft(type: Download, dependsOn: "copyChicken") {
+    onlyIf {
+        !file(minecraft.runDir + "/mods/Thaumcraft-1.7.10-4.2.1.4.jar").exists()
+    }
     src 'http://addons.curse.cursecdn.com/files/2216/273/Thaumcraft-1.7.10-4.2.1.4.jar'
     dest file(minecraft.runDir + "/mods")
 }
