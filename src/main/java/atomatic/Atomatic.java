@@ -6,6 +6,7 @@ import atomatic.handler.GuiHandler;
 import atomatic.init.ModBlocks;
 import atomatic.init.ModItems;
 import atomatic.init.Recipes;
+import atomatic.init.ModResearches;
 import atomatic.init.TileEntities;
 import atomatic.network.PacketHandler;
 import atomatic.proxy.IProxy;
@@ -57,6 +58,6 @@ public class Atomatic
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-
+        ModResearches.init();
     }
 }
