@@ -25,7 +25,6 @@ itemGroup.atomatic=Atomatic
 # Tooltips
 
 # Research categories
-# TODO Think about better tab name
 tc.research_category.ATOMATIC=Quanta
 
 #
@@ -48,7 +47,7 @@ tc.research_category.ATOMATIC=Quanta
 # Research entries
 tc.research_name.ATOM=Basic Parts
 tc.research_text.ATOM=Smaller than pixel
-tc.research_page.ATOM.1=Native clusters are rare concentrations of metals in its purest form. You have discovered a way to purify and concentrate normal copper ore into a native copper cluster.<BR>When smelted these clusters produces twice the normal amount of copper ingots.
+tc.research_page.ATOM.1=By making experiments with aspects, you have found out that by charging all primal aspects in a single block makes it behave oddly.<LINE>Some stuff about reversed dirt proof for this theory...
 
 tc.research_name.QUANTUM=Quantum Theory
 tc.research_text.QUANTUM=Such a quantum leap
