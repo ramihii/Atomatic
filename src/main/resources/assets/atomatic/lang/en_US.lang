@@ -45,6 +45,10 @@ tc.research_category.ATOMATIC=Quanta
 #
 
 # Research entries
+tc.research_name.REVERSEDDIRT=Reversed Dirt
+tc.research_text.REVERSEDDIRT=Come up with cool text here
+tc.research_page.REVERSEDDIRT.1=By making experiments with aspects, you have found out that by charging all primal aspects in a single block makes it behave oddly.<LINE>Some stuff about reversed dirt proof for this theory...
+
 tc.research_name.ATOM=Basic Parts
 tc.research_text.ATOM=Smaller than pixel
 tc.research_page.ATOM.1=By making experiments with aspects, you have found out that by charging all primal aspects in a single block makes it behave oddly.<LINE>Some stuff about reversed dirt proof for this theory...

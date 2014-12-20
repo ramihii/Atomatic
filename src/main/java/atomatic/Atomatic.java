@@ -3,6 +3,7 @@ package atomatic;
 import atomatic.handler.ConfigurationHandler;
 import atomatic.handler.CraftingHandler;
 import atomatic.handler.GuiHandler;
+import atomatic.init.Aspects;
 import atomatic.init.ModBlocks;
 import atomatic.init.ModItems;
 import atomatic.init.Recipes;
@@ -39,6 +40,8 @@ public class Atomatic
         ModItems.init();
 
         ModBlocks.init();
+
+        Aspects.init();
     }
 
     @Mod.EventHandler
@@ -58,6 +61,6 @@ public class Atomatic
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        ModResearches.init();
+        ModResearches.register();
     }
 }
