@@ -33,12 +33,12 @@ public class Thaumcraft
 {
     public static final String DEFAULT_KEY = "NIL";
 
-    public static ItemStack airShard;
-    public static ItemStack fireShard;
-    public static ItemStack waterShard;
-    public static ItemStack earthShard;
-    public static ItemStack orderShard;
-    public static ItemStack entropyShard;
+    public static String airShard = "shardAir";
+    public static String fireShard = "shardFire";
+    public static String waterShard = "shardWater";
+    public static String earthShard = "shardEarth";
+    public static String orderShard = "shardOrder";
+    public static String entropyShard = "shardEntropy";
 
     public static void preInit()
     {
@@ -48,20 +48,11 @@ public class Thaumcraft
     public static void init()
     {
         LogHelper.info("TC compatibility initialization phase");
-
-        Recipes.init();
     }
 
     public static void postInit()
     {
         LogHelper.info("TC compatibility post-initialization phase");
-
-        airShard = ItemApi.getItem("itemShard", 0);
-        fireShard = ItemApi.getItem("itemShard", 1);
-        waterShard = ItemApi.getItem("itemShard", 2);
-        earthShard = ItemApi.getItem("itemShard", 3);
-        orderShard = ItemApi.getItem("itemShard", 4);
-        entropyShard = ItemApi.getItem("itemShard", 5);
 
         Recipes.init();
 
