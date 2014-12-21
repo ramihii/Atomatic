@@ -15,6 +15,7 @@ itemGroup.atomatic=Atomatic
 # Weapons
 
 # Blocks
+tile.atomatic:inverseDirt.name=Inverted Dirt
 
 # GUIs
 
@@ -45,9 +46,9 @@ tc.research_category.ATOMATIC=Quanta
 #
 
 # Research entries
-tc.research_name.INVERSEDDIRT=Dirt Inversion
-tc.research_text.INVERSEDDIRT=Is it really useful?
-tc.research_page.INVERSEDDIRT.1=By making experiments with aspects, you have found out that by charging all primal aspects in a single block makes it behave oddly.<LINE>Some stuff about reversed dirt proof for this theory...
+tc.research_name.INVERSEDIRT=Dirt Inversion
+tc.research_text.INVERSEDIRT=Is it really useful?
+tc.research_page.INVERSEDIRT.1=By making experiments with aspects, you have found out that by charging all primal aspects in a single block makes it behave oddly.<LINE>Some stuff about reversed dirt proof for this theory...
 
 tc.research_name.ATOM=Particles
 tc.research_text.ATOM=Smaller than pixel

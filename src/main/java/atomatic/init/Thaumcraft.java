@@ -210,7 +210,7 @@ public class Thaumcraft
 
             private static void init()
             {
-                addShapeless(Researches.INVERSED_DIRT, ModBlocks.reversedDirt, Blocks.dirt, airShard,
+                addShapeless(Researches.INVERSE_DIRT, ModBlocks.inverseDirt, Blocks.dirt, airShard,
                              fireShard, waterShard, earthShard, orderShard, entropyShard);
                 Aspects.addArcaneAspects(aspectStack(Aspect.EARTH, 10), aspectStack(Aspect.ORDER, 5), aspectStack(
                         Aspect.ENTROPY, 5));
@@ -341,7 +341,7 @@ public class Thaumcraft
     {
         public static final String CATEGORY = "ATOMATIC";
 
-        public static final String INVERSED_DIRT = "INVERSEDDIRT";
+        public static final String INVERSE_DIRT = "INVERSEDIRT";
         public static final String ATOM = "ATOM";
         public static final String QUANTUM = "QUANTUM";
 
@@ -355,11 +355,11 @@ public class Thaumcraft
 
         private static void initResearches()
         {
-            set(INVERSED_DIRT);
+            set(INVERSE_DIRT);
             addAspect(Aspect.VOID);
             addAspect(Aspect.ENERGY);
             addAspect(Aspect.EARTH, 2);
-            create(-2, -2, 1, 0, ModBlocks.reversedDirt);
+            create(-2, -2, 1, 0, ModBlocks.inverseDirt);
             // TODO Find good parents. research.setParents();
             setPages(new ResearchPage("1"), new ResearchPage(Recipes.Arcane.get()));
             register();
@@ -369,7 +369,7 @@ public class Thaumcraft
             addAspect(Aspect.VOID, 5);
             addAspect(Aspect.MOTION, 2);
             create(-2, 0, 1, 0, Items.apple);
-            setParents(INVERSED_DIRT);
+            setParents(INVERSE_DIRT);
             setPages(new ResearchPage("1"));
             register();
 

@@ -15,12 +15,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
-public class BlockReversedDirt extends BlockA implements IInfusionStabiliser
+public class BlockInverseDirt extends BlockA implements IInfusionStabiliser
 {
-    public BlockReversedDirt()
+    public BlockInverseDirt()
     {
         super(Material.ground);
-        this.setBlockName(Names.Blocks.REVERSED_DIRT);
+        this.setBlockName(Names.Blocks.INVERSE_DIRT);
         this.setHardness(0.5F);
         this.setStepSound(soundTypeGravel);
     }

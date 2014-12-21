@@ -62,6 +62,6 @@ public class Atomatic
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-       Thaumcraft.postInit();
+        Thaumcraft.postInit();
     }
 }

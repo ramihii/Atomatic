@@ -4,7 +4,7 @@ public class Names
 {
     public static final class Blocks
     {
-        public static final String REVERSED_DIRT = "reversedDirt";
+        public static final String INVERSE_DIRT = "inverseDirt";
     }
 
     public static final class Items
