@@ -125,6 +125,11 @@ public class Thaumcraft
                 {
                     return arcaneAspects.get(research).get(key);
                 }
+                else if (arcaneAspects.get(research).values().size() != 0 && arcaneAspects.get(research).values().size() == 1 && arcaneAspects.get(research).containsKey(
+                        DEFAULT_KEY))
+                {
+                    return arcaneAspects.get(research).get(DEFAULT_KEY);
+                }
             }
 
             return new AspectList(); // TODO Is null better?
@@ -171,17 +176,36 @@ public class Thaumcraft
 
         public static class Arcane
         {
-            private static HashMap<String, IArcaneRecipe> recipes = Maps.newHashMap();
+            private static HashMap<String, HashMap<String, IArcaneRecipe>> recipes = Maps.newHashMap();
 
             private static void init()
             {
 
             }
 
-            private static void add(String research, ItemStack result, boolean shapeless, Object ... recipe)
+            private static void add(String research, String key, ItemStack result, boolean shapeless, Object ... recipe)
             {
                 IArcaneRecipe arcaneRecipe;
 
+                if (shapeless)
+                {
+                    arcaneRecipe = new ShapelessArcaneRecipe(research, result, Aspects.getArcaneAspects(research, key), recipe);
+                }
+                else
+                {
+                    arcaneRecipe = new ShapedArcaneRecipe(research, result, Aspects.getArcaneAspects(research, key), recipe);
+                }
+
+                HashMap<String, IArcaneRecipe> map;
+
+                if (recipes.containsKey(research))
+                {
+                    map = recipes.get(research);
+                }
+                else
+                {
+                    map = Maps.newHashMap();
+                }
             }
         }
     }
