@@ -101,7 +101,7 @@ task getThaumcraft(type: Download, dependsOn: "extractUserDev") {
         !file("libs/Thaumcraft-deobf-1.7.10-4.2.2.0.jar").exists()
     }
     src 'https://dl.dropboxusercontent.com/u/47135879/Thaumcraft-deobf-1.7.10-4.2.2.0.jar'
-    dest file("libs")
+    dest file("libs/Thaumcraft-deobf-1.7.10-4.2.2.0.jar")
     mustRunAfter "deobfBinJar"
     mustRunAfter "repackMinecraft"
 }
@@ -111,7 +111,7 @@ task getBaubles(type: Download, dependsOn: "getThaumcraft") {
         !file("libs/Baubles-deobf-1.7.10-1.0.1.10.jar").exists()
     }
     src 'https://dl.dropboxusercontent.com/u/47135879/Baubles-deobf-1.7.10-1.0.1.10.jar'
-    dest file("libs")
+    dest file("libs/Baubles-deobf-1.7.10-1.0.1.10.jar")
     mustRunAfter "deobfBinJar"
     mustRunAfter "repackMinecraft"
 }
