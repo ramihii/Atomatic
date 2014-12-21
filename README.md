@@ -1,5 +1,5 @@
 ##Welcome to Atomatic!
-**LATEST OFFICIAL VERSION**: [Atomatic 0.1.0 for MC 1.7.10](#compiling-atomatic)
+**LATEST OFFICIAL VERSION**: [Atomatic development for MC 1.7.10](#compiling-atomatic)
 
 [Minecraft Forums page (Not available)](#)
 
