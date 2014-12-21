@@ -379,6 +379,7 @@ public class Thaumcraft
             addAspect(Aspect.ELDRITCH, 2);
             addAspect(Aspect.MECHANISM, 5);
             create(0, 0, 3, 3, Items.diamond);
+            setParents(ATOM);
             setSpecial();
             setConcealed();
             setPages(new ResearchPage("1"));
