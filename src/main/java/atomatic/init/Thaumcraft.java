@@ -33,12 +33,12 @@ public class Thaumcraft
 {
     public static final String DEFAULT_KEY = "NIL";
 
-    public static ItemStack airShard = ItemApi.getItem("itemShard", 0);
-    public static ItemStack fireShard = ItemApi.getItem("itemShard", 1);
-    public static ItemStack waterShard = ItemApi.getItem("itemShard", 2);
-    public static ItemStack earthShard = ItemApi.getItem("itemShard", 3);
-    public static ItemStack orderShard = ItemApi.getItem("itemShard", 4);
-    public static ItemStack entropyShard = ItemApi.getItem("itemShard", 5);
+    public static ItemStack airShard;
+    public static ItemStack fireShard;
+    public static ItemStack waterShard;
+    public static ItemStack earthShard;
+    public static ItemStack orderShard;
+    public static ItemStack entropyShard;
 
     public static void preInit()
     {
@@ -55,6 +55,15 @@ public class Thaumcraft
     public static void postInit()
     {
         LogHelper.info("TC compatibility post-initialization phase");
+
+        airShard = ItemApi.getItem("itemShard", 0);
+        fireShard = ItemApi.getItem("itemShard", 1);
+        waterShard = ItemApi.getItem("itemShard", 2);
+        earthShard = ItemApi.getItem("itemShard", 3);
+        orderShard = ItemApi.getItem("itemShard", 4);
+        entropyShard = ItemApi.getItem("itemShard", 5);
+
+        Recipes.init();
 
         ResearchCategories.registerCategory(Researches.CATEGORY, Textures.Thaumonomicon.THAUMONOMICON_TAB,
                                             Textures.Thaumonomicon.THAUMONOMICON_BACKGROUND);
