@@ -3,11 +3,10 @@ package atomatic;
 import atomatic.handler.ConfigurationHandler;
 import atomatic.handler.CraftingHandler;
 import atomatic.handler.GuiHandler;
-import atomatic.init.Aspects;
 import atomatic.init.ModBlocks;
 import atomatic.init.ModItems;
 import atomatic.init.Recipes;
-import atomatic.init.ModResearches;
+import atomatic.init.Thaumcraft;
 import atomatic.init.TileEntities;
 import atomatic.network.PacketHandler;
 import atomatic.proxy.IProxy;
@@ -41,7 +40,7 @@ public class Atomatic
 
         ModBlocks.init();
 
-        Aspects.init();
+        Thaumcraft.preInit();
     }
 
     @Mod.EventHandler
@@ -56,11 +55,13 @@ public class Atomatic
         CraftingHandler.init();
 
         Recipes.init();
+
+        Thaumcraft.init();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        ModResearches.register();
+       Thaumcraft.postInit();
     }
 }

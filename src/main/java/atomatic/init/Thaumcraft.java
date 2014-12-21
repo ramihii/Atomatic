@@ -5,11 +5,16 @@ import atomatic.research.ResearchContainer;
 import atomatic.util.LogHelper;
 
 import thaumcraft.api.ItemApi;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.crafting.IArcaneRecipe;
+import thaumcraft.api.crafting.ShapedArcaneRecipe;
+import thaumcraft.api.crafting.ShapelessArcaneRecipe;
 import thaumcraft.api.research.ResearchPage;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 
 import com.google.common.collect.Lists;
@@ -17,6 +22,7 @@ import com.google.common.collect.Maps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Thaumcraft
 {
@@ -32,12 +38,12 @@ public class Thaumcraft
     public static void preInit()
     {
         Aspects.assignAspects();
-        Researches.initResearches();
     }
 
     public static void init()
     {
-
+        Recipes.initRecipes();
+        Researches.initResearches();
     }
 
     public static void postInit()
@@ -156,9 +162,27 @@ public class Thaumcraft
 
     public static class Recipes
     {
+        private static HashMap<String, List<IRecipe>> recipes = Maps.newHashMap();
+
+        private static void init()
+        {
+            Arcane.init();
+        }
+
         public static class Arcane
         {
+            private static HashMap<String, IArcaneRecipe> recipes = Maps.newHashMap();
 
+            private static void init()
+            {
+
+            }
+
+            private static void add(String research, ItemStack result, boolean shapeless, Object ... recipe)
+            {
+                IArcaneRecipe arcaneRecipe;
+
+            }
         }
     }
 
@@ -171,7 +195,7 @@ public class Thaumcraft
 
         private static void initResearches()
         {
-
+            addResearch(ResearchNames.REVERSED_DIRT, -2, -2, 1, new ItemStack(ModBlocks.reversedDirt), new ResearchPage[]{new ResearchPage("1"), new ResearchPage()});
         }
 
         private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon,
