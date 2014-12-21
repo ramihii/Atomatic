@@ -165,6 +165,7 @@ public class Thaumcraft
     public static class Researches
     {
         public static final String CATEGORY = "ATOMATIC";
+        private static final String PAGE_PREFIX = "tc.research_page.";
 
         private static ArrayList<ResearchContainer> researchContainers = Lists.newArrayList();
 
@@ -653,7 +654,22 @@ public class Thaumcraft
                 return;
             }
 
-            container.setPages(pages);
+            ResearchPage[] researchPages = new ResearchPage[pages.length];
+
+            for (int i = 0; i < pages.length; i++)
+            {
+                ResearchPage page = pages[i];
+
+                if (pages[i].text != null)
+                {
+                    String text = page.text;
+                    page.text = PAGE_PREFIX + key + text;
+                }
+
+                researchPages[i] = page;
+            }
+
+            container.setPages(researchPages);
 
             if (warp > 0)
             {
@@ -681,15 +697,6 @@ public class Thaumcraft
             public static final String REVERSED_DIRT = "REVERSEDDIRT";
             public static final String ATOM = "ATOM";
             public static final String QUANTUM = "QUANTUM";
-        }
-
-        public static final class Pages
-        {
-            private static final String PAGE_PREFIX = "tc.research_page.";
-
-            public static final String QUANTUM = PAGE_PREFIX + ResearchNames.QUANTUM + ".";
-            public static final String ATOM = PAGE_PREFIX + ResearchNames.ATOM + ".";
-            public static final String REVERSED_DIRT = PAGE_PREFIX + ResearchNames.REVERSED_DIRT + ".";
         }
     }
 }
