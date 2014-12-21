@@ -409,6 +409,8 @@ public class Thaumcraft
             }
 
             list.add(aspectStack(aspect, amount));
+
+            aspects.put(key, list);
         }
 
         private static void create(int col, int row, int complex, int warp, Item icon)
