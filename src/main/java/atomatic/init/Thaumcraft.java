@@ -508,7 +508,7 @@ public class Thaumcraft
                 if (page.text != null)
                 {
                     String old = page.text;
-                    page.text = PAGE_PREFIX + key + old;
+                    page.text = PAGE_PREFIX + key + "." + old;
                 }
 
                 ret[i] = page;
