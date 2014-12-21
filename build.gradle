@@ -15,11 +15,11 @@ buildscript {
     }
 }
 
-plugins {
+/* plugins {
     id "de.undercouch.download" version "1.2"
 }
 
-import de.undercouch.gradle.tasks.download.Download
+import de.undercouch.gradle.tasks.download.Download */
 
 apply plugin: 'forge'
 
@@ -96,7 +96,7 @@ artifacts {
     archives devJar
 }
 
-task getThaumcraft(type: Download, dependsOn: "extractUserDev") {
+/* task getThaumcraft(type: Download, dependsOn: "extractUserDev") {
     onlyIf {
         !file(minecraft.runDir + "/mods/Thaumcraft-1.7.10-4.2.1.4.jar").exists()
     }
@@ -107,7 +107,7 @@ task getThaumcraft(type: Download, dependsOn: "extractUserDev") {
 }
 
 tasks.setupDevWorkspace.dependsOn getThaumcraft
-tasks.setupDecompWorkspace.dependsOn getThaumcraft
+tasks.setupDecompWorkspace.dependsOn getThaumcraft */
 
 task devBuild(dependsOn: ['build', 'reobf', 'devJar']) {
     doLast {
