@@ -3,7 +3,7 @@
 
 [Minecraft Forums page (Not available)](#)
 
-[Compiling EE3](#compiling-atomatic) - For those that want the latest unreleased features.
+[Compiling Atomatic](#compiling-atomatic) - For those that want the latest unreleased features.
 
 [Contributing](#contributing) - For those that want to help out.
 
