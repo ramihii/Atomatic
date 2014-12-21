@@ -6,7 +6,7 @@ import atomatic.handler.GuiHandler;
 import atomatic.init.ModBlocks;
 import atomatic.init.ModItems;
 import atomatic.init.Recipes;
-import atomatic.init.Thaumcraft;
+import atomatic.init.Researches;
 import atomatic.init.TileEntities;
 import atomatic.network.PacketHandler;
 import atomatic.proxy.IProxy;
@@ -19,8 +19,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, certificateFingerprint = Reference.FINGERPRINT, version =
-        Reference.VERSION, dependencies = Reference.DEPENDENCIES, guiFactory = Reference.GUI_FACTORY_CLASS)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, certificateFingerprint = Reference.FINGERPRINT, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES, guiFactory = Reference.GUI_FACTORY_CLASS)
 public class Atomatic
 {
     @Mod.Instance(Reference.MOD_ID)
@@ -39,8 +38,6 @@ public class Atomatic
         ModItems.init();
 
         ModBlocks.init();
-
-        Thaumcraft.preInit();
     }
 
     @Mod.EventHandler
@@ -53,15 +50,13 @@ public class Atomatic
         proxy.registerEventHandlers();
 
         CraftingHandler.init();
-
-        Recipes.init();
-
-        Thaumcraft.init();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        Thaumcraft.postInit();
+        Recipes.init();
+
+        Researches.init();
     }
 }

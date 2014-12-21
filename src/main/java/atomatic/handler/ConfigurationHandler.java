@@ -28,10 +28,7 @@ public class ConfigurationHandler
 
     private static void loadConfiguration()
     {
-        Settings.General.debugMode = configuration.getBoolean(Messages.Configuration.GENERAL_DEBUG_MODE,
-                                                              Configuration.CATEGORY_GENERAL, false, StatCollector
-                        .translateToLocal(Messages.Configuration.GENERAL_DEBUG_MODE_COMMENT),
-                                                              Messages.Configuration.GENERAL_DEBUG_MODE_LABEL);
+        Settings.General.debugMode = configuration.getBoolean(Messages.Configuration.GENERAL_DEBUG_MODE, Configuration.CATEGORY_GENERAL, false, StatCollector.translateToLocal(Messages.Configuration.GENERAL_DEBUG_MODE_COMMENT), Messages.Configuration.GENERAL_DEBUG_MODE_LABEL);
 
         if (configuration.hasChanged())
         {

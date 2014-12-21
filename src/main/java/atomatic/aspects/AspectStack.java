@@ -15,7 +15,7 @@ public class AspectStack
     public AspectStack(Aspect aspect, int amount)
     {
         this.aspect = aspect;
-        this.amount= amount;
+        this.amount = amount;
     }
 
     public static AspectStack[] createStacks(Aspect... aspects)

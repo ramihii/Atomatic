@@ -63,8 +63,7 @@ public class MessageTileEntityA implements IMessage, IMessageHandler<MessageTile
     @Override
     public IMessage onMessage(MessageTileEntityA message, MessageContext ctx)
     {
-        TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld
-                .getTileEntity(message.x, message.y, message.z);
+        TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(message.x, message.y, message.z);
 
         if (tileEntity instanceof TileEntityA)
         {
@@ -80,8 +79,6 @@ public class MessageTileEntityA implements IMessage, IMessageHandler<MessageTile
     @Override
     public String toString()
     {
-        return String
-                .format("MessageTileEntityA - x:%s, y:%s, z:%s, orientation:%s, state:%s, customName:%s, owner:%s", x,
-                        y, z, orientation, state, customName, owner);
+        return String.format("MessageTileEntityA - x:%s, y:%s, z:%s, orientation:%s, state:%s, customName:%s, owner:%s", x, y, z, orientation, state, customName, owner);
     }
 }
