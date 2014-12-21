@@ -369,6 +369,7 @@ public class Thaumcraft
             addAspect(Aspect.VOID, 5);
             addAspect(Aspect.MOTION, 2);
             create(-2, 0, 1, 0, Items.apple);
+            setSecondary();
             setParents(INVERSE_DIRT);
             setPages(new ResearchPage("1"));
             register();
@@ -381,6 +382,7 @@ public class Thaumcraft
             create(0, 0, 3, 3, Items.diamond);
             setParents(ATOM);
             setSpecial();
+            setRound();
             setConcealed();
             setPages(new ResearchPage("1"));
             register();
