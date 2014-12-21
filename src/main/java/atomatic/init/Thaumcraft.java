@@ -173,243 +173,392 @@ public class Thaumcraft
 
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, ResearchPage[] pages, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                               String[] parents, ResearchPage[] pages, AspectStack... aspects)
         {
             addSpecialResearch(key, col, row, complexity, icon, parents, pages, 0, aspects);
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, ResearchPage[] pages, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                               String[] parents, ResearchPage[] pages, AspectStack... aspects)
         {
             addSpecialResearch(key, col, row, complexity, icon, parents, pages, 0, aspects);
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                               String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addSpecialResearch(key, col, row, complexity, icon, parents, null, pages, warp, aspects);
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                               String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addSpecialResearch(key, col, row, complexity, icon, parents, null, pages, warp, aspects);
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                               String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp,
+                                               AspectStack... aspects)
         {
             addSpecialResearch(key, col, row, complexity, icon, parents, parentsHidden, null, pages, warp, aspects);
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                               String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp,
+                                               AspectStack... aspects)
         {
             addSpecialResearch(key, col, row, complexity, icon, parents, parentsHidden, null, pages, warp, aspects);
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, String[] parentsHidden, String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                               String[] parents, String[] parentsHidden, String[] siblings,
+                                               ResearchPage[] pages, int warp, AspectStack... aspects)
         {
-            addSpecialResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null, pages, warp, aspects);
+            addSpecialResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null,
+                               pages, warp, aspects);
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, String[] parentsHidden, String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                               String[] parents, String[] parentsHidden, String[] siblings,
+                                               ResearchPage[] pages, int warp, AspectStack... aspects)
         {
-            addSpecialResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null, pages, warp, aspects);
+            addSpecialResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null,
+                               pages, warp, aspects);
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, String[] parentsHidden, String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                               String[] parents, String[] parentsHidden, String[] siblings,
+                                               ItemStack[] itemTriggers, String[] entityTriggers,
+                                               Aspect[] aspectTriggers, ResearchPage[] pages, int warp,
+                                               AspectStack... aspects)
         {
-            addResearch(key, col, row, complexity, icon, null, true, false, false, false, false, false, false, false, parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addResearch(key, col, row, complexity, icon, null, true, false, false, false, false, false, false, false,
+                        parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp,
+                        aspects);
         }
 
-        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, String[] parentsHidden, String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSpecialResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                               String[] parents, String[] parentsHidden, String[] siblings,
+                                               ItemStack[] itemTriggers, String[] entityTriggers,
+                                               Aspect[] aspectTriggers, ResearchPage[] pages, int warp,
+                                               AspectStack... aspects)
         {
-            addResearch(key, col, row, complexity, null, icon, true, false, false, false, false, false, false, false, parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addResearch(key, col, row, complexity, null, icon, true, false, false, false, false, false, false, false,
+                        parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp,
+                        aspects);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, ResearchPage[] pages, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                                 String[] parents, ResearchPage[] pages, AspectStack... aspects)
         {
             addSecondaryResearch(key, col, row, complexity, icon, parents, pages, 0, aspects);
         }
 
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, ResearchPage[] pages, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                                 String[] parents, ResearchPage[] pages, AspectStack... aspects)
         {
             addSecondaryResearch(key, col, row, complexity, icon, parents, pages, 0, aspects);
         }
 
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                                 String[] parents, ResearchPage[] pages, int warp,
+                                                 AspectStack... aspects)
         {
             addSecondaryResearch(key, col, row, complexity, icon, parents, null, pages, warp, aspects);
         }
 
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                                 String[] parents, ResearchPage[] pages, int warp,
+                                                 AspectStack... aspects)
         {
             addSecondaryResearch(key, col, row, complexity, icon, parents, null, pages, warp, aspects);
         }
 
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                                 String[] parents, String[] parentsHidden, ResearchPage[] pages,
+                                                 int warp, AspectStack... aspects)
         {
             addSecondaryResearch(key, col, row, complexity, icon, parents, parentsHidden, null, pages, warp, aspects);
         }
 
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                                 String[] parents, String[] parentsHidden, ResearchPage[] pages,
+                                                 int warp, AspectStack... aspects)
         {
             addSecondaryResearch(key, col, row, complexity, icon, parents, parentsHidden, null, pages, warp, aspects);
         }
 
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, String[] parentsHidden, String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                                 String[] parents, String[] parentsHidden, String[] siblings,
+                                                 ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addSecondaryResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null,
                                  pages, warp, aspects);
         }
 
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, String[] parentsHidden, String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                                 String[] parents, String[] parentsHidden, String[] siblings,
+                                                 ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addSecondaryResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null,
                                  pages, warp, aspects);
         }
 
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, String[] parentsHidden, String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                                 String[] parents, String[] parentsHidden, String[] siblings,
+                                                 ItemStack[] itemTriggers, String[] entityTriggers,
+                                                 Aspect[] aspectTriggers, ResearchPage[] pages, int warp,
+                                                 AspectStack... aspects)
         {
-            addResearch(key, col, row, complexity, icon, null, false, true, false, false, false, false, false, false, parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addResearch(key, col, row, complexity, icon, null, false, true, false, false, false, false, false, false,
+                        parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp,
+                        aspects);
         }
 
-        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, String[] parentsHidden, String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addSecondaryResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                                 String[] parents, String[] parentsHidden, String[] siblings,
+                                                 ItemStack[] itemTriggers, String[] entityTriggers,
+                                                 Aspect[] aspectTriggers, ResearchPage[] pages, int warp,
+                                                 AspectStack... aspects)
         {
-            addResearch(key, col, row, complexity, null, icon, false, true, false, false, false, false, false, false, parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addResearch(key, col, row, complexity, null, icon, false, true, false, false, false, false, false, false,
+                        parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp,
+                        aspects);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, ResearchPage[] pages, AspectStack... aspects)
-        {
-            addRoundResearch(key, col, row, complexity, icon, parents, pages, 0, aspects);
-        }
-
-        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, ResearchPage[] pages, AspectStack... aspects)
+        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                             String[] parents, ResearchPage[] pages, AspectStack... aspects)
         {
             addRoundResearch(key, col, row, complexity, icon, parents, pages, 0, aspects);
         }
 
-        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                             String[] parents, ResearchPage[] pages, AspectStack... aspects)
+        {
+            addRoundResearch(key, col, row, complexity, icon, parents, pages, 0, aspects);
+        }
+
+        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                             String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addRoundResearch(key, col, row, complexity, icon, parents, null, pages, warp, aspects);
         }
 
-        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                             String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addRoundResearch(key, col, row, complexity, icon, parents, null, pages, warp, aspects);
         }
 
-        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                             String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp,
+                                             AspectStack... aspects)
         {
             addRoundResearch(key, col, row, complexity, icon, parents, parentsHidden, null, pages, warp, aspects);
         }
 
-        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                             String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp,
+                                             AspectStack... aspects)
         {
             addRoundResearch(key, col, row, complexity, icon, parents, parentsHidden, null, pages, warp, aspects);
         }
 
-        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, String[] parentsHidden, String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                             String[] parents, String[] parentsHidden, String[] siblings,
+                                             ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addRoundResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null,
                              pages, warp, aspects);
         }
 
-        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, String[] parentsHidden, String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                             String[] parents, String[] parentsHidden, String[] siblings,
+                                             ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addRoundResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null,
                              pages, warp, aspects);
         }
 
-        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents, String[] parentsHidden, String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addRoundResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                             String[] parents, String[] parentsHidden, String[] siblings,
+                                             ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers,
+                                             ResearchPage[] pages, int warp, AspectStack... aspects)
         {
-            addResearch(key, col, row, complexity, icon, null, false, false, true, false, false, false, false, false, parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addResearch(key, col, row, complexity, icon, null, false, false, true, false, false, false, false, false,
+                        parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp,
+                        aspects);
         }
 
-        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] parents, String[] parentsHidden, String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addRoundResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                             String[] parents, String[] parentsHidden, String[] siblings,
+                                             ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers,
+                                             ResearchPage[] pages, int warp, AspectStack... aspects)
         {
-            addResearch(key, col, row, complexity, null, icon, false, false, true, false, false, false, false, false, parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addResearch(key, col, row, complexity, null, icon, false, false, true, false, false, false, false, false,
+                        parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp,
+                        aspects);
         }
 
-
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon, ResearchPage[] pages, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                              ResearchPage[] pages, AspectStack... aspects)
         {
             addHiddenResearch(key, col, row, complexity, icon, pages, 0, aspects);
         }
 
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon, ResearchPage[] pages, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                              ResearchPage[] pages, AspectStack... aspects)
         {
             addHiddenResearch(key, col, row, complexity, icon, pages, 0, aspects);
         }
 
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                              ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addHiddenResearch(key, col, row, complexity, icon, null, pages, warp, aspects);
         }
 
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                              ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addHiddenResearch(key, col, row, complexity, icon, null, pages, warp, aspects);
         }
 
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon, String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                              String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addHiddenResearch(key, col, row, complexity, icon, siblings, null, null, null, pages, warp, aspects);
         }
 
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                              String[] siblings, ResearchPage[] pages, int warp, AspectStack... aspects)
         {
             addHiddenResearch(key, col, row, complexity, icon, siblings, null, null, null, pages, warp, aspects);
         }
 
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                              ItemStack[] itemTriggers, String[] entityTriggers,
+                                              Aspect[] aspectTriggers, ResearchPage[] pages, int warp,
+                                              AspectStack... aspects)
         {
-            addHiddenResearch(key, col, row, complexity, icon, null, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addHiddenResearch(key, col, row, complexity, icon, null, itemTriggers, entityTriggers, aspectTriggers,
+                              pages, warp, aspects);
         }
 
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                              ItemStack[] itemTriggers, String[] entityTriggers,
+                                              Aspect[] aspectTriggers, ResearchPage[] pages, int warp,
+                                              AspectStack... aspects)
         {
-            addHiddenResearch(key, col, row, complexity, icon, null, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addHiddenResearch(key, col, row, complexity, icon, null, itemTriggers, entityTriggers, aspectTriggers,
+                              pages, warp, aspects);
         }
 
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon, String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                              String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers,
+                                              Aspect[] aspectTriggers, ResearchPage[] pages, int warp,
+                                              AspectStack... aspects)
         {
-            addResearch(key, col, row, complexity, icon, null, false, false, false, false, false, false, true, false, null, null, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addResearch(key, col, row, complexity, icon, null, false, false, false, false, false, false, true, false,
+                        null, null, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
         }
 
-        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon, String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages, int warp, AspectStack... aspects)
+        private static void addHiddenResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                              String[] siblings, ItemStack[] itemTriggers, String[] entityTriggers,
+                                              Aspect[] aspectTriggers, ResearchPage[] pages, int warp,
+                                              AspectStack... aspects)
         {
-            addResearch(key, col, row, complexity, null, icon, false, false, false, false, false, false, true, false, null, null, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
+            addResearch(key, col, row, complexity, null, icon, false, false, false, false, false, false, true, false,
+                        null, null, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp, aspects);
         }
 
+        private static void addAutoResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                            ResearchPage[] pages)
+        {
+            addResearch(key, col, row, complexity, icon, null, false, false, true, false, false, false, false, true,
+                        null, null, null, null, null, null, pages, 0);
+        }
 
+        private static void addAutoResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                            ResearchPage[] pages)
+        {
+            addResearch(key, col, row, complexity, null, icon, false, false, true, false, false, false, false, true,
+                        null, null, null, null, null, null, pages, 0);
+        }
 
+        private static void addResearch(String key, int col, int row, int complexity, ItemStack icon,
+                                        ResearchPage[] pages, int warp, AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, icon, null, pages, warp, aspects);
+        }
 
+        private static void addResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                        ResearchPage[] pages, int warp, AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, icon, null, pages, warp, aspects);
+        }
 
+        private static void addResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents,
+                                        ResearchPage[] pages, int warp, AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, icon, parents, null, pages, warp, aspects);
+        }
 
+        private static void addResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                        String[] parents, ResearchPage[] pages, int warp, AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, icon, parents, null, pages, warp, aspects);
+        }
 
+        private static void addResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents,
+                                        String[] parentsHidden, ResearchPage[] pages, int warp, AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, icon, parents, parentsHidden, null, pages, warp, aspects);
+        }
 
+        private static void addResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                        String[] parents, String[] parentsHidden, ResearchPage[] pages, int warp,
+                                        AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, icon, parents, parentsHidden, null, pages, warp, aspects);
+        }
+
+        private static void addResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents,
+                                        String[] parentsHidden, String[] siblings, ResearchPage[] pages, int warp,
+                                        AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null, pages,
+                        warp, aspects);
+        }
+
+        private static void addResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                        String[] parents, String[] parentsHidden, String[] siblings,
+                                        ResearchPage[] pages, int warp, AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, icon, parents, parentsHidden, siblings, null, null, null, pages,
+                        warp, aspects);
+        }
+
+        private static void addResearch(String key, int col, int row, int complexity, ItemStack icon, String[] parents,
+                                        String[] parentsHidden, String[] siblings, ItemStack[] itemTriggers,
+                                        String[] entityTriggers, Aspect[] aspectTriggers, ResearchPage[] pages,
+                                        int warp, AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, icon, null, false, false, true, false, false, false, false, false,
+                        parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp,
+                        aspects);
+        }
+
+        private static void addResearch(String key, int col, int row, int complexity, ResourceLocation icon,
+                                        String[] parents, String[] parentsHidden, String[] siblings,
+                                        ItemStack[] itemTriggers, String[] entityTriggers, Aspect[] aspectTriggers,
+                                        ResearchPage[] pages, int warp, AspectStack... aspects)
+        {
+            addResearch(key, col, row, complexity, null, icon, false, false, true, false, false, false, false, false,
+                        parents, parentsHidden, siblings, itemTriggers, entityTriggers, aspectTriggers, pages, warp,
+                        aspects);
+        }
 
         private static void addResearch(String key, int col, int row, int complexity, ItemStack icon,
                                         ResourceLocation resIcon, boolean isSpecial, boolean isSecondary,
@@ -513,7 +662,18 @@ public class Thaumcraft
 
             researchContainers.add(container);
 
-            Aspects.addResearchAspects(key, aspects);
+            if (!isAutoUnlock)
+            {
+                if (aspects == null || aspects.length <= 0)
+                {
+                    LogHelper.warn("Attempting to initialize a research container with no aspects (research:" + key
+                                           + ")");
+                }
+                else
+                {
+                    Aspects.addResearchAspects(key, aspects);
+                }
+            }
         }
 
         public static final class ResearchNames
