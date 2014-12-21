@@ -47,8 +47,8 @@ tc.research_category.ATOMATIC=Quanta
 
 # Research entries
 tc.research_name.INVERSEDIRT=Dirt Inversion
-tc.research_text.INVERSEDIRT=Is it really useful?
-tc.research_page.INVERSEDIRT.1=By making experiments with aspects, you have found out that by charging all primal aspects in a single block makes it behave oddly.<LINE>Some stuff about reversed dirt proof for this theory...
+tc.research_text.INVERSEDIRT=Is it actually useful?
+tc.research_page.INVERSEDIRT.1=By making experiments with aspects, you have found out that by charging all primal aspects in a single block of dirt makes it behave oddly. As result of these strange experiments, you have discovered inverted block of dirt.<BR>TODO
 
 tc.research_name.ATOM=Particles
 tc.research_text.ATOM=Smaller than pixel
