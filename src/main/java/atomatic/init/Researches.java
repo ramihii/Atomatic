@@ -24,8 +24,6 @@ public class Researches
     private static final String PAGE_PREFIX = "tc.research_page.";
 
     ////////////////////// QUANTA ////////////////////////////////////////
-    public static final ResourceLocation QUANTA_BACKGROUND = ResourceLocationHelper.getResourceLocation(Reference.THAUMCRAFT_ID, "textures/gui/gui_researchback.png");
-    public static final ResourceLocation QUANTA_TAB = ResourceLocationHelper.getResourceLocation("textures/misc/r_tab.png");
     public static final String INVERSE_DIRT = "INVERSEDIRT";
     public static final String ATOM = "ATOM";
     public static final String QUANTUM = "QUANTUM";
@@ -41,14 +39,14 @@ public class Researches
 
     private static void initCategories()
     {
-        ResearchCategories.registerCategory(Researches.CATEGORY_QUANTA, QUANTA_TAB, QUANTA_BACKGROUND);
+        ResearchCategories.registerCategory(Researches.CATEGORY_QUANTA, ResourceLocationHelper.getResourceLocation("textures/misc/r_quanta.png"), ResourceLocationHelper.getResourceLocation(Reference.THAUMCRAFT_ID, "textures/gui/gui_researchback.png"));
     }
 
     private static void initQuantaResearch()
     {
         new ResearchItem(INVERSE_DIRT, CATEGORY_QUANTA, new AspectList().add(Aspect.MAGIC, 2).add(Aspect.EXCHANGE, 2).add(Aspect.EARTH, 2), -2, -2, 1, new ItemStack(ModBlocks.inverseDirt)).setPages(new ResearchPage(PAGE_PREFIX + INVERSE_DIRT + ".1"), new ResearchPage((CrucibleRecipe) recipes.get(INVERSE_DIRT))).registerResearchItem();
-        new ResearchItem(ATOM, CATEGORY_QUANTA, new AspectList().add(Aspect.ORDER, 1).add(Aspect.VOID, 1), -2, 0, 1, new ItemStack(Items.apple)).setParents(INVERSE_DIRT).setSecondary().setPages(new ResearchPage(PAGE_PREFIX + ATOM + ".1")).registerResearchItem();
-        new ResearchItem(QUANTUM, CATEGORY_QUANTA, new AspectList().add(Aspect.ENERGY, 3).add(Aspect.MECHANISM, 3), 0, 0, 2, new ItemStack(Items.potato)).setParents(ATOM).setConcealed().setSpecial().setRound().setPages(new ResearchPage(PAGE_PREFIX + QUANTUM + ".1")).registerResearchItem();
-        ThaumcraftApi.addWarpToResearch(QUANTUM, 3);
+        new ResearchItem(ATOM, CATEGORY_QUANTA, new AspectList().add(Aspect.ORDER, 1).add(Aspect.VOID, 1), -2, 0, 1, ResourceLocationHelper.getResourceLocation("textures/misc/r_atom.png")).setParents(INVERSE_DIRT).setSecondary().setRound().setPages(new ResearchPage(PAGE_PREFIX + ATOM + ".1")).registerResearchItem();
+        new ResearchItem(QUANTUM, CATEGORY_QUANTA, new AspectList().add(Aspect.ENERGY, 3).add(Aspect.MECHANISM, 3), 0, 0, 2, ResourceLocationHelper.getResourceLocation("textures/misc/r_quantum.png")).setParents(ATOM).setConcealed().setSpecial().setRound().setPages(new ResearchPage(PAGE_PREFIX + QUANTUM + ".1")).registerResearchItem();
+        ThaumcraftApi.addWarpToResearch(QUANTUM, 4);
     }
 }
