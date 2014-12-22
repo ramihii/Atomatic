@@ -57,7 +57,7 @@ tc.research_page.SIZESUSPICION.1=You decided to continue experimenting with the 
 tc.research_name.ATOM=Atomic Theory
 tc.research_text.ATOM=It does matter
 tc.research_page.ATOM.1=You decided to research even further and you have achieved something no thaumaturge has ever before. You have found the very basic part of all matter.<BR>You have found out that that everything in this world is formed by small particles, atoms. In many cases atoms have merged together to form a little bit bigger particle, molecule.<BR>Each atom represents an element. The element is determined by the atoms size. There are over one hundred elements, but you are going to need to know only a few of them.
-tc.research_page.ATOM.2=Even though the principles of elements and aspects seem pretty same, you haven't found connection between these too. You thought the connection between elements and aspects is obvious, but still you haven't found any proof for that theory. Could it be that there is something even smaller affecting the aspects?
+tc.research_page.ATOM.2=Discovering the elements and atoms might even open up wide variety of new possibilities.<BR>Even though the principles of elements and aspects seem pretty same, you haven't found connection between these too.<BR>You thought the connection between elements and aspects is obvious, but still you haven't found any proof for your theory. Could it be that there is something even smaller affecting the aspects?
 tc.research_page.ATOM.3=TODO Tell about protons, neutrons and electrons here.
 
 tc.research_name.QUANTUM=Quantum Mechanics
