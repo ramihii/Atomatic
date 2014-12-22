@@ -73,6 +73,10 @@ if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
 {
     version = "${config.mod_version}.${ext.patch}"
 }
+else if (project.getGradle().getStartParameter().getTaskNames().contains("buildPublic"))
+{
+    version = "${config.dev_version}.${ext.patch}.public.${config.build_number}"
+}
 else
 {
     version = "${config.dev_version}.${ext.patch}.dev.${config.build_number}"
@@ -92,6 +96,10 @@ minecraft {
 if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
 {
     version = "${config.minecraft_version}-${config.mod_version}.${ext.patch}"
+}
+else if (project.getGradle().getStartParameter().getTaskNames().contains("buildPublic"))
+{
+    version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.public.${config.build_number}"
 }
 else
 {
@@ -146,6 +154,10 @@ tasks.setupDevWorkspace.dependsOn getBaubles
 tasks.setupDecompWorkspace.dependsOn getBaubles
 
 task handleVersion {
+    onlyIf {
+        !project.getGradle().getStartParameter().getTaskNames().contains("buildPublic")
+    }
+
     doLast {
         config.build_number = (config.build_number.toString().toInteger()) + 1
         configFile.withWriter {
@@ -201,6 +213,12 @@ task handleVersion {
 }
 
 tasks.build.dependsOn handleVersion
+
+task buildPublic(dependsOn: ['build', 'reobf', 'devJar']) {
+    doLast {
+        logger.lifecycle "I think I'm done"
+    }
+}
 
 task release(dependsOn: ['build', 'reobf', 'devJar']) {
     doLast {
