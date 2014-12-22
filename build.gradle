@@ -77,6 +77,10 @@ else if (project.getGradle().getStartParameter().getTaskNames().contains("buildP
 {
     version = "${config.dev_version}.${ext.patch}.public.${config.build_number}"
 }
+else if (System.getenv("TRAVIS") || System.getenv("TRAVIS").equals("true"))
+{
+    version = "${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}"
+}
 else
 {
     version = "${config.dev_version}.${ext.patch}.dev.${config.build_number}"
@@ -101,6 +105,10 @@ else if (project.getGradle().getStartParameter().getTaskNames().contains("buildP
 {
     version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.public.${config.build_number}"
 }
+else if (System.getenv("TRAVIS") || System.getenv("TRAVIS").equals("true"))
+{
+    version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}"
+}
 else
 {
     version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.dev.${config.build_number}"
@@ -117,7 +125,7 @@ processResources {
     }
 }
 
-task devJar(type: Jar, dependsOn: 'classes') {
+task deobfJar(type: Jar, dependsOn: 'classes') {
     from(sourceSets.main.output) {
         include '**'
     }
@@ -128,11 +136,25 @@ task devJar(type: Jar, dependsOn: 'classes') {
     }
 
     extension = 'jar'
-    classifier = 'dev'
+    classifier = 'deobf'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+
+    extension = 'jar'
+    classifier = 'javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+
+    extension = 'jar'
+    classifier = 'sources'
 }
 
 artifacts {
-    archives devJar
+    archives deobfJar, javadocJar, sourcesJar
 }
 
 task getThaumcraft(type: Download, dependsOn: "extractUserDev") {
@@ -219,13 +241,13 @@ task handleVersion {
 
 tasks.build.dependsOn handleVersion
 
-task buildPublic(dependsOn: ['build', 'reobf', 'devJar']) {
+task buildPublic(dependsOn: ['build', 'reobf', 'deobfJar']) {
     doLast {
         logger.lifecycle "I think I'm done"
     }
 }
 
-task release(dependsOn: ['build', 'reobf', 'devJar']) {
+task release(dependsOn: ['build', 'reobf', 'deobfJar']) {
     doLast {
         logger.lifecycle "I think I'm done"
     }
