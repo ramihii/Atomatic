@@ -89,10 +89,10 @@ If you didn't install Gradle, replace `gradle` with `gradlew.bat` on Windows and
 
 1. Execute `gradle setupCiWorkspace`. This sets up Forge and downloads the necessary libraries to build Atomatic. This might take some time, be patient.
 	* You will generally only have to do this once until the Forge version in `build.properties` changes.
-2. Execute `gradle build`. If you did everything right, `BUILD SUCCESSFUL` will be displayed after it finishes.  This should be relatively quick.
+2. Execute `gradle buildPublic`. If you did everything right, `BUILD SUCCESSFUL` will be displayed after it finishes.  This should be relatively quick.
     * If you see `BUILD FAILED`, check the error output (it should be right around `BUILD FAILED`), fix everything (if possible), and try again.
 3. Navigate to `mcdev\Atomatic\build\libs`.
-    *  You should see a `.jar` file named `Atomatic-1.7.10-0.1.#.jar`, where # is the `build_number` value in `build.properties`.
+    *  You should see a `.jar` file named `Atomatic-1.7.10-0.1.0.dev.#.jar`, where `#` is the `build_number` value in `build.properties`.
 		* NOTE: `null` means that you are missing a `build_number` value in `build.properties`.
 4. Copy the jar into your Minecraft mods folder, and you are done!
 
@@ -103,7 +103,7 @@ In order to get the most up-to-date builds, you'll have to periodically update y
 2. Navigate to `mcdev` in the console.
 3. Make sure you have not made any changes to the local repository, or else there might be issues with Git.
 	* If you have, try reverting them to the status that they were when you last updated your repository.
-4. Execute `git pull master`. This pulls all commits from the official repository that do not yet exist on your local repository and updates it.
+4. Execute `git pull develop`. This pulls all commits from the official repository that do not yet exist on your local repository and updates it.
 
 ###Contributing
 ***
