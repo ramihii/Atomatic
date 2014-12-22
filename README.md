@@ -1,4 +1,7 @@
 ##Welcome to Atomatic!
+
+[![Build Status](https://travis-ci.org/anttikivi/Atomatic.svg?branch=develop)](https://travis-ci.org/anttikivi/Atomatic)
+
 **LATEST OFFICIAL VERSION**: [Atomatic development for MC 1.7.10](#compiling-atomatic)
 
 [Minecraft Forums page (Not available)](#)
