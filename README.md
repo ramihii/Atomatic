@@ -12,8 +12,7 @@
 
 [FAQ](https://github.com/anttikivi/Atomatic/wiki/Frequently-Asked-Questions) - For those that have questions.
 
-###Compiling Atomatic
-[![Build Status](https://travis-ci.org/anttikivi/Atomatic.svg?branch=develop)](https://travis-ci.org/anttikivi/Atomatic)
+###Compiling Atomatic [![Build Status](https://travis-ci.org/anttikivi/Atomatic.svg?branch=develop)](https://travis-ci.org/anttikivi/Atomatic)
 IMPORTANT: Please report any issues you have, there might be some problems with the documentation!
 Also make sure you know EXACTLY what you're doing! It's not any of our faults if your OS crashes, becomes corrupted, etc.
 You should also check the build status before compiling yourself. If the build is not passing, either wait it's fixed or go to [Travis](https://travis-ci.org/anttikivi/Atomatic) and build from a working commit.
@@ -89,8 +88,7 @@ This section assumes that you're using the command-line version of Git.
 		\-Atomatic's files (should have `build.gradle`)
 ***
 
-####Compile Atomatic
-[![Build Status](https://travis-ci.org/anttikivi/Atomatic.svg?branch=develop)](https://travis-ci.org/anttikivi/Atomatic)
+####Compile Atomatic [![Build Status](https://travis-ci.org/anttikivi/Atomatic.svg?branch=develop)](https://travis-ci.org/anttikivi/Atomatic)
 Please check the build status before compiling yourself. If the build is not passing, either wait it's fixed or go to [Travis](https://travis-ci.org/anttikivi/Atomatic) and build from a working commit.
 
 If you didn't install Gradle, replace `gradle` with `gradlew.bat` on Windows and with `gradlew` on Linux (and probably same for Mac).
