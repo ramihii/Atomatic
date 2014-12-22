@@ -1,4 +1,5 @@
 language: java
+sudo: false
 before_install:
   - wget https://services.gradle.org/distributions/gradle-2.2.1-bin.zip
   - unzip gradle-2.2.1-bin.zip
