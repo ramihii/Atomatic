@@ -139,22 +139,8 @@ task deobfJar(type: Jar, dependsOn: 'classes') {
     classifier = 'deobf'
 }
 
-task javadocJar(type: Jar) {
-    from javadoc
-
-    extension = 'jar'
-    classifier = 'javadoc'
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-
-    extension = 'jar'
-    classifier = 'sources'
-}
-
 artifacts {
-    archives deobfJar, javadocJar, sourcesJar
+    archives deobfJar
 }
 
 task getThaumcraft(type: Download, dependsOn: "extractUserDev") {
