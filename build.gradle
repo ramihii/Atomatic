@@ -58,7 +58,7 @@ if (!config.last_release.equals(config.mod_version))
 {
     ext.patch = 0
 
-    if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
+    if (gradle.startParameter.taskNames.contains("release"))
     {
         ext.resetPatch = true
     }
@@ -69,11 +69,11 @@ if (!config.dev_version.equals(config.mod_version))
     ext.patch = 0
 }
 
-if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
+if (gradle.startParameter.taskNames.contains("release"))
 {
     version = "${config.mod_version}.${ext.patch}"
 }
-else if (project.getGradle().getStartParameter().getTaskNames().contains("buildPublic"))
+else if (gradle.startParameter.taskNames.contains("buildPublic"))
 {
     version = "${config.dev_version}.${ext.patch}.public.${config.build_number}"
 }
@@ -101,11 +101,11 @@ minecraft {
     replace "@VERSION@", "${project.version}"
 }
 
-if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
+if (gradle.startParameter.taskNames.contains("release"))
 {
     version = "${config.minecraft_version}-${config.mod_version}.${ext.patch}"
 }
-else if (project.getGradle().getStartParameter().getTaskNames().contains("buildPublic"))
+else if (gradle.startParameter.taskNames.contains("buildPublic"))
 {
     version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.public.${config.build_number}"
 }
@@ -173,7 +173,7 @@ tasks.setupDecompWorkspace.dependsOn getBaubles
 
 task handleVersion {
     onlyIf {
-        !project.getGradle().getStartParameter().getTaskNames().contains("buildPublic")
+        !gradle.startParameter.taskNames.contains("buildPublic")
     }
 
     doLast {
@@ -199,7 +199,7 @@ task handleVersion {
                 config.toProperties().store(it, "")
             }
         }
-        else if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
+        else if (gradle.startParameter.taskNames.contains("release"))
         {
             config.patch_number = (config.patch_number.toString().toInteger()) + 1
             configFile.withWriter {
