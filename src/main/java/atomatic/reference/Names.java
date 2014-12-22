@@ -9,6 +9,7 @@ public class Names
 
     public static final class Items
     {
+        public static final String CREATIVE_TAB = "creativeTab";
     }
 
     public static final class Materials

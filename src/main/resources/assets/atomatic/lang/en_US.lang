@@ -9,6 +9,7 @@ key.categories.atomatic=Atomatic
 itemGroup.atomatic=Atomatic
 
 # Items
+item.atomatic:creativeTab.name=Dummy Item
 
 # Tools
 

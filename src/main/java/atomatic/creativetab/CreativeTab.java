@@ -1,9 +1,9 @@
 package atomatic.creativetab;
 
+import atomatic.init.ModItems;
 import atomatic.reference.Reference;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 
 public class CreativeTab
@@ -13,7 +13,7 @@ public class CreativeTab
         @Override
         public Item getTabIconItem()
         {
-            return Items.apple; // ModItems.something;
+            return ModItems.creativeTab;
         }
     };
 }
