@@ -51,8 +51,25 @@ configFile.withReader {
     project.ext.config = new ConfigSlurper().parse prop
 }
 
-version = config.mod_version
-group = "atomatic" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+ext.patch = config.patch_number
+ext.resetPatch = false
+
+if (config.last_version != config.mod_version)
+{
+    ext.patch = 0
+    ext.resetPatch = true
+}
+
+if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
+{
+    version = "${config.mod_version}.${ext.patch}"
+}
+else
+{
+    version = "${config.mod_version}.${ext.patch}.${config.build_number}"
+}
+
+group = "atomatic"
 archivesBaseName = project.getName()
 
 minecraft {
@@ -60,26 +77,26 @@ minecraft {
 	runDir = "run"
 	
     replaceIn "reference/Reference.java"
-    replace "@VERSION@", "${config.mod_version}.${config.build_number}"
+    replace "@VERSION@", "${project.version}"
 }
 
-version = "${config.minecraft_version}-${config.mod_version}.${config.build_number}"
+if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
+{
+    version = "${config.minecraft_version}-${config.mod_version}.${ext.patch}"
+}
+else
+{
+    version = "${config.minecraft_version}-${config.mod_version}.${ext.patch}.${config.build_number}"
+}
 
 processResources {
-    // exclude xcf files, as they are for development only
     exclude '**/*.xcf'
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include '*.info'
-
-        // replace version and mcversion
-        expand 'mod_version': project.version, 'minecraft_version': project.config.minecraft_version
-    }
-
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude '**/*.info'
+    }
+	from(sourceSets.main.resources.srcDirs) {
+        include '*.info'
+        expand 'version': project.version, 'mcversion': config.minecraft_version
     }
 }
 
@@ -119,22 +136,38 @@ task getBaubles(type: Download, dependsOn: "getThaumcraft") {
 tasks.setupDevWorkspace.dependsOn getBaubles
 tasks.setupDecompWorkspace.dependsOn getBaubles
 
-task devBuild(dependsOn: ['build', 'reobf', 'devJar']) {
-    doLast {
-        logger.lifecycle "I think I'm done"
-    }
-}
-
-task incrementBuildNumber(dependsOn: ['build', 'reobf', 'devJar']) {
+task handleVersion {
     doLast {
         config.build_number = (config.build_number.toString().toInteger()) + 1
+        configFile.withWriter {
+            config.toProperties().store(it, "")
+        }
+
+        if (project.resetPatch)
+        {
+            config.patch_number = 1
+            configFile.withWriter {
+                config.toProperties().store(it, "")
+            }
+        }
+        else if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
+        {
+            config.patch_number = (config.patch_number.toString().toInteger()) + 1
+            configFile.withWriter {
+                config.toProperties().store(it, "")
+            }
+        }
+
+        config.last_version = config.mod_version
         configFile.withWriter {
             config.toProperties().store(it, "")
         }
     }
 }
 
-task release(dependsOn: 'incrementBuildNumber') {
+tasks.build.dependsOn handleVersion
+
+task release(dependsOn: ['build', 'reobf', 'devJar']) {
     doLast {
         logger.lifecycle "I think I'm done"
     }
