@@ -92,7 +92,7 @@ If you didn't install Gradle, replace `gradle` with `gradlew.bat` on Windows and
 2. Execute `gradle buildPublic`. If you did everything right, `BUILD SUCCESSFUL` will be displayed after it finishes.  This should be relatively quick.
     * If you see `BUILD FAILED`, check the error output (it should be right around `BUILD FAILED`), fix everything (if possible), and try again.
 3. Navigate to `mcdev\Atomatic\build\libs`.
-    *  You should see a `.jar` file named `Atomatic-1.7.10-0.1.0.dev.#.jar`, where `#` is the `build_number` value in `build.properties`.
+    *  You should see a `.jar` file named `Atomatic-1.7.10-0.1.0.public.#.jar`, where `#` is the `build_number` value in `build.properties`.
 		* NOTE: `null` means that you are missing a `build_number` value in `build.properties`.
 4. Copy the jar into your Minecraft mods folder, and you are done!
 
