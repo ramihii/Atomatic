@@ -163,7 +163,7 @@ task getBaubles(type: Download, dependsOn: "getThaumcraft") {
     mustRunAfter "repackMinecraft"
 }
 
-tasks.setupCiWorkspace.dependsOn getBaubles
+tasks.setupCIWorkspace.dependsOn getBaubles
 tasks.setupDevWorkspace.dependsOn getBaubles
 tasks.setupDecompWorkspace.dependsOn getBaubles
 

@@ -93,7 +93,7 @@ Please check the build status before compiling yourself. If the build is not pas
 
 If you didn't install Gradle, replace `gradle` with `gradlew.bat` on Windows and with `gradlew` on Linux (and probably same for Mac).
 
-1. Execute `gradle setupCiWorkspace`. This sets up Forge and downloads the necessary libraries to build Atomatic. This might take some time, be patient.
+1. Execute `gradle setupCIWorkspace`. This sets up Forge and downloads the necessary libraries to build Atomatic. This might take some time, be patient.
 	* You will generally only have to do this once until the Forge version in `build.properties` changes.
 2. Execute `gradle buildPublic`. If you did everything right, `BUILD SUCCESSFUL` will be displayed after it finishes.  This should be relatively quick.
     * If you see `BUILD FAILED`, check the error output (it should be right around `BUILD FAILED`), fix everything (if possible), and try again.

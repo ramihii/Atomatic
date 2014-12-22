@@ -6,5 +6,5 @@ before_install:
   - export GRADLE_HOME=$PWD/gradle-2.2.1
   - export PATH=$GRADLE_HOME/bin:$PATH
   - gradle -version
-install: gradle setupCiWorkspace
+install: gradle setupCIWorkspace
 script: gradle build
