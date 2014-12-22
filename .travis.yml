@@ -1,8 +1,5 @@
 language: java
 sudo: false
-cache:
-  - $TRAVIS_BUILD_DIR/libs
-  - $HOME/.gradle/caches
 before_install:
   - wget https://services.gradle.org/distributions/gradle-2.2.1-bin.zip
   - unzip gradle-2.2.1-bin.zip
@@ -11,3 +8,5 @@ before_install:
   - gradle -version
 install: gradle setupCIWorkspace
 script: gradle build
+cache:
+  - $HOME/.gradle
