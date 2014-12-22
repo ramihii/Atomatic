@@ -1,9 +1,0 @@
-language: java
-before_install:
-  - wget https://services.gradle.org/distributions/gradle-2.2.1-bin.zip
-  - unzip gradle-2.2.1-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-2.2.1
-  - export PATH=$GRADLE_HOME/bin:$PATH
-  - gradle -version
-install: gradle setupCiWorkspace
-script: gradle build
