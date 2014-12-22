@@ -64,3 +64,11 @@ tc.research_page.ATOM.3=TODO Tell about protons, neutrons and electrons here.
 tc.research_name.QUANTUM=Quantum Mechanics
 tc.research_text.QUANTUM=Such a quantum leap
 tc.research_page.QUANTUM.1=You think you have found out the true nature of the universe.
+
+tc.research_name.CHARGEINVERSION=Charge Inversion
+tc.research_text.CHARGEINVERSION=Making negative into positive
+tc.research_page.CHARGEINVERSION.1=tc.research_page.CHARGEINVERSION.1
+
+tc.research_name.PRIMALREVERSION=Primal Reversion
+tc.research_text.PRIMALREVERSION=Someone might have played too much Pokemon
+tc.research_page.PRIMALREVERSION.1=tc.research_page.PRIMALREVERSION.1
