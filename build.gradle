@@ -54,10 +54,19 @@ configFile.withReader {
 ext.patch = config.patch_number
 ext.resetPatch = false
 
-if (config.last_version != config.mod_version)
+if (!config.last_release.equals(config.mod_version))
 {
     ext.patch = 0
-    ext.resetPatch = true
+
+    if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
+    {
+        ext.resetPatch = true
+    }
+}
+
+if (!config.dev_version.equals(config.mod_version))
+{
+    ext.patch = 0
 }
 
 if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
@@ -66,7 +75,7 @@ if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
 }
 else
 {
-    version = "${config.mod_version}.${ext.patch}.${config.build_number}"
+    version = "${config.dev_version}.${ext.patch}.dev.${config.build_number}"
 }
 
 group = "atomatic"
@@ -86,7 +95,7 @@ if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
 }
 else
 {
-    version = "${config.minecraft_version}-${config.mod_version}.${ext.patch}.${config.build_number}"
+    version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.dev.${config.build_number}"
 }
 
 processResources {
@@ -149,6 +158,16 @@ task handleVersion {
             configFile.withWriter {
                 config.toProperties().store(it, "")
             }
+
+            config.last_new_release = true
+            configFile.withWriter {
+                config.toProperties().store(it, "")
+            }
+
+            config.last_release = config.mod_version
+            configFile.withWriter {
+                config.toProperties().store(it, "")
+            }
         }
         else if (project.getGradle().getStartParameter().getTaskNames().contains("release"))
         {
@@ -156,11 +175,27 @@ task handleVersion {
             configFile.withWriter {
                 config.toProperties().store(it, "")
             }
+
+            config.last_new_release = false
+            configFile.withWriter {
+                config.toProperties().store(it, "")
+            }
+
+            config.last_release = config.mod_version
+            configFile.withWriter {
+                config.toProperties().store(it, "")
+            }
         }
 
-        config.last_version = config.mod_version
-        configFile.withWriter {
-            config.toProperties().store(it, "")
+        def dev = config.dev_version.toString().tokenize('.');
+        def ver = config.mod_version.toString().tokenize('.');
+
+        if ((dev.get(0).toInteger() < ver.get(0).toInteger()) || (dev.get(1).toInteger() < ver.get(1).toInteger()))
+        {
+            config.dev_version = config.mod_version
+            configFile.withWriter {
+                config.toProperties().store(it, "")
+            }
         }
     }
 }
