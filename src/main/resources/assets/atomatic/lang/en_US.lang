@@ -50,10 +50,14 @@ tc.research_name.INVERSEDIRT=Dirt Inversion
 tc.research_text.INVERSEDIRT=Is it actually useful?
 tc.research_page.INVERSEDIRT.1=By making experiments with aspects, you have found out that by charging all primal aspects in a single block of dirt makes it behave oddly. As result of these strange experiments, you have discovered a new kind of dirt block.<BR>It seems that dirt block's changed properties makes it to help stabilize the infusion crafting process.
 
-tc.research_name.ATOM=Particles
-tc.research_text.ATOM=Smaller than pixel
-tc.research_page.ATOM.1=You decided to continue experimenting with the interesting behavior of the dirt and you have made a conclusion. You think that there must be something smaller than pixels. You are just not sure what it might be...
+tc.research_name.SIZESUSPICION=Size Suspicion
+tc.research_text.SIZESUSPICION=Might be smaller than pixel
+tc.research_page.SIZESUSPICION.1=You decided to continue experimenting with the interesting behavior of the dirt and you have made a conclusion. You think that there must be something smaller than pixels. You are just not sure what it might be...
 
-tc.research_name.QUANTUM=Quantum Theory
+tc.research_name.ATOM=Atomic Theory
+tc.research_text.ATOM=Good text here
+tc.research_page.ATOM.1=You decided to research even further and you have achieved something no thaumaturge has ever before. You think you have found out the true nature of the universe.<BR>You have found out that that everything in this world is formed by small particles
+
+tc.research_name.QUANTUM=Quantum Mechanics
 tc.research_text.QUANTUM=Such a quantum leap
-tc.research_page.QUANTUM.1=You decided to research even further and you have achieved something no thaumaturge has ever before. You think you have found out the true nature of the universe.
+tc.research_page.QUANTUM.1=Some text here...
