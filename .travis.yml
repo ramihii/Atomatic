@@ -1,0 +1,4 @@
+language: java
+install: ./gradlew setupCiWorkspace
+script: ./gradlew build
+after_script: printenv
