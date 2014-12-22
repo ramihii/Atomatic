@@ -24,13 +24,13 @@ import de.undercouch.gradle.tasks.download.Download
 apply plugin: 'forge'
 
 repositories {
-    maven { 
-		// The repo from which to get waila
+    maven {
+        // The repo from which to get waila
         name "Mobius Repo"
         url "http://mobiusstrip.eu/maven"
     }
-    maven { 
-		// the repo from which to get NEI and stuff
+    maven {
+        // the repo from which to get NEI and stuff
         name 'ChickenBones Repo'
         url "http://chickenbones.net/maven/"
     }
@@ -87,8 +87,8 @@ archivesBaseName = project.getName()
 
 minecraft {
     version = config.minecraft_version + "-" + config.forge_version
-	runDir = "run"
-	
+    runDir = "run"
+
     replaceIn "reference/Reference.java"
     replace "@VERSION@", "${project.version}"
 }
@@ -111,7 +111,7 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude '**/*.info'
     }
-	from(sourceSets.main.resources.srcDirs) {
+    from(sourceSets.main.resources.srcDirs) {
         include '*.info'
         expand 'version': project.version, 'mcversion': config.minecraft_version
     }
@@ -119,6 +119,10 @@ processResources {
 
 task devJar(type: Jar, dependsOn: 'classes') {
     from(sourceSets.main.output) {
+        include '**'
+    }
+
+    from(sourceSets.api.output) {
         include '**'
     }
 
