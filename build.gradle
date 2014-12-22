@@ -89,6 +89,10 @@ else
 group = "atomatic"
 archivesBaseName = project.getName()
 
+tasks.withType(JavaCompile) {
+    options.incremental = true
+}
+
 minecraft {
     version = config.minecraft_version + "-" + config.forge_version
     runDir = "run"
