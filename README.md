@@ -15,7 +15,7 @@
 [FAQ](https://github.com/anttikivi/Atomatic/wiki/Frequently-Asked-Questions) - For those that have questions.
 
 ###Compiling Atomatic [![Build Status](https://travis-ci.org/anttikivi/Atomatic.svg?branch=develop)](https://travis-ci.org/anttikivi/Atomatic)
-Please note that [regular snapshots are available](https://oss.sonatype.org/content/repositories/snapshots/io/github/celestibytes/Atomatic/1.7.10-0.1.0-SNAPSHOT/). If you haven't built anything from source code before or you want to take easier and faster way of getting the latest and greatest changes and features, you should definetly check out the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/io/github/celestibytes/Atomatic/1.7.10-0.1.0-SNAPSHOT/).
+Please note that [regular snapshots are available](https://oss.sonatype.org/content/repositories/snapshots/io/github/celestibytes/Atomatic/1.7.10-0.1.0-SNAPSHOT/). If you haven't built anything from source code before or you want to take easier and faster way of getting the latest and greatest changes and features, you should check out the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/io/github/celestibytes/Atomatic/1.7.10-0.1.0-SNAPSHOT/).
 
 IMPORTANT: Please report any issues you have, there might be some problems with the documentation!
 Also make sure you know EXACTLY what you're doing! It's not any of our faults if your OS crashes, becomes corrupted, etc.
