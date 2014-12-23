@@ -265,7 +265,7 @@ uploadArchives {
             else
             {
                 add project.repositories.mavenLocal()
-                logger.info('Publishing to repo folder')
+                logger.lifecycle('Publishing to repo folder')
 
                 mavenDeployer {
                     repository(url: 'file://localhost/' + project.file('repo').getAbsolutePath())

@@ -7,4 +7,4 @@ before_install:
   - export PATH=$GRADLE_HOME/bin:$PATH
   - gradle -version
 install: gradle setupCIWorkspace
-script: gradle build
+script: gradle uploadArchives
