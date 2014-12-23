@@ -212,12 +212,12 @@ uploadArchives {
                         MavenDeployment deployment -> signing.signPom(deployment)
                     }
 
-                    repository(url: ext.repo) {
-                        authentication(userName: ext.username, password: ext.password)
+                    repository(url: repo) {
+                        authentication(userName: username, password: password)
                     }
 
                     snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                        authentication(userName: ext.username, password: ext.password)
+                        authentication(userName: username, password: password)
                     }
 
                     pom {
