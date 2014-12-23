@@ -205,7 +205,7 @@ uploadArchives {
     repositories {
         if (!gradle.startParameter.taskNames.contains("buildPublic"))
         {
-            if (ext.ossrh)
+            if (ossrh)
             {
                 mavenDeployer {
                     beforeDeployment {
