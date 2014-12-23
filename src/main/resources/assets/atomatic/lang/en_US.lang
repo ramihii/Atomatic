@@ -71,4 +71,16 @@ tc.research_page.CHARGEINVERSION.1=tc.research_page.CHARGEINVERSION.1
 
 tc.research_name.PRIMALREVERSION=Primal Reversion
 tc.research_text.PRIMALREVERSION=Someone might have played too much Pokemon
-tc.research_page.PRIMALREVERSION.1=tc.research_page.PRIMALREVERSION.1
+tc.research_page.PRIMALREVERSION.1=With the power
+
+tc.research_name.NUCLEUS=Atom Nucleus
+tc.research_text.NUCLEUS=Lot's of positivity
+tc.research_page.NUCLEUS.1=tc.research_page.NUCLEUS.1
+
+tc.research_name.NUCLEARFISSION=Nuclear Fission
+tc.research_text.NUCLEARFISSION=tc.research_text.NUCLEARFISSION
+tc.research_page.NUCLEARFISSION.1=tc.research_page.NUCLEARFISSION.1
+
+tc.research_name.NUCLEARFUSION=Nuclear Fusion
+tc.research_text.NUCLEARFUSION=tc.research_text.NUCLEARFUSION
+tc.research_page.NUCLEARFUSION.1=tc.research_page.NUCLEARFUSION.1
