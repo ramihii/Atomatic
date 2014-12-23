@@ -20,8 +20,11 @@ plugins {
 }
 
 import de.undercouch.gradle.tasks.download.Download
+import org.lwjgl.Sys
 
 apply plugin: 'forge'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
     maven {
@@ -69,6 +72,17 @@ if (!config.dev_version.equals(config.mod_version))
     ext.patch = 0
 }
 
+ext.repo = null
+
+if (gradle.startParameter.taskNames.contains("release"))
+{
+    ext.repo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+}
+else
+{
+    ext.repo = "https://oss.sonatype.org/content/repositories/snapshots/"
+}
+
 if (gradle.startParameter.taskNames.contains("release"))
 {
     version = "${config.mod_version}.${ext.patch}"
@@ -86,7 +100,7 @@ else
     version = "${config.dev_version}.${ext.patch}.dev.${config.build_number}"
 }
 
-group = "atomatic"
+group = "io.github.celestibytes" // "atomatic"
 archivesBaseName = project.getName()
 
 tasks.withType(JavaCompile) {
@@ -143,8 +157,121 @@ task deobfJar(type: Jar, dependsOn: 'classes') {
     classifier = 'deobf'
 }
 
+task javadocJar(type: Jar) {
+    from javadoc
+
+    extension = 'jar'
+    classifier = 'javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+
+    extension = 'jar'
+    classifier = 'sources'
+}
+
 artifacts {
-    archives deobfJar
+    archives deobfJar, javadocJar, sourcesJar
+}
+
+signing {
+    required {
+        gradle.taskGraph.hasTask("release")
+    }
+
+    sign configurations.archives
+}
+
+ext.ossrh = false
+ext.username = null
+ext.password = null
+
+if (System.getenv().containsKey("OSSRH_USERNAME") && System.getenv().containsKey("OSSRH_PASSWORD"))
+{
+    ext.ossrh = true
+    ext.username = System.getenv("OSSRH_USERNAME")
+    ext.password = System.getenv("OSSRH_PASSWORD")
+}
+else if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword"))
+{
+    ext.ossrh = true
+    ext.username = ossrhUsername
+    ext.password = ossrhPassword
+}
+
+uploadArchives {
+    repositories {
+        if (!gradle.startParameter.taskNames.contains("buildPublic"))
+        {
+            if (ext.ossrh)
+            {
+                mavenDeployer {
+                    beforeDeployment {
+                        MavenDeployment deployment -> signing.signPom(deployment)
+                    }
+
+                    repository(url: ext.repo) {
+                        authentication(userName: ext.username, password: ext.password)
+                    }
+
+                    snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                        authentication(userName: ext.username, password: ext.password)
+                    }
+
+                    pom {
+                        groupId = project.group
+                        version = project.version
+                        artifactId = project.archivesBaseName
+                    }
+
+                    pom.project {
+                        name project.archivesBaseName
+                        packaging 'jar'
+                        description 'A Minecraft mod'
+                        url 'https://github.com/anttikivi/Atomatic'
+
+                        scm {
+                            url 'https://github.com/anttikivi/Atomatic'
+                            connection 'scm:git:git://github.com/anttikivi/Atomatic.git'
+                            developerConnection 'scm:git:git@github.com:anttikivi/Atomatic.git'
+                        }
+
+                        issueManagement {
+                            system 'github'
+                            url 'https://github.com/anttikivi/Atomatic/issues'
+                        }
+
+                        licenses {
+                            license {
+                                name 'GNU GENERAL PUBLIC LICENSE v2'
+                                url 'http://www.gnu.org/licenses/gpl-2.0.html'
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id 'pizzana'
+                                name 'Antti Kivi'
+                                roles {
+                                    role 'developer'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                add project.repositories.mavenLocal()
+                logger.info('Publishing to repo folder')
+
+                mavenDeployer {
+                    repository(url: 'file://localhost/' + project.file('repo').getAbsolutePath())
+                }
+            }
+        }
+    }
 }
 
 task getThaumcraft(type: Download, dependsOn: "extractUserDev") {
@@ -238,7 +365,7 @@ task buildPublic(dependsOn: ['build', 'reobf', 'deobfJar']) {
     }
 }
 
-task release(dependsOn: ['build', 'reobf', 'deobfJar']) {
+task release(dependsOn: ['uploadArchives', 'build', 'reobf', 'deobfJar']) {
     doLast {
         logger.lifecycle "I think I'm done"
     }
