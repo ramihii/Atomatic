@@ -71,17 +71,6 @@ if (!config.dev_version.equals(config.mod_version))
     ext.patch = 0
 }
 
-ext.repo = null
-
-if (gradle.startParameter.taskNames.contains("release"))
-{
-    ext.repo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-}
-else
-{
-    ext.repo = "https://oss.sonatype.org/content/repositories/snapshots/"
-}
-
 if (gradle.startParameter.taskNames.contains("release"))
 {
     version = "${config.mod_version}.${ext.patch}"
@@ -92,7 +81,8 @@ else if (gradle.startParameter.taskNames.contains("buildPublic"))
 }
 else if (System.getenv("TRAVIS") || System.getenv("TRAVIS").equals("true"))
 {
-    version = "${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}"
+    // version = "${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}"
+    version = "${config.dev_version}.${ext.patch}-SNAPSHOT"
 }
 else
 {
@@ -114,7 +104,7 @@ minecraft {
     replace "@VERSION@", "${project.version}"
 }
 
-if (gradle.startParameter.taskNames.contains("release"))
+/* if (gradle.startParameter.taskNames.contains("release"))
 {
     version = "${config.minecraft_version}-${config.mod_version}.${ext.patch}"
 }
@@ -124,12 +114,15 @@ else if (gradle.startParameter.taskNames.contains("buildPublic"))
 }
 else if (System.getenv("TRAVIS") || System.getenv("TRAVIS").equals("true"))
 {
-    version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}"
+    // version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}"
+    version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}-SNAPSHOT"
 }
 else
 {
     version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.dev.${config.build_number}"
-}
+} */
+
+version = "${config.minecraft_version}-${project.version}"
 
 processResources {
     exclude '**/*.xcf'
@@ -212,7 +205,7 @@ uploadArchives {
                         MavenDeployment deployment -> signing.signPom(deployment)
                     }
 
-                    repository(url: repo) {
+                    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                         authentication(userName: username, password: password)
                     }
 
