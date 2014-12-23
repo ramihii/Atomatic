@@ -272,7 +272,7 @@ task getCCL(type: Download, dependsOn: "extractUserDev") {
     onlyIf {
         !file("libs/CodeChickenLib-1.7.10-1.1.1.99-dev.jar").exists()
     }
-    src 'http://chickenbones.net/maven/codechicken/CodeChickenLib/1.7.10-1.1.1.99/CodeChickenLib-1.7.10-1.1.1.99-dev.jar'
+    src 'http://files.minecraftforge.net/maven/codechicken/CodeChickenLib/1.7.10-1.1.1.99/CodeChickenLib-1.7.10-1.1.1.99-dev.jar'
     dest file("libs/CodeChickenLib-1.7.10-1.1.1.99-dev.jar")
     mustRunAfter "deobfBinJar"
     mustRunAfter "repackMinecraft"
