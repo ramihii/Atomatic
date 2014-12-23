@@ -20,7 +20,6 @@ plugins {
 }
 
 import de.undercouch.gradle.tasks.download.Download
-import org.lwjgl.Sys
 
 apply plugin: 'forge'
 apply plugin: 'maven'
@@ -189,12 +188,14 @@ ext.password = null
 
 if (System.getenv().containsKey("OSSRH_USERNAME") && System.getenv().containsKey("OSSRH_PASSWORD"))
 {
+	logger.lifecycle "Environment variables for Sonatype found"
     ext.ossrh = true
     ext.username = System.getenv("OSSRH_USERNAME")
     ext.password = System.getenv("OSSRH_PASSWORD")
 }
 else if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword"))
 {
+	logger.lifecycle "Local variables for Sonatype found"
     ext.ossrh = true
     ext.username = ossrhUsername
     ext.password = ossrhPassword
