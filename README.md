@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/anttikivi/Atomatic.svg?branch=develop)](https://travis-ci.org/anttikivi/Atomatic)
 
 **LATEST OFFICIAL VERSION**: [Atomatic development for MC 1.7.10](#compiling-atomatic)
+**SNAPSHOTS**: [Atomatic 0.1.0-SNAPSHOT for MC 1.7.10](https://oss.sonatype.org/content/repositories/snapshots/io/github/celestibytes/Atomatic/1.7.10-0.1.0-SNAPSHOT/)
 
 [Minecraft Forums page (Not available)](#)
 
@@ -138,5 +139,3 @@ Atomatic crashes every time? Have a suggestion? Found a bug? Create an issue now
 		* Server log if applicable
 		* Detailed description of the bug and pictures if applicable
 5. Click `Submit new issue`, and wait for feedback!
-
-#Thanks for your time :)
