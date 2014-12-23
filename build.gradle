@@ -81,15 +81,14 @@ else if (gradle.startParameter.taskNames.contains("buildPublic"))
 }
 else if (System.getenv("TRAVIS") || System.getenv("TRAVIS").equals("true"))
 {
-    // version = "${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}"
-    version = "${config.dev_version}.${ext.patch}-SNAPSHOT"
+    version = "${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}-SNAPSHOT"
 }
 else
 {
     version = "${config.dev_version}.${ext.patch}.dev.${config.build_number}"
 }
 
-group = "io.github.celestibytes" // "atomatic"
+group = "io.github.celestibytes"
 archivesBaseName = project.getName()
 
 tasks.withType(JavaCompile) {
