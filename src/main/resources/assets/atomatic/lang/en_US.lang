@@ -59,7 +59,8 @@ tc.research_name.ATOM=Atomic Theory
 tc.research_text.ATOM=It does matter
 tc.research_page.ATOM.1=You decided to research even further and you have achieved something no thaumaturge has ever before. You have found the very basic part of all matter.<BR>You have found out that that everything in this world is formed by small particles, atoms. In many cases atoms have merged together to form a little bit bigger particle, molecule.<BR>Each atom represents an element. The element is determined by the atoms size. There are over one hundred elements, but you are going to need to know only a few of them.
 tc.research_page.ATOM.2=Discovering the elements and atoms might even open up wide variety of new possibilities.<BR>Even though the principles of elements and aspects seem pretty same, you haven't found connection between these too.<BR>You thought the connection between elements and aspects is obvious, but still you haven't found any proof for your theory. Could it be that there is something even smaller affecting the aspects?
-tc.research_page.ATOM.3=TODO Tell about protons, neutrons and electrons here.
+tc.research_page.ATOM.3=As you discovered the existence of quanta, you also found out that atoms aren't the smallest particles in our universe.<BR>An atom basically consists two main parts, the nucleus and the electron cloud surrounding it.<BR>The nucleus contains neutrons, which are particles with neutral charge, and protons, which are particles with positive charge of one. The most of an atom's mass is in the nucleus. The electron cloud usually has only electrons, which are particles with negative charge of one.
+tc.research_page.ATOM.4=tc.research_page.ATOM.4
 
 tc.research_name.QUANTUM=Quantum Mechanics
 tc.research_text.QUANTUM=Such a quantum leap
@@ -73,9 +74,9 @@ tc.research_name.PRIMALREVERSION=Primal Reversion
 tc.research_text.PRIMALREVERSION=Someone might have played too much Pokemon
 tc.research_page.PRIMALREVERSION.1=With the power
 
-tc.research_name.NUCLEUS=Atom Nucleus
-tc.research_text.NUCLEUS=Lot's of positivity
-tc.research_page.NUCLEUS.1=tc.research_page.NUCLEUS.1
+tc.research_name.RADIOACTIVITY=Radioactivity
+tc.research_text.RADIOACTIVITY=tc.research_text.RADIOACTIVITY
+tc.research_page.RADIOACTIVITY.1=tc.research_page.RADIOACTIVITY.1
 
 tc.research_name.NUCLEARFISSION=Nuclear Fission
 tc.research_text.NUCLEARFISSION=tc.research_text.NUCLEARFISSION
