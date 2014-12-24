@@ -10,6 +10,12 @@ itemGroup.atomatic=Atomatic
 
 # Items
 item.atomatic:creativeTab.name=Dummy Item
+item.atomatic:primalObject.air.name=Drop of Aer
+item.atomatic:primalObject.earth.name=Dust of Terra
+item.atomatic:primalObject.fire.name=Gem of Ignis
+item.atomatic:primalObject.water.name=Stone of Aqua
+item.atomatic:primalObject.order.name=Concentration of Ordo
+item.atomatic:primalObject.entropy.name=Source of Perditio
 
 # Tools
 
