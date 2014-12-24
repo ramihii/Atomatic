@@ -10,18 +10,34 @@ itemGroup.atomatic=Atomatic
 
 # Items
 item.atomatic:creativeTab.name=Dummy Item
-# The Dusts of the Heaven / Heaven's Dusts
-item.atomatic:primalObject.air.name=Pulvis Caelum
-# The Core of the Earth / (The Earth's Core)
-item.atomatic:primalObject.earth.name=Medio In Terrae
+#
+# The Primal Objects
+# Winds of Eternity
+item.atomatic:primalObject.air.name=Ventis Aeternitatis
+# Unworn Rock
+item.atomatic:primalObject.earth.name=Intritus Petram
+# Forever Flame
+item.atomatic:primalObject.fire.name=Flammae Aeternum
+# Endless Fountain
+item.atomatic:primalObject.water.name=Fons Perennis
+# Perfect Order
+item.atomatic:primalObject.order.name=Ordo Perfectus
+# Pure Destruction
+item.atomatic:primalObject.entropy.name=Purus Perditio
+#
+# The Weak Primal Objects
+# Dusts of the Heaven / Heaven's Dusts
+item.atomatic:weakPrimalObject.air.name=Pulvis Caelum
+# Core of the Earth / (The Earth's Core)
+item.atomatic:weakPrimalObject.earth.name=Medio In Terrae
 # Fluid Fire
-item.atomatic:primalObject.fire.name=Fluvidus Ignis
-# The Arranged Tides
-item.atomatic:primalObject.water.name=Disposita Aestibus
+item.atomatic:weakPrimalObject.fire.name=Fluvidus Ignis
+# Arranged Tides
+item.atomatic:weakPrimalObject.water.name=Disposita Aestibus
 # Eternal Order
-item.atomatic:primalObject.order.name=Ordinis Aeterni
-# The Winds of Disorder / Disorder's Winds
-item.atomatic:primalObject.entropy.name=Ventis Inordinatio
+item.atomatic:weakPrimalObject.order.name=Ordinis Aeterni
+# Winds of Disorder / Disorder's Winds
+item.atomatic:weakPrimalObject.entropy.name=Ventis Inordinatio
 
 # Tools
 

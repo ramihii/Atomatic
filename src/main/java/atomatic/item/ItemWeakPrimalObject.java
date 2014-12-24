@@ -16,29 +16,29 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class ItemPrimalObject extends ItemA
+public class ItemWeakPrimalObject extends ItemA
 {
     @SideOnly(Side.CLIENT)
     private IIcon[] icons;
 
-    public ItemPrimalObject()
+    public ItemWeakPrimalObject()
     {
         super();
         this.setMaxStackSize(64);
         this.setHasSubtypes(true);
-        this.setUnlocalizedName(Names.Items.PRIMAL_OBJECT);
+        this.setUnlocalizedName(Names.Items.WEAK_PRIMAL_OBJECT);
     }
 
     @Override
     public String getUnlocalizedName()
     {
-        return String.format("item.%s%s", Textures.RESOURCE_PREFIX, Names.Items.PRIMAL_OBJECT);
+        return String.format("item.%s%s", Textures.RESOURCE_PREFIX, Names.Items.WEAK_PRIMAL_OBJECT);
     }
 
     @Override
     public String getUnlocalizedName(ItemStack itemStack)
     {
-        return String.format("item.%s%s.%s", Textures.RESOURCE_PREFIX, Names.Items.PRIMAL_OBJECT, Names.Items.PRIMAL_OBJECT_SUBTYPES[MathHelper.clamp_int(itemStack.getItemDamage(), 0, Names.Items.PRIMAL_OBJECT_SUBTYPES.length - 1)]);
+        return String.format("item.%s%s.%s", Textures.RESOURCE_PREFIX, Names.Items.WEAK_PRIMAL_OBJECT, Names.Items.WEAK_PRIMAL_OBJECT_SUBTYPES[MathHelper.clamp_int(itemStack.getItemDamage(), 0, Names.Items.WEAK_PRIMAL_OBJECT_SUBTYPES.length - 1)]);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ItemPrimalObject extends ItemA
     @SuppressWarnings("unchecked")
     public void getSubItems(Item item, CreativeTabs creativeTab, List list)
     {
-        for (int meta = 0; meta < Names.Items.PRIMAL_OBJECT_SUBTYPES.length; ++meta)
+        for (int meta = 0; meta < Names.Items.WEAK_PRIMAL_OBJECT_SUBTYPES.length; ++meta)
         {
             list.add(new ItemStack(this, 1, meta));
         }
@@ -56,18 +56,18 @@ public class ItemPrimalObject extends ItemA
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta)
     {
-        return icons[MathHelper.clamp_int(meta, 0, Names.Items.PRIMAL_OBJECT_SUBTYPES.length - 1)];
+        return icons[MathHelper.clamp_int(meta, 0, Names.Items.WEAK_PRIMAL_OBJECT_SUBTYPES.length - 1)];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister)
     {
-        icons = new IIcon[Names.Items.PRIMAL_OBJECT_SUBTYPES.length];
+        icons = new IIcon[Names.Items.WEAK_PRIMAL_OBJECT_SUBTYPES.length];
 
-        for (int i = 0; i < Names.Items.PRIMAL_OBJECT_SUBTYPES.length; i++)
+        for (int i = 0; i < Names.Items.WEAK_PRIMAL_OBJECT_SUBTYPES.length; i++)
         {
-            icons[i] = iconRegister.registerIcon(Textures.RESOURCE_PREFIX + Names.Items.PRIMAL_OBJECT + "." + Names.Items.PRIMAL_OBJECT_SUBTYPES[i]);
+            icons[i] = iconRegister.registerIcon(Textures.RESOURCE_PREFIX + Names.Items.WEAK_PRIMAL_OBJECT + "." + Names.Items.WEAK_PRIMAL_OBJECT_SUBTYPES[i]);
         }
     }
 
