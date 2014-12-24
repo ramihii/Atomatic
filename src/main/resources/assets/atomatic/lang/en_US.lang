@@ -10,20 +10,18 @@ itemGroup.atomatic=Atomatic
 
 # Items
 item.atomatic:creativeTab.name=Dummy Item
-
-# Dusts of the Heaven
+# The Dusts of the Heaven / Heaven's Dusts
 item.atomatic:primalObject.air.name=Pulvis Caelum
-
-# The winds of the earth
-item.atomatic:primalObject.earth.name=Ventorum Terrae
-
-# The fire of order
-item.atomatic:primalObject.fire.name=Ignis Ordinis
-
-# The tides of disorder
-item.atomatic:primalObject.water.name=Aestus Inordinatio
-item.atomatic:primalObject.order.name=Concentration of Ordo
-item.atomatic:primalObject.entropy.name=Source of Perditio
+# The Core of the Earth / (The Earth's Core)
+item.atomatic:primalObject.earth.name=Medio In Terrae
+# Fluid Fire
+item.atomatic:primalObject.fire.name=Fluvidus Ignis
+# The Arranged Tides
+item.atomatic:primalObject.water.name=Disposita Aestibus
+# Eternal Order
+item.atomatic:primalObject.order.name=Ordinis Aeterni
+# The Winds of Disorder / Disorder's Winds
+item.atomatic:primalObject.entropy.name=Ventis Inordinatio
 
 # Tools
 
