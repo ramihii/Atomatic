@@ -37,9 +37,10 @@ public class Recipes
 
     private static void initInfusionRecipes()
     {
-        ItemStack shard = /* new ItemStack(ConfigItems.itemShard, 1, 0) */ ItemApi.getItem("itemShard", 0);
-        Researches.recipes.put(Researches.WEAK_PRIM_AIR, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_AIR, new ItemStack(ModItems.weakPrimalObject, 1, 0), 5, new AspectList().add(Aspect.AIR, 32).add(Aspect.EARTH, 16), /* new ItemStack(ConfigItems.itemShard, 1, 6) */ ItemApi.getItem("itemShard", 6), new ItemStack[]{shard, shard, shard, shard, new ItemStack(Items.reeds), new ItemStack(Items.feather)}));
-        shard = /* new ItemStack(ConfigItems.itemShard, 1, 1) */ ItemApi.getItem("itemShard", 1);
-        Researches.recipes.put(Researches.WEAK_PRIM_EARTH, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_EARTH, new ItemStack(ModItems.weakPrimalObject, 1, 1), 5, new AspectList().add(Aspect.EARTH, 32).add(Aspect.AIR, 16), /* new ItemStack(ConfigItems.itemShard, 1, 6) */ ItemApi.getItem("itemShard", 6), new ItemStack[]{shard, shard, shard, shard, new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian)}));
+        ItemStack balancedShard = ItemApi.getItem("itemShard", 6);
+        ItemStack shard = ItemApi.getItem("itemShard", 0);
+        Researches.recipes.put(Researches.WEAK_PRIM_AIR, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_AIR, new ItemStack(ModItems.weakPrimalObject, 1, 0), 5, new AspectList().add(Aspect.AIR, 32).add(Aspect.EARTH, 16), shard, new ItemStack[]{balancedShard, balancedShard, shard, shard, shard, shard, new ItemStack(Items.feather), new ItemStack(Items.feather)}));
+        shard = ItemApi.getItem("itemShard", 1);
+        Researches.recipes.put(Researches.WEAK_PRIM_FIRE, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_FIRE, new ItemStack(ModItems.weakPrimalObject, 1, 1), 5, new AspectList().add(Aspect.FIRE, 32).add(Aspect.WATER, 16), shard, new ItemStack[]{balancedShard, balancedShard, shard, shard, shard, shard, new ItemStack(Items.blaze_rod), new ItemStack(Items.blaze_rod)}));
     }
 }

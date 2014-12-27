@@ -32,9 +32,9 @@ public class Researches
     public static final String NUCLEAR_FISSION = "NUCLEARFISSION";
     public static final String NUCLEAR_FUSION = "NUCLEARFUSION";
     public static final String WEAK_PRIM_AIR = "WEAKPRIMAIR";
-    public static final String WEAK_PRIM_EARTH = "WEAKPRIMEARTH";
     public static final String WEAK_PRIM_FIRE = "WEAKPRIMFIRE";
     public static final String WEAK_PRIM_WATER = "WEAKPRIMWATER";
+    public static final String WEAK_PRIM_EARTH = "WEAKPRIMEARTH";
     public static final String WEAK_PRIM_ORDER = "WEAKPRIMORDER";
     public static final String WEAK_PRIM_ENTROPY = "WEAKPRIMENTROPY";
     public static final String PRIM_AIR = "PRIMAIR";
@@ -72,12 +72,12 @@ public class Researches
         new ResearchItem(QUANTUM, CATEGORY_QUANTA, new AspectList().add(Aspect.ENERGY, 3).add(Aspect.MECHANISM, 3).add(Aspect.EXCHANGE, 3).add(Aspect.LIGHT, 3), 1, 3, 3, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + QUANTUM.toLowerCase() + FILE_EXTENSION)).setParents(ATOM).setConcealed().setSpecial().setRound().setPages(new ResearchPage(PAGE_PREFIX + QUANTUM + ".1")).registerResearchItem();
         ThaumcraftApi.addWarpToResearch(QUANTUM, 4);
         new ResearchItem(CHARGE_INVERSION, CATEGORY_QUANTA, new AspectList().add(Aspect.ENERGY, 2).add(Aspect.MECHANISM, 2), 2, 0, 1, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + CHARGE_INVERSION.toLowerCase() + FILE_EXTENSION)).setParentsHidden(QUANTUM).setPages(new ResearchPage(PAGE_PREFIX + CHARGE_INVERSION + ".1")).registerResearchItem();
-        new ResearchItem(PRIMAL_REVERSION, CATEGORY_QUANTA, new AspectList().add(Aspect.AIR, 2).add(Aspect.EARTH, 2).add(Aspect.FIRE, 2).add(Aspect.WATER, 2).add(Aspect.ORDER, 2).add(Aspect.ENTROPY, 2).add(Aspect.ELDRITCH, 2), 4, 0, 3, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + PRIMAL_REVERSION.toLowerCase() + FILE_EXTENSION)).setParentsHidden(QUANTUM, "PRIMPEARL").setSpecial().setConcealed().setPages(new ResearchPage(PAGE_PREFIX + PRIMAL_REVERSION + ".1")).registerResearchItem();
+        new ResearchItem(PRIMAL_REVERSION, CATEGORY_QUANTA, new AspectList().add(Aspect.AIR, 2).add(Aspect.FIRE, 2).add(Aspect.WATER, 2).add(Aspect.EARTH, 2).add(Aspect.ORDER, 2).add(Aspect.ENTROPY, 2).add(Aspect.ELDRITCH, 2), 4, 0, 3, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + PRIMAL_REVERSION.toLowerCase() + FILE_EXTENSION)).setParentsHidden(QUANTUM, "PRIMPEARL").setSpecial().setConcealed().setPages(new ResearchPage(PAGE_PREFIX + PRIMAL_REVERSION + ".1")).registerResearchItem();
         ThaumcraftApi.addWarpToResearch(PRIMAL_REVERSION, 5);
         new ResearchItem(RADIOACTIVITY, CATEGORY_QUANTA, new AspectList().add(Aspect.ENTROPY, 5).add(Aspect.ENERGY, 3), -2, 3, 2, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + RADIOACTIVITY.toLowerCase() + FILE_EXTENSION)).setParents(ATOM).setParentsHidden(QUANTUM).setRound().setConcealed().setPages(new ResearchPage(PAGE_PREFIX + RADIOACTIVITY + ".1")).registerResearchItem();
         new ResearchItem(NUCLEAR_FISSION, CATEGORY_QUANTA, new AspectList().add(Aspect.ENTROPY, 2).add(Aspect.ORDER, 2). add(Aspect.ENERGY, 2), -3, 4, 2, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + NUCLEAR_FISSION.toLowerCase() + FILE_EXTENSION)).setParents(RADIOACTIVITY).setSecondary().setPages(new ResearchPage(PAGE_PREFIX + NUCLEAR_FISSION + ".1")).registerResearchItem();
         new ResearchItem(NUCLEAR_FUSION, CATEGORY_QUANTA, new AspectList().add(Aspect.ENTROPY, 3).add(Aspect.ORDER, 3).add(Aspect.ENERGY, 4), -5, 4, 3, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + NUCLEAR_FUSION.toLowerCase() + FILE_EXTENSION)).setParentsHidden(NUCLEAR_FISSION).setParents(RADIOACTIVITY).setSpecial().setConcealed().setPages(new ResearchPage(PAGE_PREFIX + NUCLEAR_FUSION + ".1")).registerResearchItem();
         new ResearchItem(WEAK_PRIM_AIR, CATEGORY_QUANTA, new AspectList().add(Aspect.AIR, 2).add(Aspect.EARTH, 1), 5, -3, 1, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + WEAK_PRIM_AIR.toLowerCase() + FILE_EXTENSION)).setParents(PRIMAL_REVERSION).setSecondary().setConcealed().setPages(new ResearchPage(PAGE_PREFIX + WEAK_PRIM_AIR + ".1"), new ResearchPage((InfusionRecipe) recipes.get(WEAK_PRIM_AIR))).registerResearchItem();
-        new ResearchItem(WEAK_PRIM_EARTH, CATEGORY_QUANTA, new AspectList().add(Aspect.EARTH, 2).add(Aspect.AIR, 1), 6, -2, 1, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + WEAK_PRIM_EARTH.toLowerCase() + FILE_EXTENSION)).setParents(PRIMAL_REVERSION).setSecondary().setConcealed().setPages(new ResearchPage(PAGE_PREFIX + WEAK_PRIM_EARTH + ".1"), new ResearchPage((InfusionRecipe) recipes.get(WEAK_PRIM_EARTH))).registerResearchItem();
+        new ResearchItem(WEAK_PRIM_FIRE, CATEGORY_QUANTA, new AspectList().add(Aspect.FIRE, 2).add(Aspect.WATER, 1), 6, -2, 1, ResourceLocationHelper.getResourceLocation(ICON_LOCATION + WEAK_PRIM_FIRE.toLowerCase() + FILE_EXTENSION)).setParents(PRIMAL_REVERSION).setSecondary().setConcealed().setPages(new ResearchPage(PAGE_PREFIX + WEAK_PRIM_FIRE + ".1"), new ResearchPage((InfusionRecipe) recipes.get(WEAK_PRIM_FIRE))).registerResearchItem();
     }
 }
