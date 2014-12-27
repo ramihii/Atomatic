@@ -13,6 +13,8 @@ public class Recipes
     {
         initVanillaRecipes();
         initAlchemyRecipes();
+        initArcaneRecipes();
+        initInfusionRecipes();
     }
 
     private static void initVanillaRecipes()
@@ -22,5 +24,15 @@ public class Recipes
     private static void initAlchemyRecipes()
     {
         Researches.recipes.put(Researches.INVERSE_DIRT, ThaumcraftApi.addCrucibleRecipe(Researches.INVERSE_DIRT, new ItemStack(ModBlocks.inverseDirt), new ItemStack(Blocks.dirt), new AspectList().add(Aspect.MAGIC, 2).add(Aspect.EXCHANGE, 2)));
+    }
+
+    private static void initArcaneRecipes()
+    {
+
+    }
+
+    private static void initInfusionRecipes()
+    {
+
     }
 }

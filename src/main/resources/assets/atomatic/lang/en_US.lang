@@ -100,10 +100,12 @@ tc.research_page.CHARGEINVERSION.1=tc.research_page.CHARGEINVERSION.1
 
 tc.research_name.PRIMALREVERSION=Primal Reversion
 tc.research_text.PRIMALREVERSION=Someone might have played too much Pokemon
-tc.research_page.PRIMALREVERSION.1=With the power of primordial pearls, you have found the power to restore the true, primordial power of some magic and objects. By infusing the primordial pearl with six strong magical objects, you are able to create NAME-STILL-TODO (TODO RECIPE FOR EACH OBJECT. THERE IS ONE OBJECT FOR EACH PRIMAL ASPECT. THE OBJECTS AND THE WILL BE IN THEIR OWN RESEARCHES)
+tc.research_page.PRIMALREVERSION.1=With the power of primordial pearls, you have found the power to restore the true, primordial power of some magic and objects.<BR>You have found out that there is own primordial orb for each primal aspect. However, everyone of them behaves a bit differently, so you have to discover them separately.<BR>As a beginner to primal reversion, you must first use weakened primordial orbs. In the infusion process of weak primordial orbs, you have to infuse the opposite aspect of the orbs own aspect.
+
+# NAME-STILL-TODO (TODO RECIPE FOR EACH OBJECT. THERE IS ONE OBJECT FOR EACH PRIMAL ASPECT. THE OBJECTS AND THE WILL BE IN THEIR OWN RESEARCHES)
 
 tc.research_name.RADIOACTIVITY=Radioactivity
-tc.research_text.RADIOACTIVITY=tc.research_text.RADIOACTIVITY
+tc.research_text.RADIOACTIVITY=You have been warned
 tc.research_page.RADIOACTIVITY.1=tc.research_page.RADIOACTIVITY.1
 
 tc.research_name.NUCLEARFISSION=Nuclear Fission
