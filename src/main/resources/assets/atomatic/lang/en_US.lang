@@ -34,8 +34,8 @@ item.atomatic:weakPrimalObject.fire.name=Fluvidus Ignis
 item.atomatic:weakPrimalObject.water.name=Disposita Aestibus
 # Core of the Earth / (The Earth's Core)
 item.atomatic:weakPrimalObject.earth.name=Medio In Terrae
-# Eternal Order
-item.atomatic:weakPrimalObject.order.name=Ordinis Aeterni
+# Random Order
+item.atomatic:weakPrimalObject.order.name=Temere Ordinem
 # Winds of Disorder / Disorder's Winds
 item.atomatic:weakPrimalObject.entropy.name=Ventis Inordinatio
 
@@ -116,26 +116,54 @@ tc.research_name.NUCLEARFUSION=Nuclear Fusion
 tc.research_text.NUCLEARFUSION=tc.research_text.NUCLEARFUSION
 tc.research_page.NUCLEARFUSION.1=tc.research_page.NUCLEARFUSION.1
 
-tc.research_name.WEAKPRIMAIR=tc.research_name.WEAKPRIMAIR
-tc.research_text.WEAKPRIMAIR=tc.research_text.WEAKPRIMAIR
+tc.research_name.WEAKPRIMAIR=Dusts of the Heaven
+tc.research_text.WEAKPRIMAIR=Winds on ground
 tc.research_page.WEAKPRIMAIR.1=tc.research_page.WEAKPRIMAIR.1
 
-tc.research_name.WEAKPRIMFIRE=tc.research_name.WEAKPRIMFIRE
-tc.research_text.WEAKPRIMFIRE=tc.research_text.WEAKPRIMFIRE
+tc.research_name.WEAKPRIMFIRE=Fluid Fire
+tc.research_text.WEAKPRIMFIRE=Smoke on the water
 tc.research_page.WEAKPRIMFIRE.1=tc.research_page.WEAKPRIMFIRE.1
 
-tc.research_name.WEAKPRIMWATER=tc.research_name.WEAKPRIMWATER
-tc.research_text.WEAKPRIMWATER=tc.research_text.WEAKPRIMWATER
+tc.research_name.WEAKPRIMWATER=Arranged Tides
+tc.research_text.WEAKPRIMWATER=Waves in order
 tc.research_page.WEAKPRIMWATER.1=tc.research_page.WEAKPRIMWATER.1
 
-tc.research_name.WEAKPRIMEARTH=tc.research_name.WEAKPRIMEARTH
-tc.research_text.WEAKPRIMEARTH=tc.research_text.WEAKPRIMEARTH
+tc.research_name.WEAKPRIMEARTH=Core of the Earth
+tc.research_text.WEAKPRIMEARTH=Fire and earth
 tc.research_page.WEAKPRIMEARTH.1=tc.research_page.WEAKPRIMEARTH.1
 
-tc.research_name.WEAKPRIMORDER=tc.research_name.WEAKPRIMORDER
-tc.research_text.WEAKPRIMORDER=tc.research_text.WEAKPRIMORDER
+tc.research_name.WEAKPRIMORDER=Random Order
+tc.research_text.WEAKPRIMORDER=Order with some added entropy
 tc.research_page.WEAKPRIMORDER.1=tc.research_page.WEAKPRIMORDER.1
 
-tc.research_name.WEAKPRIMENTROPY=tc.research_name.WEAKPRIMENTROPY
-tc.research_text.WEAKPRIMENTROPY=tc.research_text.WEAKPRIMENTROPY
+tc.research_name.WEAKPRIMENTROPY=Winds of Disorder
+tc.research_text.WEAKPRIMENTROPY=They blow randomly
 tc.research_page.WEAKPRIMENTROPY.1=tc.research_page.WEAKPRIMENTROPY.1
+
+tc.research_name.PRIMAIR=tc.research_name.PRIMAIR
+tc.research_text.PRIMAIR=tc.research_text.PRIMAIR
+tc.research_page.PRIMAIR.1=tc.research_page.PRIMAIR.1
+
+tc.research_name.PRIMFIRE=tc.research_name.PRIMFIRE
+tc.research_text.PRIMFIRE=tc.research_text.PRIMFIRE
+tc.research_page.PRIMFIRE.1=tc.research_page.PRIMFIRE.1
+
+tc.research_name.PRIMWATER=tc.research_name.PRIMWATER
+tc.research_text.PRIMWATER=tc.research_text.PRIMWATER
+tc.research_page.PRIMWATER.1=tc.research_page.PRIMWATER.1
+
+tc.research_name.PRIMEARTH=tc.research_name.PRIMEARTH
+tc.research_text.PRIMEARTH=tc.research_text.PRIMEARTH
+tc.research_page.PRIMEARTH.1=tc.research_page.PRIMEARTH.1
+
+tc.research_name.PRIMORDER=tc.research_name.PRIMORDER
+tc.research_text.PRIMORDER=tc.research_text.PRIMORDER
+tc.research_page.PRIMORDER.1=tc.research_page.PRIMORDER.1
+
+tc.research_name.PRIMENTROPY=tc.research_name.PRIMENTROPY
+tc.research_text.PRIMENTROPY=tc.research_text.PRIMENTROPY
+tc.research_page.PRIMENTROPY.1=tc.research_page.PRIMENTROPY.1
+
+tc.research_name.PRIMALL=tc.research_name.PRIMALL
+tc.research_text.PRIMALL=tc.research_text.PRIMALL
+tc.research_page.PRIMALL.1=tc.research_page.PRIMALL.1
