@@ -11,7 +11,7 @@ itemGroup.atomatic=Atomatic
 # Items
 item.atomatic:creativeTab.name=Dummy Item
 #
-# The Primal Objects
+# The Primal Objects TODO Rename to have names that resemble the pattern of the texture (water one is probably fine)
 # Winds of Eternity
 item.atomatic:primalObject.air.name=Ventis Aeternitatis
 # Forever Flame
