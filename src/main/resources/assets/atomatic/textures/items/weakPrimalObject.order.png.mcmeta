@@ -2,7 +2,7 @@
   "animation": {
     "frames": [
       {
-        "frame": 0,
+        "index": 0,
         "time": 30
       },
       1,
