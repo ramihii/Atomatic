@@ -102,7 +102,7 @@ tc.research_name.PRIMALREVERSION=Primal Reversion
 tc.research_text.PRIMALREVERSION=Someone might have played too much Pokemon
 tc.research_page.PRIMALREVERSION.1=With the power of primordial pearls, you have found the power to restore the true, primordial power of some magic and objects.<BR>You have found out that there is own primordial orb for each primal aspect. However, everyone of them behaves a bit differently, so you have to discover them separately.<BR>As a beginner to primal reversion, you must first use weakened primordial orbs. In the infusion process of weak primordial orbs, you have to infuse the opposite aspect of the orbs own aspect.
 
-# NAME-STILL-TODO (TODO RECIPE FOR EACH OBJECT. THERE IS ONE OBJECT FOR EACH PRIMAL ASPECT. THE OBJECTS AND THE WILL BE IN THEIR OWN RESEARCHES)
+# NAME-STILL-TODO (TODO RECIPE FOR EACH OBJECT. THERE IS ONE OBJECT FOR EACH PRIMAL ASPECT. THE OBJECTS AND THE WILL BE IN THEIR OWN RESEARCHES. THE PRIMORDIAL PEARL WILL BE USED ONLY IN THE FINAL ULTIMATE ORB)
 
 tc.research_name.RADIOACTIVITY=Radioactivity
 tc.research_text.RADIOACTIVITY=You have been warned
@@ -115,3 +115,27 @@ tc.research_page.NUCLEARFISSION.1=tc.research_page.NUCLEARFISSION.1
 tc.research_name.NUCLEARFUSION=Nuclear Fusion
 tc.research_text.NUCLEARFUSION=tc.research_text.NUCLEARFUSION
 tc.research_page.NUCLEARFUSION.1=tc.research_page.NUCLEARFUSION.1
+
+tc.research_name.WEAKPRIMAIR=tc.research_name.WEAKPRIMAIR
+tc.research_text.WEAKPRIMAIR=tc.research_text.WEAKPRIMAIR
+tc.research_page.WEAKPRIMAIR.1=tc.research_page.WEAKPRIMAIR.1
+
+tc.research_name.WEAKPRIMEARTH=tc.research_name.WEAKPRIMEARTH
+tc.research_text.WEAKPRIMEARTH=tc.research_text.WEAKPRIMEARTH
+tc.research_page.WEAKPRIMEARTH.1=tc.research_page.WEAKPRIMEARTH.1
+
+tc.research_name.WEAKPRIMFIRE=tc.research_name.WEAKPRIMFIRE
+tc.research_text.WEAKPRIMFIRE=tc.research_text.WEAKPRIMFIRE
+tc.research_page.WEAKPRIMFIRE.1=tc.research_page.WEAKPRIMFIRE.1
+
+tc.research_name.WEAKPRIMWATER=tc.research_name.WEAKPRIMWATER
+tc.research_text.WEAKPRIMWATER=tc.research_text.WEAKPRIMWATER
+tc.research_page.WEAKPRIMWATER.1=tc.research_page.WEAKPRIMWATER.1
+
+tc.research_name.WEAKPRIMORDER=tc.research_name.WEAKPRIMORDER
+tc.research_text.WEAKPRIMORDER=tc.research_text.WEAKPRIMORDER
+tc.research_page.WEAKPRIMORDER.1=tc.research_page.WEAKPRIMORDER.1
+
+tc.research_name.WEAKPRIMENTROPY=tc.research_name.WEAKPRIMENTROPY
+tc.research_text.WEAKPRIMENTROPY=tc.research_text.WEAKPRIMENTROPY
+tc.research_page.WEAKPRIMENTROPY.1=tc.research_page.WEAKPRIMENTROPY.1
