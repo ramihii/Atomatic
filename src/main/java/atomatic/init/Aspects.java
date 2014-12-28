@@ -21,5 +21,11 @@ public class Aspects
         ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.weakPrimalObject, 1, 3), new AspectList().add(Aspect.EARTH, 8).add(Aspect.FIRE, 4));
         ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.weakPrimalObject, 1, 4), new AspectList().add(Aspect.ORDER, 8).add(Aspect.ENTROPY, 4));
         ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.weakPrimalObject, 1, 5), new AspectList().add(Aspect.ENTROPY, 8).add(Aspect.AIR, 4));
+        ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.primalObject, 1, 0), new AspectList().add(Aspect.AIR, 40).add(Aspect.MAGIC, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.primalObject, 1, 1), new AspectList().add(Aspect.FIRE, 40).add(Aspect.MAGIC, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.primalObject, 1, 2), new AspectList().add(Aspect.WATER, 40).add(Aspect.MAGIC, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.primalObject, 1, 3), new AspectList().add(Aspect.EARTH, 40).add(Aspect.MAGIC, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.primalObject, 1, 4), new AspectList().add(Aspect.ORDER, 40).add(Aspect.MAGIC, 10));
+        ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.primalObject, 1, 5), new AspectList().add(Aspect.ENTROPY, 40).add(Aspect.MAGIC, 10));
     }
 }
