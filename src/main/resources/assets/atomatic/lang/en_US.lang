@@ -164,6 +164,6 @@ tc.research_name.PRIMENTROPY=Pure Destruction
 tc.research_text.PRIMENTROPY=tc.research_text.PRIMENTROPY
 tc.research_page.PRIMENTROPY.1=tc.research_page.PRIMENTROPY.1
 
-tc.research_name.PRIMALL=tc.research_name.PRIMALL
-tc.research_text.PRIMALL=tc.research_text.PRIMALL
-tc.research_page.PRIMALL.1=tc.research_page.PRIMALL.1
+tc.research_name.PRIMPRIMAL=tc.research_name.PRIMPRIMAL
+tc.research_text.PRIMPRIMAL=tc.research_text.PRIMPRIMAL
+tc.research_page.PRIMPRIMAL.1=tc.research_page.PRIMPRIMAL.1

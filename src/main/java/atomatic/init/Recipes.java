@@ -32,7 +32,7 @@ public class Recipes
 
     private static void initArcaneRecipes()
     {
-
+        Researches.recipes.put(Researches.PRIM_PRIMAL_CORE, ThaumcraftApi.addArcaneCraftingRecipe(Researches.PRIM_PRIMAL, new ItemStack(ModItems.primalObject, 1, 6), new AspectList().add(Aspect.AIR, 2).add(Aspect.FIRE, 2).add(Aspect.WATER, 2).add(Aspect.EARTH, 2).add(Aspect.ORDER, 2).add(Aspect.ENTROPY, 2), "ABE", "FPO", "WBN", 'A', ItemApi.getItem("itemShard", 0), 'F', ItemApi.getItem("itemShard", 1), 'W', ItemApi.getItem("itemShard", 2), 'E', ItemApi.getItem("itemShard", 3), 'O', ItemApi.getItem("itemShard", 4), 'N', ItemApi.getItem("itemShard", 5), 'B', ItemApi.getItem("itemShard", 6), 'P', ItemApi.getItem("itemEldritchObject", 3)));
     }
 
     private static void initInfusionRecipes()
@@ -61,5 +61,6 @@ public class Recipes
         Researches.recipes.put(Researches.PRIM_EARTH, ThaumcraftApi.addInfusionCraftingRecipe(Researches.PRIM_EARTH, new ItemStack(ModItems.primalObject, 1, 3), 6, new AspectList().add(Aspect.EARTH, 48).add(Aspect.MAGIC, 16), core, new ItemStack[]{new ItemStack(ModItems.weakPrimalObject, 1, 3), voidSeed, voidSeed, AspectHelper.getCrystalEssence(Aspect.EARTH), AspectHelper.getCrystalEssence(Aspect.EARTH), AspectHelper.getWispEssence(Aspect.EARTH), magicSalt, magicSalt}));
         Researches.recipes.put(Researches.PRIM_ORDER, ThaumcraftApi.addInfusionCraftingRecipe(Researches.PRIM_ORDER, new ItemStack(ModItems.primalObject, 1, 4), 5, new AspectList().add(Aspect.ORDER, 48).add(Aspect.MAGIC, 16), core, new ItemStack[]{new ItemStack(ModItems.weakPrimalObject, 1, 4), voidSeed, voidSeed, AspectHelper.getCrystalEssence(Aspect.ORDER), AspectHelper.getCrystalEssence(Aspect.ORDER), AspectHelper.getWispEssence(Aspect.ORDER), magicSalt, magicSalt}));
         Researches.recipes.put(Researches.PRIM_ENTROPY, ThaumcraftApi.addInfusionCraftingRecipe(Researches.PRIM_ENTROPY, new ItemStack(ModItems.primalObject, 1, 5), 7, new AspectList().add(Aspect.ENTROPY, 48).add(Aspect.MAGIC, 16), core, new ItemStack[]{new ItemStack(ModItems.weakPrimalObject, 1, 5), voidSeed, voidSeed, AspectHelper.getCrystalEssence(Aspect.ENTROPY), AspectHelper.getCrystalEssence(Aspect.ENTROPY), AspectHelper.getWispEssence(Aspect.ENTROPY), magicSalt, magicSalt}));
+        Researches.recipes.put(Researches.PRIM_PRIMAL, ThaumcraftApi.addInfusionCraftingRecipe(Researches.PRIM_PRIMAL, new ItemStack(ModItems.primalObject, 1, 7), 9, new AspectList().add(Aspect.AIR, 64).add(Aspect.FIRE, 64).add(Aspect.WATER, 64).add(Aspect.EARTH, 64).add(Aspect.ORDER, 64).add(Aspect.ENTROPY, 64), new ItemStack(ModItems.primalObject, 1, 6), new ItemStack[]{new ItemStack(ModItems.primalObject, 1, 0), new ItemStack(ModItems.primalObject, 1, 1), new ItemStack(ModItems.primalObject, 1, 2), new ItemStack(ModItems.primalObject, 1, 3), new ItemStack(ModItems.primalObject, 1, 4), new ItemStack(ModItems.primalObject, 1, 5)}));
     }
 }

@@ -11,9 +11,9 @@ public class Names
     {
         public static final String CREATIVE_TAB = "creativeTab";
         public static final String PRIMAL_OBJECT = "primalObject";
-        public static final String[] PRIMAL_OBJECT_SUBTYPES = {"air", "fire", "water", "earth", "order", "entropy"};
+        public static final String[] PRIMAL_OBJECT_SUBTYPES = {"air", "fire", "water", "earth", "order", "entropy", "core", "primal"};
         public static final String WEAK_PRIMAL_OBJECT = "weakPrimalObject";
-        public static final String[] WEAK_PRIMAL_OBJECT_SUBTYPES = PRIMAL_OBJECT_SUBTYPES;
+        public static final String[] WEAK_PRIMAL_OBJECT_SUBTYPES = {"air", "fire", "water", "earth", "order", "entropy"};
     }
 
     public static final class Materials
