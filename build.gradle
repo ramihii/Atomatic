@@ -25,26 +25,6 @@ apply plugin: 'forge'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-/* repositories {
-    maven {
-        // The repo from which to get waila
-        name "Mobius Repo"
-        url "http://mobiusstrip.eu/maven"
-    }
-    maven {
-        // the repo from which to get NEI and stuff
-        name 'ChickenBones Repo'
-        url "http://chickenbones.net/maven/"
-    }
-}
-TODO Add these back when it's really necessary
-dependencies {
-    // TODO Waila
-    compile "codechicken:CodeChickenLib:1.7.10-1.1.1.99:dev"
-    compile "codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev"
-    compile "codechicken:NotEnoughItems:1.7.10-1.0.3.77:dev"
-} */
-
 ext.configFile = file "build.properties"
 
 configFile.withReader {
@@ -81,7 +61,6 @@ else if (gradle.startParameter.taskNames.contains("buildPublic"))
 }
 else if (System.getenv("TRAVIS") || System.getenv("TRAVIS").equals("true"))
 {
-    // version = "${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}-SNAPSHOT"
     version = "${config.dev_version}.${ext.patch}-SNAPSHOT"
 }
 else
@@ -103,24 +82,6 @@ minecraft {
     replaceIn "reference/Reference.java"
     replace "@VERSION@", "${project.version}"
 }
-
-/* if (gradle.startParameter.taskNames.contains("release"))
-{
-    version = "${config.minecraft_version}-${config.mod_version}.${ext.patch}"
-}
-else if (gradle.startParameter.taskNames.contains("buildPublic"))
-{
-    version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.public.${config.build_number}"
-}
-else if (System.getenv("TRAVIS") || System.getenv("TRAVIS").equals("true"))
-{
-    // version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.travis.${System.getenv("TRAVIS_BUILD_NUMBER")}"
-    version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}-SNAPSHOT"
-}
-else
-{
-    version = "${config.minecraft_version}-${config.dev_version}.${ext.patch}.dev.${config.build_number}"
-} */
 
 version = "${config.minecraft_version}-${project.version}"
 
@@ -298,18 +259,31 @@ task getNEI(type: Download, dependsOn: "getCCC") {
     mustRunAfter "repackMinecraft"
 }
 
+task cleanThaumcraft(type: Delete, dependsOn: "getNEI") {
+	onlyIf {
+		file("libs/Thaumcraft-deobf-1.7.10-4.2.2.0.jar").exists()
+	}
+	delete file("libs/Thaumcraft-deobf-1.7.10-4.2.2.0.jar")
+}
 
-task getThaumcraft(type: Download, dependsOn: "getNEI") {
+task getThaumcraft(type: Download, dependsOn: "cleanThaumcraft") {
     onlyIf {
-        !file("libs/Thaumcraft-deobf-1.7.10-4.2.2.0.jar").exists()
+        !file("libs/Thaumcraft-deobf-1.7.10-4.2.2.1.jar").exists()
     }
-    src 'https://dl.dropboxusercontent.com/u/47135879/Thaumcraft-deobf-1.7.10-4.2.2.0.jar'
-    dest file("libs/Thaumcraft-deobf-1.7.10-4.2.2.0.jar")
+    src 'https://dl.dropboxusercontent.com/u/47135879/Thaumcraft-deobf-1.7.10-4.2.2.1.jar'
+    dest file("libs/Thaumcraft-deobf-1.7.10-4.2.2.1.jar")
     mustRunAfter "deobfBinJar"
     mustRunAfter "repackMinecraft"
 }
 
-task getBaubles(type: Download, dependsOn: "getThaumcraft") {
+task cleanBaubles(type: Delete, dependsOn: "getThaumcraft") {
+	onlyIf {
+		true // TODO
+	}
+	logger.lifecycle 'Baubles is not updated yet'
+}
+
+task getBaubles(type: Download, dependsOn: "cleanBaubles") {
     onlyIf {
         !file("libs/Baubles-deobf-1.7.10-1.0.1.10.jar").exists()
     }
