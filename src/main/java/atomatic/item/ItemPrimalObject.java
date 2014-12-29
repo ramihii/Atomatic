@@ -1,12 +1,11 @@
 package atomatic.item;
 
 import atomatic.reference.Names;
+import atomatic.reference.PrimalObject;
 import atomatic.reference.Textures;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.NBTHelper;
 import atomatic.util.SpawnHelper;
-
-import thaumcraft.api.ItemApi;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -44,7 +43,7 @@ public class ItemPrimalObject extends ItemA
     @Override
     public String getUnlocalizedName(ItemStack itemStack)
     {
-        return String.format("item.%s%s.%s", Textures.RESOURCE_PREFIX, Names.Items.PRIMAL_OBJECT, Names.Items.PRIMAL_OBJECT_SUBTYPES[MathHelper.clamp_int(itemStack.getItemDamage(), 0, Names.Items.PRIMAL_OBJECT_SUBTYPES.length - 1)]);
+        return String.format("item.%s%s.%s", Textures.RESOURCE_PREFIX, Names.Items.PRIMAL_OBJECT, PrimalObject.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, PrimalObject.values().length - 1)].toString());
     }
 
     @Override
@@ -52,7 +51,7 @@ public class ItemPrimalObject extends ItemA
     @SuppressWarnings("unchecked")
     public void getSubItems(Item item, CreativeTabs creativeTab, List list)
     {
-        for (int meta = 0; meta < Names.Items.PRIMAL_OBJECT_SUBTYPES.length; ++meta)
+        for (int meta = 0; meta < PrimalObject.values().length; ++meta)
         {
             list.add(new ItemStack(this, 1, meta));
         }
@@ -62,18 +61,18 @@ public class ItemPrimalObject extends ItemA
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta)
     {
-        return icons[MathHelper.clamp_int(meta, 0, Names.Items.PRIMAL_OBJECT_SUBTYPES.length - 1)];
+        return icons[MathHelper.clamp_int(meta, 0, PrimalObject.values().length - 1)];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister)
     {
-        icons = new IIcon[Names.Items.PRIMAL_OBJECT_SUBTYPES.length];
+        icons = new IIcon[PrimalObject.values().length];
 
-        for (int i = 0; i < Names.Items.PRIMAL_OBJECT_SUBTYPES.length; i++)
+        for (int i = 0; i < PrimalObject.values().length; i++)
         {
-            icons[i] = iconRegister.registerIcon(Textures.RESOURCE_PREFIX + Names.Items.PRIMAL_OBJECT + "." + Names.Items.PRIMAL_OBJECT_SUBTYPES[i]);
+            icons[i] = iconRegister.registerIcon(Textures.RESOURCE_PREFIX + Names.Items.PRIMAL_OBJECT + "." + PrimalObject.values()[i].toString());
         }
     }
 
@@ -87,7 +86,7 @@ public class ItemPrimalObject extends ItemA
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
-        if (stack.getItemDamage() == 6)
+        if (stack.getItemDamage() == PrimalObject.CORE.ordinal())
         {
             if (!NBTHelper.hasTag(stack, Names.NBT.USED))
             {
