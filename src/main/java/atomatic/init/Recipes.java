@@ -1,5 +1,7 @@
 package atomatic.init;
 
+import atomatic.reference.Names;
+import atomatic.reference.ThaumcraftReference;
 import atomatic.util.AspectHelper;
 
 import thaumcraft.api.ItemApi;
@@ -34,8 +36,8 @@ public class Recipes
     private static void initArcaneRecipes()
     {
         Researches.recipes.put(Researches.PRIM_PRIMAL_CORE, new ShapedArcaneRecipe[]{
-                ThaumcraftApi.addArcaneCraftingRecipe(Researches.PRIM_PRIMAL, new ItemStack(ModItems.primalObject, 1, 6), new AspectList().add(Aspect.AIR, 40).add(Aspect.FIRE, 40).add(Aspect.WATER, 40).add(Aspect.EARTH, 40).add(Aspect.ORDER, 40).add(Aspect.ENTROPY, 40), "ABE", "FPO", "WBN", 'A', ItemApi.getItem("itemShard", 0), 'F', ItemApi.getItem("itemShard", 1), 'W', ItemApi.getItem("itemShard", 2), 'E', ItemApi.getItem("itemShard", 3), 'O', ItemApi.getItem("itemShard", 4), 'N', ItemApi.getItem("itemShard", 5), 'B', ItemApi.getItem("itemShard", 6), 'P', ItemApi.getItem("itemEldritchObject", 3)),
-                ThaumcraftApi.addArcaneCraftingRecipe(Researches.PRIM_PRIMAL, new ItemStack(ModItems.primalObject, 1, 6), new AspectList().add(Aspect.AIR, 40).add(Aspect.FIRE, 40).add(Aspect.WATER, 40).add(Aspect.EARTH, 40).add(Aspect.ORDER, 40).add(Aspect.ENTROPY, 40), "AFW", "BPB", "EON", 'A', ItemApi.getItem("itemShard", 0), 'F', ItemApi.getItem("itemShard", 1), 'W', ItemApi.getItem("itemShard", 2), 'E', ItemApi.getItem("itemShard", 3), 'O', ItemApi.getItem("itemShard", 4), 'N', ItemApi.getItem("itemShard", 5), 'B', ItemApi.getItem("itemShard", 6), 'P', ItemApi.getItem("itemEldritchObject", 3))
+                ThaumcraftApi.addArcaneCraftingRecipe(Researches.PRIM_PRIMAL, new ItemStack(ModItems.primalObject, 1, 6), new AspectList().add(Aspect.AIR, 40).add(Aspect.FIRE, 40).add(Aspect.WATER, 40).add(Aspect.EARTH, 40).add(Aspect.ORDER, 40).add(Aspect.ENTROPY, 40), "ABE", "FPO", "WBN", 'A', ThaumcraftReference.airShard, 'F', ThaumcraftReference.fireShard, 'W', ThaumcraftReference.waterShard, 'E', ThaumcraftReference.earthShard, 'O', ThaumcraftReference.orderShard, 'N', ThaumcraftReference.entropyShard, 'B', ThaumcraftReference.balancedShard, 'P', ThaumcraftReference.primordialPearl),
+                ThaumcraftApi.addArcaneCraftingRecipe(Researches.PRIM_PRIMAL, new ItemStack(ModItems.primalObject, 1, 6), new AspectList().add(Aspect.AIR, 40).add(Aspect.FIRE, 40).add(Aspect.WATER, 40).add(Aspect.EARTH, 40).add(Aspect.ORDER, 40).add(Aspect.ENTROPY, 40), "AFW", "BPB", "EON", 'A', ThaumcraftReference.airShard, 'F', ThaumcraftReference.fireShard, 'W', ThaumcraftReference.waterShard, 'E', ThaumcraftReference.earthShard, 'O', ThaumcraftReference.orderShard, 'N', ThaumcraftReference.entropyShard, 'B', ThaumcraftReference.balancedShard, 'P', ThaumcraftReference.primordialPearl)
         });
         ThaumcraftApi.addWarpToItem(new ItemStack(ModItems.primalObject, 1, 6), 2);
     }
@@ -43,8 +45,8 @@ public class Recipes
     private static void initInfusionRecipes()
     {
         ItemStack core = new ItemStack(Items.ender_pearl);
-        ItemStack balancedShard = ItemApi.getItem("itemShard", 6);
-        ItemStack shard = ItemApi.getItem("itemShard", 0);
+        ItemStack balancedShard = ThaumcraftReference.balancedShard;
+        ItemStack shard = ThaumcraftReference.airShard;
         Researches.recipes.put(Researches.WEAK_PRIM_AIR, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_AIR, new ItemStack(ModItems.weakPrimalObject, 1, 0), 4, new AspectList().add(Aspect.AIR, 32).add(Aspect.EARTH, 16), core, new ItemStack[]{
                 balancedShard,
                 balancedShard,
@@ -55,7 +57,7 @@ public class Recipes
                 new ItemStack(Items.feather),
                 new ItemStack(Items.feather)
         }));
-        shard = ItemApi.getItem("itemShard", 1);
+        shard = ThaumcraftReference.fireShard;
         Researches.recipes.put(Researches.WEAK_PRIM_FIRE, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_FIRE, new ItemStack(ModItems.weakPrimalObject, 1, 1), 4, new AspectList().add(Aspect.FIRE, 32).add(Aspect.WATER, 16), core, new ItemStack[]{
                 balancedShard,
                 balancedShard,
@@ -66,7 +68,7 @@ public class Recipes
                 new ItemStack(Items.blaze_rod),
                 new ItemStack(Items.blaze_rod)
         }));
-        shard = ItemApi.getItem("itemShard", 2);
+        shard = ThaumcraftReference.waterShard;
         Researches.recipes.put(Researches.WEAK_PRIM_WATER, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_WATER, new ItemStack(ModItems.weakPrimalObject, 1, 2), 4, new AspectList().add(Aspect.WATER, 32).add(Aspect.ORDER, 16), core, new ItemStack[]{
                 balancedShard,
                 balancedShard,
@@ -77,7 +79,7 @@ public class Recipes
                 new ItemStack(Items.water_bucket),
                 new ItemStack(Items.water_bucket)
         }));
-        shard = ItemApi.getItem("itemShard", 3);
+        shard = ThaumcraftReference.earthShard;
         Researches.recipes.put(Researches.WEAK_PRIM_EARTH, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_EARTH, new ItemStack(ModItems.weakPrimalObject, 1, 3), 4, new AspectList().add(Aspect.EARTH, 32).add(Aspect.FIRE, 16), core, new ItemStack[]{
                 balancedShard,
                 balancedShard,
@@ -88,7 +90,7 @@ public class Recipes
                 new ItemStack(Blocks.obsidian),
                 new ItemStack(Blocks.obsidian)
         }));
-        shard = ItemApi.getItem("itemShard", 4);
+        shard = ThaumcraftReference.orderShard;
         Researches.recipes.put(Researches.WEAK_PRIM_ORDER, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_ORDER, new ItemStack(ModItems.weakPrimalObject, 1, 4), 3, new AspectList().add(Aspect.ORDER, 32).add(Aspect.ENTROPY, 16), core, new ItemStack[]{
                 balancedShard,
                 balancedShard,
@@ -99,7 +101,7 @@ public class Recipes
                 new ItemStack(Blocks.sandstone, 1, 2),
                 new ItemStack(Blocks.sandstone, 1, 2)
         }));
-        shard = ItemApi.getItem("itemShard", 5);
+        shard = ThaumcraftReference.entropyShard;
         Researches.recipes.put(Researches.WEAK_PRIM_ENTROPY, ThaumcraftApi.addInfusionCraftingRecipe(Researches.WEAK_PRIM_ENTROPY, new ItemStack(ModItems.weakPrimalObject, 1, 5), 5, new AspectList().add(Aspect.ENTROPY, 32).add(Aspect.AIR, 16), core, new ItemStack[]{
                 balancedShard,
                 balancedShard,
@@ -112,8 +114,8 @@ public class Recipes
         }));
 
         core = new ItemStack(Items.nether_star);
-        ItemStack voidSeed = ItemApi.getItem("itemResource", 17);
-        ItemStack magicSalt = ItemApi.getItem("itemResource", 14);
+        ItemStack voidSeed = ThaumcraftReference.voidSeed;
+        ItemStack magicSalt = ThaumcraftReference.magicSalt;
         Researches.recipes.put(Researches.PRIM_AIR, ThaumcraftApi.addInfusionCraftingRecipe(Researches.PRIM_AIR, new ItemStack(ModItems.primalObject, 1, 0), 6, new AspectList().add(Aspect.AIR, 48).add(Aspect.MAGIC, 16), core, new ItemStack[]{
                 new ItemStack(ModItems.weakPrimalObject, 1, 0),
                 voidSeed,

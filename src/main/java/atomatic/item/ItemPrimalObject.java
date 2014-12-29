@@ -2,6 +2,11 @@ package atomatic.item;
 
 import atomatic.reference.Names;
 import atomatic.reference.Textures;
+import atomatic.reference.ThaumcraftReference;
+import atomatic.util.NBTHelper;
+import atomatic.util.SpawnHelper;
+
+import thaumcraft.api.ItemApi;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -76,5 +82,28 @@ public class ItemPrimalObject extends ItemA
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean flag)
     {
 
+    }
+
+    @Override
+    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+    {
+        if (stack.getItemDamage() == 6)
+        {
+            if (!NBTHelper.hasTag(stack, Names.NBT.USED))
+            {
+                NBTHelper.setBoolean(stack, Names.NBT.USED, false);
+            }
+
+            if (!NBTHelper.getBoolean(stack, Names.NBT.USED))
+            {
+                SpawnHelper.spawnItemAtPlayer(player, ThaumcraftReference.primordialPearl);
+                NBTHelper.setBoolean(stack, Names.NBT.USED, true);
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
     }
 }

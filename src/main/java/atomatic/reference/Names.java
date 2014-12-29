@@ -54,6 +54,9 @@ public class Names
         public static final String CUSTOM_NAME = "CustomName";
         public static final String DIRECTION = "teDirection";
         public static final String OWNER = "owner";
+        public static final String USED = "used";
+        public static final String UUID_MOST_SIG = "UUIDMostSig";
+        public static final String UUID_LEAST_SIG = "UUIDLeastSig";
     }
 
     public static final class Containers
@@ -64,5 +67,17 @@ public class Names
 
     public static final class Keys
     {
+    }
+
+    public static final class ThaumcraftBlocks
+    {
+
+    }
+
+    public static final class ThaumcraftItems
+    {
+        public static final String SHARD = "itemShard";
+        public static final String RESOURCE = "itemResource";
+        public static final String ELDRITCH_OBJECT = "itemEldritchObject";
     }
 }
