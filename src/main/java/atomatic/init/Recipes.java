@@ -32,7 +32,8 @@ public class Recipes
 
     private static void initArcaneRecipes()
     {
-        Researches.recipes.put(Researches.PRIM_PRIMAL_CORE, ThaumcraftApi.addArcaneCraftingRecipe(Researches.PRIM_PRIMAL, new ItemStack(ModItems.primalObject, 1, 6), new AspectList().add(Aspect.AIR, 2).add(Aspect.FIRE, 2).add(Aspect.WATER, 2).add(Aspect.EARTH, 2).add(Aspect.ORDER, 2).add(Aspect.ENTROPY, 2), "ABE", "FPO", "WBN", 'A', ItemApi.getItem("itemShard", 0), 'F', ItemApi.getItem("itemShard", 1), 'W', ItemApi.getItem("itemShard", 2), 'E', ItemApi.getItem("itemShard", 3), 'O', ItemApi.getItem("itemShard", 4), 'N', ItemApi.getItem("itemShard", 5), 'B', ItemApi.getItem("itemShard", 6), 'P', ItemApi.getItem("itemEldritchObject", 3)));
+        Researches.recipes.put(Researches.PRIM_PRIMAL_CORE, ThaumcraftApi.addArcaneCraftingRecipe(Researches.PRIM_PRIMAL, new ItemStack(ModItems.primalObject, 1, 6), new AspectList().add(Aspect.AIR, 40).add(Aspect.FIRE, 40).add(Aspect.WATER, 40).add(Aspect.EARTH, 40).add(Aspect.ORDER, 40).add(Aspect.ENTROPY, 40), "ABE", "FPO", "WBN", 'A', ItemApi.getItem("itemShard", 0), 'F', ItemApi.getItem("itemShard", 1), 'W', ItemApi.getItem("itemShard", 2), 'E', ItemApi.getItem("itemShard", 3), 'O', ItemApi.getItem("itemShard", 4), 'N', ItemApi.getItem("itemShard", 5), 'B', ItemApi.getItem("itemShard", 6), 'P', ItemApi.getItem("itemEldritchObject", 3)));
+        ThaumcraftApi.addWarpToItem(new ItemStack(ModItems.primalObject, 1, 6), 2);
     }
 
     private static void initInfusionRecipes()
