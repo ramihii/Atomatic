@@ -5,6 +5,7 @@ public class Names
     public static final class Blocks
     {
         public static final String INVERSE_DIRT = "inverseDirt";
+        public static final String CRYSTAL_PRIMAL = "crystalPrimal";
     }
 
     public static final class Items

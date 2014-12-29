@@ -52,6 +52,8 @@ public class Atomatic
 
         TileEntities.init();
 
+        proxy.registerRenderer();
+
         proxy.registerEventHandlers();
 
         CraftingHandler.init();

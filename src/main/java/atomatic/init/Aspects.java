@@ -7,8 +7,6 @@ import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 
-import net.minecraft.item.ItemStack;
-
 public class Aspects
 {
     public static void init()

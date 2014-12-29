@@ -54,6 +54,7 @@ item.atomatic:primalObject.entropy.name=Purus Perditio
 
 # Blocks
 tile.atomatic:inverseDirt.name=Inverted Dirt
+tile.atomatic:crystalPrimal.name=Primal Crystal
 
 # GUIs
 
