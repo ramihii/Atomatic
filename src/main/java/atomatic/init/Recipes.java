@@ -1,6 +1,6 @@
 package atomatic.init;
 
-import atomatic.reference.PrimalObject;
+import atomatic.api.primal.PrimalObject;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.AspectHelper;
 import atomatic.util.PrimalObjectHelper;
@@ -22,6 +22,7 @@ public class Recipes
         initAlchemyRecipes();
         initArcaneRecipes();
         initInfusionRecipes();
+        initPrimalRecipes();
     }
 
     private static void initVanillaRecipes()
@@ -184,5 +185,10 @@ public class Recipes
                 PrimalObjectHelper.getPrimalObject(PrimalObject.ORDER),
                 PrimalObjectHelper.getPrimalObject(PrimalObject.ENTROPY)
         }));
+    }
+
+    private static void initPrimalRecipes()
+    {
+
     }
 }

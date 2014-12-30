@@ -1,6 +1,6 @@
 package atomatic.init;
 
-import atomatic.reference.PrimalObject;
+import atomatic.api.primal.PrimalObject;
 import atomatic.util.PrimalObjectHelper;
 
 import thaumcraft.api.ThaumcraftApi;

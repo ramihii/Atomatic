@@ -1,11 +1,8 @@
 package atomatic.item;
 
+import atomatic.api.primal.PrimalObject;
 import atomatic.reference.Names;
-import atomatic.reference.PrimalObject;
 import atomatic.reference.Textures;
-import atomatic.reference.ThaumcraftReference;
-import atomatic.util.NBTHelper;
-import atomatic.util.SpawnHelper;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -84,9 +81,10 @@ public class ItemPrimalObject extends ItemA
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
-        if (stack.getItemDamage() == PrimalObject.CORE.ordinal())
+        // TODO
+        /* if (stack.getItemDamage() == PrimalObject.CORE.ordinal())
         {
             if (!NBTHelper.hasTag(stack, Names.NBT.USED))
             {
@@ -101,7 +99,7 @@ public class ItemPrimalObject extends ItemA
             }
 
             return false;
-        }
+        } */
 
         return false;
     }

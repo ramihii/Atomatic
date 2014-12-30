@@ -57,13 +57,13 @@ public class Atomatic
         proxy.registerEventHandlers();
 
         CraftingHandler.init();
+
+        Recipes.init();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        Recipes.init();
-
         Aspects.init();
 
         Researches.init();

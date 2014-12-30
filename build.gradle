@@ -96,6 +96,19 @@ processResources {
     }
 }
 
+task apiJar(type: Jar) {
+    from(sourceSets.main.java) {
+        include "atomatic/api/**/*"
+    }
+
+    from(sourceSets.api.java) {
+        include '**'
+    }
+
+    extension = 'jar'
+    classifier = 'api'
+}
+
 task deobfJar(type: Jar, dependsOn: 'classes') {
     from(sourceSets.main.output) {
         include '**'
@@ -125,7 +138,7 @@ task sourcesJar(type: Jar) {
 }
 
 artifacts {
-    archives deobfJar, javadocJar, sourcesJar
+    archives apiJar, deobfJar, javadocJar, sourcesJar
 }
 
 signing {
