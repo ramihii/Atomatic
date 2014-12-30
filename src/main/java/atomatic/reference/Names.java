@@ -53,7 +53,7 @@ public class Names
 
     public static final class ThaumcraftBlocks
     {
-
+        public static final String STONE_DEVICE = "blockStoneDevice";
     }
 
     public static final class ThaumcraftItems
