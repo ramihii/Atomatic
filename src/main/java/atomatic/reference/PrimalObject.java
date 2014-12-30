@@ -20,6 +20,6 @@ public enum PrimalObject
     @Override
     public String toString()
     {
-        return this.name().contains("_") ? this.name().split("_")[0].toLowerCase() + this.name().split("_")[1].substring(0, 1).toUpperCase() + this.name().split("_")[1].substring(1) : this.name().toLowerCase();
+        return this.name().contains("_") ? this.name().split("_")[0].toLowerCase() + this.name().split("_")[1].substring(0, 1).toUpperCase() + this.name().split("_")[1].substring(1).toLowerCase() : this.name().toLowerCase();
     }
 }
