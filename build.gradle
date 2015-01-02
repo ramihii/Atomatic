@@ -68,7 +68,7 @@ else if (gradle.startParameter.taskNames.contains("buildPublic"))
     } 
 	else 
 	{
-        ext.revision = "GITBORK"
+        ext.revision = "null"
     }
 	
     version = "${config.dev_version}.${ext.patch}-${project.revision}"
@@ -97,8 +97,6 @@ minecraft {
     replace "@VERSION@", "${project.version}"
 }
 
-version = "${config.minecraft_version}-${project.version}"
-
 processResources {
     exclude '**/*.xcf'
     from(sourceSets.main.resources.srcDirs) {
@@ -109,6 +107,8 @@ processResources {
         expand 'version': project.version, 'mcversion': config.minecraft_version
     }
 }
+
+version = "${config.minecraft_version}-${project.version}"
 
 task apiJar(type: Jar) {
     from(sourceSets.main.java) {
