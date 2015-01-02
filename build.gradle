@@ -57,7 +57,21 @@ if (gradle.startParameter.taskNames.contains("release"))
 }
 else if (gradle.startParameter.taskNames.contains("buildPublic"))
 {
-    version = "${config.dev_version}.${ext.patch}.public.${config.build_number}"
+	def cmd = "git rev-parse --short HEAD"
+    def proc = cmd.execute()
+	
+    proc.waitFor()
+	
+    if (proc.exitValue() == 0)
+	{
+        ext.revision = proc.text.trim()
+    } 
+	else 
+	{
+        ext.revision = "GITBORK"
+    }
+	
+    version = "${config.dev_version}.${ext.patch}-${project.revision}"
 }
 else if (System.getenv("TRAVIS") || System.getenv("TRAVIS").equals("true"))
 {
@@ -65,7 +79,7 @@ else if (System.getenv("TRAVIS") || System.getenv("TRAVIS").equals("true"))
 }
 else
 {
-    version = "${config.dev_version}.${ext.patch}.dev.${config.build_number}"
+    version = "${config.dev_version}.${ext.patch}-dev.${config.build_number}"
 }
 
 group = "io.github.celestibytes"
@@ -143,7 +157,7 @@ artifacts {
 
 signing {
     required {
-        gradle.taskGraph.hasTask("release")
+        gradle.startParameter.taskNames.contains("release") && project.hasProperty("signing.password")
     }
 
     sign configurations.archives
