@@ -7,7 +7,6 @@ import atomatic.item.ItemPrimalObject;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.InputDirection;
 
-import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
@@ -166,7 +165,7 @@ public class TileEntityCrystalPrimal extends TileEntity
 
                 if (ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
                 {
-                    // TODO Also make it possible to drain all of the required aspects out of the wand
+                    // TODO Also make it possible to drain all of the required aspects out of the wand (draws some extra vis)
                     // TODO Drain some starting aspects out of the wand
                     crafting = true;
                     time = recipe.getTime();
