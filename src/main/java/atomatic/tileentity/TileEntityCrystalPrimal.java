@@ -2,6 +2,7 @@ package atomatic.tileentity;
 
 import atomatic.api.AtomaticApi;
 import atomatic.api.primal.PrimalRecipe;
+
 import atomatic.init.ModItems;
 import atomatic.item.ItemPrimalObject;
 import atomatic.reference.ThaumcraftReference;

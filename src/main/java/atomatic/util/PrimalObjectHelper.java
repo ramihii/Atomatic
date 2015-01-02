@@ -1,6 +1,7 @@
 package atomatic.util;
 
 import atomatic.api.primal.PrimalObject;
+
 import atomatic.init.ModItems;
 
 import net.minecraft.item.ItemStack;

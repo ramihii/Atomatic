@@ -1,6 +1,7 @@
 package atomatic.init;
 
 import atomatic.api.primal.PrimalObject;
+
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.AspectHelper;
 import atomatic.util.PrimalObjectHelper;

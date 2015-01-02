@@ -1,8 +1,10 @@
 package atomatic.item;
 
 import atomatic.api.primal.PrimalObject;
+
 import atomatic.reference.Names;
 import atomatic.reference.Textures;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -81,9 +84,9 @@ public class ItemPrimalObject extends ItemA
         }
     }
 
-	@Override
+    @Override
     @SideOnly(Side.CLIENT)
-	@SuppressWarnings("rawtypes")
+    @SuppressWarnings("rawtypes")
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean flag)
     {
 
