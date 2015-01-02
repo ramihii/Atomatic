@@ -1,5 +1,6 @@
 package atomatic.api.primal;
 
+import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 
 import net.minecraft.item.ItemStack;
@@ -8,6 +9,7 @@ public class PrimalRecipe
 {
     private final String research;
     private final ItemStack output;
+    private final int time;
     private final AspectList aspects;
     private final PrimalObject primal;
     private final ItemStack input;
@@ -17,12 +19,13 @@ public class PrimalRecipe
      *
      * @param research the research key required for this recipe to work.
      * @param output   the recipe's output.
+     * @param time     the time this recipe takes to make in ticks.
      * @param primal   the {@link PrimalObject} used to craft this.
      * @param input    the recipe's input.
      */
-    public PrimalRecipe(String research, ItemStack output, PrimalObject primal, ItemStack input)
+    public PrimalRecipe(String research, ItemStack output, int time, PrimalObject primal, ItemStack input)
     {
-        this(research, output, null, primal, input);
+        this(research, output, time, null, primal, input);
     }
 
     /**
@@ -30,11 +33,12 @@ public class PrimalRecipe
      *
      * @param research the research key required for this recipe to work.
      * @param output   the recipe's NBT sensitive output.
+     * @param time     the time this recipe takes to make in ticks.
      * @param aspects  the primal aspects required to craft this.
      * @param primal   the {@link PrimalObject} used to craft this.
      * @param input    the recipe's NBT sensitive input.
      */
-    private PrimalRecipe(String research, ItemStack output, AspectList aspects, PrimalObject primal, ItemStack input)
+    private PrimalRecipe(String research, ItemStack output, int time, AspectList aspects, PrimalObject primal, ItemStack input)
     {
         this.research = research;
 
@@ -48,6 +52,8 @@ public class PrimalRecipe
         {
             this.output = new ItemStack(output.getItem(), 1, output.getItemDamage());
         }
+
+        this.time = time;
 
         if (aspects == null)
         {
@@ -79,6 +85,36 @@ public class PrimalRecipe
         {
             this.input = new ItemStack(input.getItem(), 1, input.getItemDamage());
         }
+    }
+
+    public String getResearch()
+    {
+        return research;
+    }
+
+    public ItemStack getOutput()
+    {
+        return output;
+    }
+
+    public int getTime()
+    {
+        return time;
+    }
+
+    public AspectList getAspects()
+    {
+        return aspects;
+    }
+
+    public PrimalObject getPrimal()
+    {
+        return primal;
+    }
+
+    public ItemStack getInput()
+    {
+        return input;
     }
 
     /**
@@ -119,5 +155,26 @@ public class PrimalRecipe
         }
 
         return primal.toString().equals(recipe.primal.toString()) && input.isItemEqual(recipe.input);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int factor = 37;
+        int hashCode = 1;
+
+        hashCode = (factor * hashCode) + research.hashCode();
+        hashCode = (factor * hashCode) + output.hashCode();
+        hashCode = (factor * hashCode) + time;
+
+        for (Aspect aspect : aspects.getAspectsSorted())
+        {
+            hashCode = (factor * hashCode) + aspect.getTag().hashCode();
+        }
+
+        hashCode = (factor * hashCode) + primal.hashCode();
+        hashCode = (factor * hashCode) + input.hashCode();
+
+        return hashCode;
     }
 }
