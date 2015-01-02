@@ -1,4 +1,4 @@
-##Welcome to Atomatic!
+#Welcome to Atomatic!
 
 [![Build Status](https://travis-ci.org/anttikivi/Atomatic.svg?branch=develop)](https://travis-ci.org/anttikivi/Atomatic)
 
@@ -11,6 +11,8 @@
 [Compiling Atomatic](#compiling-atomatic) - For those that want the latest unreleased features.
 
 [Contributing](#contributing) - For those that want to help out.
+
+[Depending on Atomatic](#depending-on-atomatic) - For those that want to use Atomatic as dependency.
 
 [FAQ](https://github.com/anttikivi/Atomatic/wiki/Frequently-Asked-Questions) - For those that have questions.
 
@@ -142,3 +144,51 @@ Atomatic crashes every time? Have a suggestion? Found a bug? Create an issue now
 		* Server log if applicable
 		* Detailed description of the bug and pictures if applicable
 5. Click `Submit new issue`, and wait for feedback!
+
+###Depending on Atomatic
+***
+By adding Atomatic as a dependency allows you to test your mod with Atomatic and develop hard dependency addons for Atomatic. It is recommended to use releases as dependencies whenever possible. However, if you want to develop with the most cutting edge, **constantly changing and broken** features and code, you can depend on pre-releases (recommended) or snapshots (changes after each commmit to Atomatic). You can also only use the API, which is usually enough if you don't need to test with Atomatic and you just want to add some compatibility features.
+
+[Releases](#releases)
+
+[Pre-releases](#pre-releases)
+
+[Snapshots](#snapshots)
+
+[API](#using-the-api)
+
+####Releases
+1. Wait for the first release to come.
+2. Be patient.
+
+####Pre-releases
+1. Wait for the first pre-release to come.
+2. Be patient.
+
+####Snapshots
+1. Add following to your build.gradle:
+```
+repositories {
+	maven {
+		name = "sonatype"
+		url = "https://oss.sonatype.org/content/repositories/snapshots/"
+	}
+}
+
+dependencies {
+	compile 'io.github.celestibytes:Atomatic:0.1.0-SNAPSHOT:deobf'
+}
+```
+2. Enjoy.
+
+####Using the API
+You can use either the [cutting edge version of the API](#latest) or the [stable version of the API](#stable) (recommended).
+
+#####Stable
+1. Wait for the first release to come.
+2. Be patient.
+
+#####Latest
+1. Go to the [Atomatic snapshot repository](https://oss.sonatype.org/content/repositories/snapshots/io/github/celestibytes/Atomatic/1.7.10-0.1.0-SNAPSHOT/).
+2. Download the latest API jar (Atomatic-1.7.10-0.1.0-TIMESTAMP-BUILDNUMBER-api.jar).
+3. Extract the API into your mod's `/src/api/java/` directory.
