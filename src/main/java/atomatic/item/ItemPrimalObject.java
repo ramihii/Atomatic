@@ -31,6 +31,16 @@ public class ItemPrimalObject extends ItemA
         this.setUnlocalizedName(Names.Items.PRIMAL_OBJECT);
     }
 
+    public static PrimalObject getPrimalObject(ItemStack stack)
+    {
+        return getPrimalObject(stack.getItemDamage());
+    }
+
+    public static PrimalObject getPrimalObject(int meta)
+    {
+        return PrimalObject.values()[meta];
+    }
+
     @Override
     public String getUnlocalizedName()
     {

@@ -50,7 +50,7 @@ public class AtomaticApi
     }
 
     /**
-     * Gives a registered {@link PrimalRecipe} for an input {@link ItemStack}.
+     * Gives the first matching registered {@link PrimalRecipe} from the for an input {@link ItemStack}.
      *
      * @param input the input {@link ItemStack}.
      *
@@ -58,11 +58,34 @@ public class AtomaticApi
      */
     public static PrimalRecipe getPrimalRecipe(ItemStack input)
     {
+        return getPrimalRecipe(input, null);
+    }
+
+    /**
+     * Gives a registered {@link PrimalRecipe} for an input {@link ItemStack} and {@link PrimalObject}.
+     *
+     * @param input  the input {@link ItemStack}.
+     * @param primal the {@link PrimalObject} used in the recipe.
+     *
+     * @return the {@link PrimalRecipe}.
+     */
+    public static PrimalRecipe getPrimalRecipe(ItemStack input, PrimalObject primal)
+    {
         for (PrimalRecipe recipe : primalRecipes)
         {
-            if (recipe.getInput().isItemEqual(input))
+            if (primal == null)
             {
-                return recipe;
+                if (recipe.getInput().isItemEqual(input))
+                {
+                    return recipe;
+                }
+            }
+            else
+            {
+                if (recipe.getInput().isItemEqual(input) && recipe.getPrimal() == primal)
+                {
+                    return recipe;
+                }
             }
         }
 
@@ -98,6 +121,19 @@ public class AtomaticApi
      */
     public static boolean primalRecipeExists(ItemStack input)
     {
-        return getPrimalRecipe(input) != null;
+        return primalRecipeExists(input, null);
+    }
+
+    /**
+     * Checks if a {@link PrimalRecipe} for an input {@link ItemStack} and {@link PrimalObject} exists.
+     *
+     * @param input  the input {@link ItemStack}.
+     * @param primal the {@link PrimalObject} used in the recipe.
+     *
+     * @return {@code true} if the {@link PrimalRecipe} exists, otherwise {@code false}.
+     */
+    public static boolean primalRecipeExists(ItemStack input, PrimalObject primal)
+    {
+        return getPrimalRecipe(input, primal) != null;
     }
 }
