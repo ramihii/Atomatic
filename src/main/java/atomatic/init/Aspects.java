@@ -17,12 +17,12 @@ public class Aspects
 
     private static void registerItemAspects()
     {
-        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObject(PrimalObject.AIR_WEAK), new AspectList().add(Aspect.AIR, 8).add(Aspect.EARTH, 4));
-        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObject(PrimalObject.FIRE_WEAK), new AspectList().add(Aspect.FIRE, 8).add(Aspect.WATER, 4));
-        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObject(PrimalObject.WATER_WEAK), new AspectList().add(Aspect.WATER, 8).add(Aspect.ORDER, 4));
-        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObject(PrimalObject.EARTH_WEAK), new AspectList().add(Aspect.EARTH, 8).add(Aspect.FIRE, 4));
-        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObject(PrimalObject.ORDER_WEAK), new AspectList().add(Aspect.ORDER, 8).add(Aspect.ENTROPY, 4));
-        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObject(PrimalObject.ENTROPY_WEAK), new AspectList().add(Aspect.ENTROPY, 8).add(Aspect.AIR, 4));
+        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObjectStack(PrimalObject.AIR_WEAK), new AspectList().add(Aspect.AIR, 8).add(Aspect.EARTH, 4));
+        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObjectStack(PrimalObject.FIRE_WEAK), new AspectList().add(Aspect.FIRE, 8).add(Aspect.WATER, 4));
+        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObjectStack(PrimalObject.WATER_WEAK), new AspectList().add(Aspect.WATER, 8).add(Aspect.ORDER, 4));
+        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObjectStack(PrimalObject.EARTH_WEAK), new AspectList().add(Aspect.EARTH, 8).add(Aspect.FIRE, 4));
+        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObjectStack(PrimalObject.ORDER_WEAK), new AspectList().add(Aspect.ORDER, 8).add(Aspect.ENTROPY, 4));
+        ThaumcraftApi.registerObjectTag(PrimalObjectHelper.getPrimalObjectStack(PrimalObject.ENTROPY_WEAK), new AspectList().add(Aspect.ENTROPY, 8).add(Aspect.AIR, 4));
         /*
         ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.primalObject, 1, 0), new AspectList().add(Aspect.AIR, 40).add(Aspect.MAGIC, 10));
         ThaumcraftApi.registerObjectTag(new ItemStack(ModItems.primalObject, 1, 1), new AspectList().add(Aspect.FIRE, 40).add(Aspect.MAGIC, 10));

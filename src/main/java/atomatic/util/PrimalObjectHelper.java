@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 
 public class PrimalObjectHelper
 {
-    public static ItemStack getPrimalObject(PrimalObject object)
+    public static ItemStack getPrimalObjectStack(PrimalObject object)
     {
         return new ItemStack(ModItems.primalObject, 1, object.ordinal());
     }

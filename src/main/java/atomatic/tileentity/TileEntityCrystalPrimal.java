@@ -4,6 +4,7 @@ import atomatic.api.AtomaticApi;
 import atomatic.api.primal.PrimalObject;
 import atomatic.api.primal.PrimalRecipe;
 
+import atomatic.Atomatic;
 import atomatic.item.ItemPrimalObject;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.InputDirection;
@@ -324,18 +325,23 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
     {
         LogHelper.debug("Wanded");
 
-        if (initCrafting() && ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
+        if (initCrafting())
         {
-            // TODO Also make it possible to drain all of the required aspects out of the wand (draws some extra vis) (maybe?)
-            // TODO Drain some starting aspects out of the wand (maybe?)
-            crafting = true;
-            time = recipe.getTime();
-            aspects = recipe.getAspects();
-            target = recipe.getOutput();
+            recipe = AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject());
 
-            LogHelper.debug("Started primal crafting for recipe " + recipe.toString());
+            if (recipe.getResearch().equals("") || recipe.getResearch() == null || ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
+            {
+                // TODO Also make it possible to drain all of the required aspects out of the wand (draws some extra vis) (maybe?)
+                ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, new AspectList().add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1), true, false);
+                crafting = true;
+                time = recipe.getTime();
+                aspects = recipe.getAspects();
+                target = recipe.getOutput();
 
-            return TRUE;
+                LogHelper.debug("Started primal crafting for recipe " + recipe.toString());
+
+                return TRUE;
+            }
         }
 
         LogHelper.debug("Didn't match any recipe");
