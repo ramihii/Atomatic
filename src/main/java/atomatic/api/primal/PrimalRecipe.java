@@ -192,7 +192,7 @@ public class PrimalRecipe
     @Override
     public int hashCode()
     {
-        int result = research.hashCode();
+        int result = research == null || research.equals("") ? 1 : research.hashCode();
 
         result = 31 * result + output.hashCode();
         result = 31 * result + time;
