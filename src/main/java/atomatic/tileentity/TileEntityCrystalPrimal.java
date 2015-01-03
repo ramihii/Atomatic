@@ -14,6 +14,7 @@ import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.TileThaumcraft;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.aspects.IAspectContainer;
 import thaumcraft.api.visnet.VisNetHandler;
 import thaumcraft.api.wands.IWandable;
 
@@ -29,7 +30,7 @@ import net.minecraft.world.World;
 // TODO Explode if crafting is interrupted
 // TODO Some fancy particles during the crafting
 // TODO Start crafting only with wand
-public class TileEntityCrystalPrimal extends TileEntityA implements IWandable
+public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, IAspectContainer
 {
     public static final int PEDESTAL_OFFSET = 2;
     public static final String X_AXIS = "x";
@@ -210,6 +211,60 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable
     public void onWandStoppedUsing(ItemStack wandstack, World world, EntityPlayer player, int count)
     {
         // NO-OP
+    }
+
+    @Override
+    public AspectList getAspects()
+    {
+        return vis;
+    }
+
+    @Override
+    public void setAspects(AspectList aspects)
+    {
+        // NO-OP
+    }
+
+    @Override
+    public boolean doesContainerAccept(Aspect tag)
+    {
+        return true;
+    }
+
+    @Override
+    public int addToContainer(Aspect tag, int amount)
+    {
+        return 0;
+    }
+
+    @Override
+    public boolean takeFromContainer(Aspect tag, int amount)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean takeFromContainer(AspectList ot)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean doesContainerContainAmount(Aspect tag, int amount)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean doesContainerContain(AspectList ot)
+    {
+        return false;
+    }
+
+    @Override
+    public int containerContains(Aspect tag)
+    {
+        return 0;
     }
 
     protected InputDirection inputDirection()
