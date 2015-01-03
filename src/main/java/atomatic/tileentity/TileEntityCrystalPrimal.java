@@ -1,9 +1,10 @@
 package atomatic.tileentity;
 
 import atomatic.api.AtomaticApi;
+import atomatic.api.primal.PrimalObject;
 import atomatic.api.primal.PrimalRecipe;
 
-import atomatic.init.ModItems;
+import atomatic.Atomatic;
 import atomatic.item.ItemPrimalObject;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.InputDirection;
@@ -30,7 +31,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 {
     public static final int PEDESTAL_OFFSET = 2;
     public static final String X_AXIS = "x";
-    public static final String Y_AXIS = "y";
+    public static final String Z_AXIS = "z";
     public static final int PEDESTAL_SLOT = 0;
     public static final int MAX_VIS_DRAIN = 20;
     public static final int FREQUENCY = 10;
@@ -65,11 +66,11 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                             if (aspects.visSize() <= 0 && ticks >= time)
                             {
                                 done = true;
-                                LogHelper.info("Crafting done");
+                                LogHelper.debug("Crafting done");
                             }
                             else
                             {
-                                LogHelper.info("Attempting to drain vis");
+                                LogHelper.debug("Attempting to drain vis");
                                 Aspect aspect = aspects.getAspectsSortedAmount()[aspects.getAspectsSortedAmount().length - 1];
                                 int visDrain = VisNetHandler.drainVis(worldObj, xCoord, yCoord, zCoord, aspect, Math.min(MAX_VIS_DRAIN, aspects.getAmount(aspect)));
 
@@ -79,7 +80,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                                     markDirty();
 
-                                    LogHelper.info("Drained " + visDrain + " " + aspect.getTag() + " vis");
+                                    LogHelper.debug("Drained " + visDrain + " " + aspect.getTag() + " vis");
                                 }
                             }
                         }
@@ -94,7 +95,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                             markDirty();
 
-                            LogHelper.info("Crafting finished");
+                            LogHelper.debug("Crafting finished");
                         }
                     }
                     else
@@ -159,13 +160,13 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                 direction = InputDirection.NEGATIVE;
             }
         }
-        else if (pedestalAxis.equals(Y_AXIS))
+        else if (pedestalAxis.equals(Z_AXIS))
         {
-            if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord).getStackInSlot(PEDESTAL_SLOT)))
+            if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT)))
             {
                 direction = InputDirection.POSITIVE;
             }
-            else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord).getStackInSlot(PEDESTAL_SLOT)))
+            else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT)))
             {
                 direction = InputDirection.NEGATIVE;
             }
@@ -192,9 +193,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             {
                 return getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
             }
-            else if (pedestalAxis.equals(Y_AXIS))
+            else if (pedestalAxis.equals(Z_AXIS))
             {
-                return getPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord);
+                return getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
             }
         }
         else if (inputDirection == InputDirection.POSITIVE)
@@ -203,9 +204,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             {
                 return getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
             }
-            else if (pedestalAxis.equals(Y_AXIS))
+            else if (pedestalAxis.equals(Z_AXIS))
             {
-                return getPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord);
+                return getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
             }
         }
 
@@ -220,9 +221,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             {
                 return getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
             }
-            else if (pedestalAxis.equals(Y_AXIS))
+            else if (pedestalAxis.equals(Z_AXIS))
             {
-                return getPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord);
+                return getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
             }
         }
         else if (inputDirection == InputDirection.POSITIVE)
@@ -231,10 +232,40 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             {
                 return getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
             }
-            else if (pedestalAxis.equals(Y_AXIS))
+            else if (pedestalAxis.equals(Z_AXIS))
             {
-                return getPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord);
+                return getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
             }
+        }
+
+        return null;
+    }
+
+    protected ItemStack getInputStack()
+    {
+        if (getInputPedestal() != null)
+        {
+            return getInputPedestal().getStackInSlot(PEDESTAL_SLOT);
+        }
+
+        return null;
+    }
+
+    protected ItemStack getPrimalStack()
+    {
+        if (getPrimalPedestal() != null)
+        {
+            return getPrimalPedestal().getStackInSlot(PEDESTAL_SLOT);
+        }
+
+        return null;
+    }
+
+    protected PrimalObject getPrimalObject()
+    {
+        if (getPrimalStack() != null)
+        {
+            return ItemPrimalObject.getPrimalObject(getPrimalStack());
         }
 
         return null;
@@ -248,9 +279,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
         {
             axis = X_AXIS;
         }
-        else if (isPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord) && isPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord))
+        else if (isPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET) && isPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET))
         {
-            axis = Y_AXIS;
+            axis = Z_AXIS;
         }
 
         return axis;
@@ -258,19 +289,21 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 
     protected boolean correctStructure()
     {
-        correctStructure = pedestalAxis.equals(pedestalAxis());
+        correctStructure = pedestalAxis.equals(pedestalAxis()) && !pedestalAxis.equals("");
         return correctStructure;
     }
 
     protected boolean initStructure()
     {
+        LogHelper.debug("Initializing the primal crafting structure");
         pedestalAxis = pedestalAxis();
         return correctStructure();
     }
 
     protected boolean correctCrafting()
     {
-        return (inputDirection == inputDirection()) && (AtomaticApi.getPrimalRecipe(getInputPedestal().getStackInSlot(PEDESTAL_SLOT), ItemPrimalObject.getPrimalObject(getPrimalPedestal().getStackInSlot(PEDESTAL_SLOT))) != null);
+        return inputDirection == inputDirection() && inputDirection != null && AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject()) != null;
+
     }
 
     protected boolean initCrafting()
@@ -282,29 +315,36 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 
         inputDirection = inputDirection();
 
+        LogHelper.debug("Initializing the primal crafting process");
+
         return (!isCrafting()) && correctCrafting();
     }
 
     @Override
     public int onWandRightClick(World world, ItemStack wandstack, EntityPlayer player, int x, int y, int z, int side, int md)
     {
-        LogHelper.info("Wanded");
+        LogHelper.debug("Wanded");
 
-        if (initCrafting() && ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
+        if (initCrafting())
         {
-            // TODO Also make it possible to drain all of the required aspects out of the wand (draws some extra vis) (maybe?)
-            // TODO Drain some starting aspects out of the wand (maybe?)
-            crafting = true;
-            time = recipe.getTime();
-            aspects = recipe.getAspects();
-            target = recipe.getOutput();
+            recipe = AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject());
 
-            LogHelper.info("Started primal crafting for recipe " + recipe.toString());
+            if (recipe.getResearch().equals("") || recipe.getResearch() == null || ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
+            {
+                // TODO Also make it possible to drain all of the required aspects out of the wand (draws some extra vis) (maybe?)
+                ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, new AspectList().add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1), true, false);
+                crafting = true;
+                time = recipe.getTime();
+                aspects = recipe.getAspects();
+                target = recipe.getOutput();
 
-            return TRUE;
+                LogHelper.debug("Started primal crafting for recipe " + recipe.toString());
+
+                return TRUE;
+            }
         }
 
-        LogHelper.info("Didn't match any recipe");
+        LogHelper.debug("Didn't match any recipe");
 
         if (crafting)
         {
