@@ -289,7 +289,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
     public int onWandRightClick(World world, ItemStack wandstack, EntityPlayer player, int x, int y, int z, int side, int md)
     {
         LogHelper.info("Wanded");
-        
+
         if (initCrafting() && ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
         {
             // TODO Also make it possible to drain all of the required aspects out of the wand (draws some extra vis) (maybe?)
@@ -303,6 +303,8 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 
             return TRUE;
         }
+
+        LogHelper.info("Didn't match any recipe");
 
         if (crafting)
         {
