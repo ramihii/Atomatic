@@ -39,6 +39,12 @@ public class Names
         public static final String USED = "used";
         public static final String UUID_MOST_SIG = "UUIDMostSig";
         public static final String UUID_LEAST_SIG = "UUIDLeastSig";
+
+        public static final String TICKS = "ticks";
+        public static final String WANDED = "wanded";
+        public static final String CRAFTING = "crafting";
+        public static final String VIS = "vis";
+        public static final String RECIPE = "recipe";
     }
 
     public static final class Containers

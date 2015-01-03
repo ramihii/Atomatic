@@ -1,11 +1,13 @@
 package atomatic.api.primal;
 
+import atomatic.api.AtomaticApi;
 import atomatic.api.util.AspectListHelper;
 
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class PrimalRecipe
 {
@@ -117,6 +119,26 @@ public class PrimalRecipe
     public ItemStack getInput()
     {
         return input;
+    }
+
+    public static int readHashFromNBT(NBTTagCompound nbtTagCompound)
+    {
+        return nbtTagCompound.getInteger("primalRecipe");
+    }
+
+    public static PrimalRecipe readFromNBT(NBTTagCompound nbtTagCompound)
+    {
+        return AtomaticApi.getPrimalRecipeForHash(nbtTagCompound.getInteger("primalRecipe"));
+    }
+
+    public void writeToNBT(NBTTagCompound nbtTagCompound)
+    {
+        if (nbtTagCompound == null)
+        {
+            nbtTagCompound = new NBTTagCompound();
+        }
+
+        nbtTagCompound.setInteger("primalRecipe", hashCode());
     }
 
     @Override

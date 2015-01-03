@@ -5,7 +5,9 @@ import atomatic.network.message.MessageTileEntityA;
 import atomatic.reference.Names;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 import net.minecraftforge.common.util.ForgeDirection;
@@ -96,6 +98,11 @@ public class TileEntityA extends TileEntity
         }
     }
 
+    protected void readNBT(NBTTagCompound nbtTagCompound)
+    {
+
+    }
+
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound)
     {
@@ -115,6 +122,11 @@ public class TileEntityA extends TileEntity
         }
     }
 
+    protected void writeNBT(NBTTagCompound nbtTagCompound)
+    {
+
+    }
+
     public boolean hasCustomName()
     {
         return customName != null && customName.length() > 0;
@@ -128,6 +140,15 @@ public class TileEntityA extends TileEntity
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketHandler.INSTANCE.getPacketFrom(new MessageTileEntityA(this));
+        NBTTagCompound nbtTagCompound = new NBTTagCompound();
+        writeNBT(nbtTagCompound);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, -999, nbtTagCompound);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+    {
+        super.onDataPacket(net, pkt);
+        readNBT(pkt.func_148857_g());
     }
 }

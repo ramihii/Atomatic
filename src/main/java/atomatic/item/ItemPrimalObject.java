@@ -27,7 +27,7 @@ public class ItemPrimalObject extends ItemA
     public ItemPrimalObject()
     {
         super();
-        this.setMaxStackSize(64);
+        this.setMaxStackSize(1);
         this.setHasSubtypes(true);
         this.setUnlocalizedName(Names.Items.PRIMAL_OBJECT);
     }
