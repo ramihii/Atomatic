@@ -12,176 +12,108 @@ import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.visnet.VisNetHandler;
+import thaumcraft.api.wands.IWandable;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 // TODO Own special pedestal type for the primal object (maybe?)
 // TODO Explode if crafting is interrupted >:)
 // TODO Some fancy particles during the crafting
 // TODO Start crafting only with wand
-public class TileEntityCrystalPrimal extends TileEntity
+public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 {
     public static final int PEDESTAL_OFFSET = 2;
     public static final String X_AXIS = "x";
     public static final String Y_AXIS = "y";
     public static final int PEDESTAL_SLOT = 0;
     public static final int MAX_VIS_DRAIN = 20;
+    public static final int FREQUENCY = 10;
 
-    private int ticks = 0;
-    private boolean crafting = false;
-    private int time = 0;
-    private AspectList aspects = new AspectList();
-    ItemStack target = null;
+    private static final int TRUE = 1;
+    private static final int FALSE = -TRUE;
+
+    protected int ticks = 0;
+    protected boolean crafting = false;
+    protected int time = 0;
+    protected AspectList aspects = new AspectList();
+    protected ItemStack target = null;
+    protected boolean done = false;
+    protected boolean correctStructure = false;
+    protected String pedestalAxis = "";
+    protected InputDirection inputDirection = null;
+    protected PrimalRecipe recipe = null;
 
     @Override
     public void updateEntity()
     {
         if (!this.worldObj.isRemote)
         {
-            boolean done = false;
-            String pedestalAxis = "";
-            boolean correctStructure = false;
-
-            if (isPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord))
+            if (correctStructure())
             {
-                pedestalAxis = X_AXIS;
-            }
-            else if (isPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord))
-            {
-                pedestalAxis = Y_AXIS;
-            }
-
-            if (pedestalAxis.equals(X_AXIS))
-            {
-                if (isPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord))
+                if (crafting)
                 {
-                    correctStructure = true;
-                }
-            }
-            else if (pedestalAxis.equals(Y_AXIS))
-            {
-                if (isPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord))
-                {
-                    correctStructure = true;
-                }
-            }
-
-            InputDirection inputDirection = inputDirection(pedestalAxis);
-
-            if (correctStructure && (inputDirection != null))
-            {
-                if (!isCrafting() && getPrimalPedestal(pedestalAxis, inputDirection).getStackInSlot(PEDESTAL_SLOT).getItem().equals(ModItems.primalObject))
-                {
-                    PrimalRecipe recipe = AtomaticApi.getPrimalRecipe(getInputPedestal(pedestalAxis, inputDirection).getStackInSlot(PEDESTAL_SLOT), ItemPrimalObject.getPrimalObject(getPrimalPedestal(pedestalAxis, inputDirection).getStackInSlot(PEDESTAL_SLOT)));
-
-                    crafting = true;
-                    time = recipe.getTime();
-                    aspects = recipe.getAspects();
-                    target = recipe.getOutput();
-                }
-
-                if (isCrafting())
-                {
-                    Aspect aspect = aspects.getAspectsSortedAmount()[aspects.getAspectsSortedAmount().length - 1];
-                    int visDrain = VisNetHandler.drainVis(worldObj, xCoord, yCoord, zCoord, aspect, Math.min(MAX_VIS_DRAIN, aspects.getAmount(aspect)));
-
-                    if (visDrain > 0)
+                    if (correctCrafting())
                     {
-                        aspects.reduce(aspect, visDrain);
-                        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                        markDirty();
+                        if (ticks % FREQUENCY == 0)
+                        {
+                            if (aspects.visSize() <= 0 && ticks >= time)
+                            {
+                                done = true;
+                            }
+                            else
+                            {
+                                Aspect aspect = aspects.getAspectsSortedAmount()[aspects.getAspectsSortedAmount().length - 1];
+                                int visDrain = VisNetHandler.drainVis(worldObj, xCoord, yCoord, zCoord, aspect, Math.min(MAX_VIS_DRAIN, aspects.getAmount(aspect)));
+
+                                if (visDrain > 0)
+                                {
+                                    aspects.reduce(aspect, visDrain);
+                                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                                    markDirty();
+                                }
+                            }
+                        }
+
+                        ticks++;
+
+                        if (done)
+                        {
+                            getPrimalPedestal().setInventorySlotContents(PEDESTAL_SLOT, null);
+                            getInputPedestal().setInventorySlotContents(PEDESTAL_SLOT, target);
+                            reset();
+                            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                            markDirty();
+                        }
                     }
-
-                    ticks++;
-                }
-
-                if (aspects.visSize() <= 0 && ticks >= time)
-                {
-                    done = true;
+                    else
+                    {
+                        stopCrafting();
+                    }
                 }
             }
             else
             {
-                if (isCrafting())
+                if (crafting)
                 {
-                    // TODO EXPLODE!!! >:D
-                    reset();
-                    done = false;
-                    pedestalAxis = "";
-                    correctStructure = false;
+                    stopCrafting();
                 }
-            }
-
-            if (done)
-            {
-                getPrimalPedestal(pedestalAxis, inputDirection).setInventorySlotContents(PEDESTAL_SLOT, null);
-                getInputPedestal(pedestalAxis, inputDirection).setInventorySlotContents(PEDESTAL_SLOT, target);
-                reset();
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                markDirty();
+                else
+                {
+                    reset(); // TODO Check if this makes the game lag
+                }
             }
         }
     }
 
-    public boolean startCrafting(EntityPlayer player)
+    public boolean stopCrafting()
     {
-        String pedestalAxis = "";
-        boolean correctStructure = false;
-
-        if (isPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord))
-        {
-            pedestalAxis = X_AXIS;
-        }
-        else if (isPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord))
-        {
-            pedestalAxis = Y_AXIS;
-        }
-
-        if (pedestalAxis.equals(X_AXIS))
-        {
-            if (isPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord))
-            {
-                correctStructure = true;
-            }
-        }
-        else if (pedestalAxis.equals(Y_AXIS))
-        {
-            if (isPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord))
-            {
-                correctStructure = true;
-            }
-        }
-
-        InputDirection inputDirection = inputDirection(pedestalAxis);
-
-        if (correctStructure && (inputDirection != null))
-        {
-            if (!isCrafting() && getPrimalPedestal(pedestalAxis, inputDirection).getStackInSlot(PEDESTAL_SLOT).getItem().equals(ModItems.primalObject))
-            {
-                PrimalRecipe recipe = AtomaticApi.getPrimalRecipe(getInputPedestal(pedestalAxis, inputDirection).getStackInSlot(PEDESTAL_SLOT), ItemPrimalObject.getPrimalObject(getPrimalPedestal(pedestalAxis, inputDirection).getStackInSlot(PEDESTAL_SLOT)));
-
-                if (ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
-                {
-                    // TODO Also make it possible to drain all of the required aspects out of the wand (draws some extra vis)
-                    // TODO Drain some starting aspects out of the wand
-                    crafting = true;
-                    time = recipe.getTime();
-                    aspects = recipe.getAspects();
-                    target = recipe.getOutput();
-                }
-            }
-
-            if (isCrafting())
-            {
-                // TODO Stop crafting
-            }
-        }
-
-        return false;
+        // TODO EXPLODE!!! >:D
+        return reset();
     }
 
     public boolean isCrafting()
@@ -189,54 +121,63 @@ public class TileEntityCrystalPrimal extends TileEntity
         return crafting;
     }
 
-    private void reset()
+    protected boolean reset()
     {
         ticks = 0;
         crafting = false;
         time = 0;
         aspects = new AspectList();
         target = null;
+        done = false;
+        pedestalAxis = "";
+        correctStructure = false;
+        inputDirection = null;
+        recipe = null;
+
+        return true;
     }
 
-    private InputDirection inputDirection(String pedestalAxis)
+    protected InputDirection inputDirection()
     {
+        InputDirection direction = null;
+
         if (pedestalAxis.equals(X_AXIS))
         {
             if (AtomaticApi.primalRecipeExists(getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord).getStackInSlot(PEDESTAL_SLOT)))
             {
-                return InputDirection.POSITIVE;
+                direction = InputDirection.POSITIVE;
             }
             else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord).getStackInSlot(PEDESTAL_SLOT)))
             {
-                return InputDirection.NEGATIVE;
+                direction = InputDirection.NEGATIVE;
             }
         }
         else if (pedestalAxis.equals(Y_AXIS))
         {
             if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord).getStackInSlot(PEDESTAL_SLOT)))
             {
-                return InputDirection.POSITIVE;
+                direction = InputDirection.POSITIVE;
             }
             else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord).getStackInSlot(PEDESTAL_SLOT)))
             {
-                return InputDirection.NEGATIVE;
+                direction = InputDirection.NEGATIVE;
             }
         }
 
-        return null;
+        return direction;
     }
 
-    private boolean isPedestal(int x, int y, int z)
+    protected boolean isPedestal(int x, int y, int z)
     {
         return worldObj.blockExists(x, y, z) && Item.getItemFromBlock(worldObj.getBlock(x, y, z)) == ThaumcraftReference.arcanePedestal.getItem() && worldObj.getBlockMetadata(x, y, z) == ThaumcraftReference.arcanePedestal.getItemDamage() && worldObj.getTileEntity(x, y, z) instanceof ISidedInventory;
     }
 
-    private ISidedInventory getPedestal(int x, int y, int z)
+    protected ISidedInventory getPedestal(int x, int y, int z)
     {
         return isPedestal(x, y, z) ? (ISidedInventory) worldObj.getTileEntity(x, y, z) : null;
     }
 
-    private ISidedInventory getInputPedestal(String pedestalAxis, InputDirection inputDirection)
+    protected ISidedInventory getInputPedestal()
     {
         if (inputDirection == InputDirection.NEGATIVE)
         {
@@ -264,7 +205,7 @@ public class TileEntityCrystalPrimal extends TileEntity
         return null;
     }
 
-    private ISidedInventory getPrimalPedestal(String pedestalAxis, InputDirection inputDirection)
+    protected ISidedInventory getPrimalPedestal()
     {
         if (inputDirection == InputDirection.NEGATIVE)
         {
@@ -290,5 +231,92 @@ public class TileEntityCrystalPrimal extends TileEntity
         }
 
         return null;
+    }
+
+    protected String pedestalAxis()
+    {
+        String axis = "";
+
+        if (isPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord) && isPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord))
+        {
+            axis = X_AXIS;
+        }
+        else if (isPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord) && isPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord))
+        {
+            axis = Y_AXIS;
+        }
+
+        return axis;
+    }
+
+    protected boolean correctStructure()
+    {
+        correctStructure = pedestalAxis.equals(pedestalAxis());
+        return correctStructure;
+    }
+
+    protected boolean initStructure()
+    {
+        pedestalAxis = pedestalAxis();
+        return correctStructure();
+    }
+
+    protected boolean correctCrafting()
+    {
+        return (inputDirection == inputDirection()) && (AtomaticApi.getPrimalRecipe(getInputPedestal().getStackInSlot(PEDESTAL_SLOT), ItemPrimalObject.getPrimalObject(getPrimalPedestal().getStackInSlot(PEDESTAL_SLOT))) != null);
+    }
+
+    protected boolean initCrafting()
+    {
+        if (!initStructure())
+        {
+            return false;
+        }
+
+        inputDirection = inputDirection();
+
+        return (!isCrafting()) && correctCrafting();
+    }
+
+    @Override
+    public int onWandRightClick(World world, ItemStack wandstack, EntityPlayer player, int x, int y, int z, int side, int md)
+    {
+        if (initCrafting() && ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
+        {
+            // TODO Also make it possible to drain all of the required aspects out of the wand (draws some extra vis) (maybe?)
+            // TODO Drain some starting aspects out of the wand (maybe?)
+            crafting = true;
+            time = recipe.getTime();
+            aspects = recipe.getAspects();
+            target = recipe.getOutput();
+
+            return TRUE;
+        }
+
+        if (crafting)
+        {
+            return stopCrafting() ? TRUE : FALSE;
+        }
+
+        return FALSE;
+    }
+
+    @Override
+    public ItemStack onWandRightClick(World world, ItemStack wandstack, EntityPlayer player)
+    {
+        // I have no idea what I should use this for
+        return null;
+    }
+
+    @Override
+    public void onUsingWandTick(ItemStack wandstack, EntityPlayer player, int count)
+    {
+        // NO-OP
+    }
+
+    @Override
+    public void onWandStoppedUsing(ItemStack wandstack, World world, EntityPlayer player, int count)
+    {
+        // NO-OP
     }
 }
