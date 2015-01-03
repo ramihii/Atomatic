@@ -29,3 +29,6 @@ atlassian-ide-plugin.xml
 forge
 run
 libs
+
+# Models
+!*.obj
