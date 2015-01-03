@@ -73,7 +73,15 @@ public class AtomaticApi
      */
     public static PrimalRecipe getPrimalRecipe(ItemStack input)
     {
-        return getPrimalRecipe(input, null);
+        for (PrimalRecipe recipe : primalRecipes)
+        {
+            if (recipe.getInput().isItemEqual(input))
+            {
+                return recipe;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -88,19 +96,9 @@ public class AtomaticApi
     {
         for (PrimalRecipe recipe : primalRecipes)
         {
-            if (primal == null)
+            if (recipe.getInput().isItemEqual(input) && recipe.getPrimal() == primal)
             {
-                if (recipe.getInput().isItemEqual(input))
-                {
-                    return recipe;
-                }
-            }
-            else
-            {
-                if (recipe.getInput().isItemEqual(input) && recipe.getPrimal() == primal)
-                {
-                    return recipe;
-                }
+                return recipe;
             }
         }
 
@@ -136,7 +134,7 @@ public class AtomaticApi
      */
     public static boolean primalRecipeExists(ItemStack input)
     {
-        return primalRecipeExists(input, null);
+        return getPrimalRecipe(input) != null;
     }
 
     /**

@@ -1,6 +1,7 @@
 package atomatic.util;
 
 import atomatic.reference.Reference;
+import atomatic.reference.Settings;
 
 import cpw.mods.fml.common.FMLLog;
 
@@ -20,7 +21,14 @@ public class LogHelper
 
     public static void debug(Object object)
     {
-        log(Level.DEBUG, object);
+        /* TODO
+        if (Settings.General.debugMode)
+        {
+            log(Level.DEBUG, object);
+        }
+        */
+
+        log(Level.INFO, object);
     }
 
     public static void error(Object object)

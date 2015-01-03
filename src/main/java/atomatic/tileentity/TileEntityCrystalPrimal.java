@@ -1,6 +1,7 @@
 package atomatic.tileentity;
 
 import atomatic.api.AtomaticApi;
+import atomatic.api.primal.PrimalObject;
 import atomatic.api.primal.PrimalRecipe;
 
 import atomatic.init.ModItems;
@@ -65,11 +66,11 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                             if (aspects.visSize() <= 0 && ticks >= time)
                             {
                                 done = true;
-                                LogHelper.info("Crafting done");
+                                LogHelper.debug("Crafting done");
                             }
                             else
                             {
-                                LogHelper.info("Attempting to drain vis");
+                                LogHelper.debug("Attempting to drain vis");
                                 Aspect aspect = aspects.getAspectsSortedAmount()[aspects.getAspectsSortedAmount().length - 1];
                                 int visDrain = VisNetHandler.drainVis(worldObj, xCoord, yCoord, zCoord, aspect, Math.min(MAX_VIS_DRAIN, aspects.getAmount(aspect)));
 
@@ -79,7 +80,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                                     markDirty();
 
-                                    LogHelper.info("Drained " + visDrain + " " + aspect.getTag() + " vis");
+                                    LogHelper.debug("Drained " + visDrain + " " + aspect.getTag() + " vis");
                                 }
                             }
                         }
@@ -94,7 +95,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                             markDirty();
 
-                            LogHelper.info("Crafting finished");
+                            LogHelper.debug("Crafting finished");
                         }
                     }
                     else
@@ -240,6 +241,36 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
         return null;
     }
 
+    protected ItemStack getInputStack()
+    {
+        if (getInputPedestal() != null)
+        {
+            return getInputPedestal().getStackInSlot(PEDESTAL_SLOT);
+        }
+
+        return null;
+    }
+
+    protected ItemStack getPrimalStack()
+    {
+        if (getPrimalPedestal() != null)
+        {
+            return getPrimalPedestal().getStackInSlot(PEDESTAL_SLOT);
+        }
+
+        return null;
+    }
+
+    protected PrimalObject getPrimalObject()
+    {
+        if (getPrimalStack() != null)
+        {
+            return ItemPrimalObject.getPrimalObject(getPrimalStack());
+        }
+
+        return null;
+    }
+
     protected String pedestalAxis()
     {
         String axis = "";
@@ -264,13 +295,15 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 
     protected boolean initStructure()
     {
+        LogHelper.debug("Initializing the primal crafting structure");
         pedestalAxis = pedestalAxis();
         return correctStructure();
     }
 
     protected boolean correctCrafting()
     {
-        return (inputDirection == inputDirection()) && (AtomaticApi.getPrimalRecipe(getInputPedestal().getStackInSlot(PEDESTAL_SLOT), ItemPrimalObject.getPrimalObject(getPrimalPedestal().getStackInSlot(PEDESTAL_SLOT))) != null);
+        return inputDirection == inputDirection() && AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject()) != null;
+
     }
 
     protected boolean initCrafting()
@@ -282,13 +315,15 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 
         inputDirection = inputDirection();
 
+        LogHelper.debug("Initializing the primal crafting process");
+
         return (!isCrafting()) && correctCrafting();
     }
 
     @Override
     public int onWandRightClick(World world, ItemStack wandstack, EntityPlayer player, int x, int y, int z, int side, int md)
     {
-        LogHelper.info("Wanded");
+        LogHelper.debug("Wanded");
 
         if (initCrafting() && ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
         {
@@ -299,12 +334,12 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             aspects = recipe.getAspects();
             target = recipe.getOutput();
 
-            LogHelper.info("Started primal crafting for recipe " + recipe.toString());
+            LogHelper.debug("Started primal crafting for recipe " + recipe.toString());
 
             return TRUE;
         }
 
-        LogHelper.info("Didn't match any recipe");
+        LogHelper.debug("Didn't match any recipe");
 
         if (crafting)
         {
