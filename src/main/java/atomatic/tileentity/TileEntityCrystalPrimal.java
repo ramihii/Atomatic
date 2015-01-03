@@ -4,7 +4,6 @@ import atomatic.api.AtomaticApi;
 import atomatic.api.primal.PrimalObject;
 import atomatic.api.primal.PrimalRecipe;
 
-import atomatic.init.ModItems;
 import atomatic.item.ItemPrimalObject;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.InputDirection;
@@ -31,7 +30,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 {
     public static final int PEDESTAL_OFFSET = 2;
     public static final String X_AXIS = "x";
-    public static final String Y_AXIS = "y";
+    public static final String Z_AXIS = "z";
     public static final int PEDESTAL_SLOT = 0;
     public static final int MAX_VIS_DRAIN = 20;
     public static final int FREQUENCY = 10;
@@ -160,13 +159,13 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                 direction = InputDirection.NEGATIVE;
             }
         }
-        else if (pedestalAxis.equals(Y_AXIS))
+        else if (pedestalAxis.equals(Z_AXIS))
         {
-            if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord).getStackInSlot(PEDESTAL_SLOT)))
+            if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT)))
             {
                 direction = InputDirection.POSITIVE;
             }
-            else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord).getStackInSlot(PEDESTAL_SLOT)))
+            else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT)))
             {
                 direction = InputDirection.NEGATIVE;
             }
@@ -193,9 +192,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             {
                 return getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
             }
-            else if (pedestalAxis.equals(Y_AXIS))
+            else if (pedestalAxis.equals(Z_AXIS))
             {
-                return getPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord);
+                return getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
             }
         }
         else if (inputDirection == InputDirection.POSITIVE)
@@ -204,9 +203,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             {
                 return getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
             }
-            else if (pedestalAxis.equals(Y_AXIS))
+            else if (pedestalAxis.equals(Z_AXIS))
             {
-                return getPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord);
+                return getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
             }
         }
 
@@ -221,9 +220,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             {
                 return getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
             }
-            else if (pedestalAxis.equals(Y_AXIS))
+            else if (pedestalAxis.equals(Z_AXIS))
             {
-                return getPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord);
+                return getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
             }
         }
         else if (inputDirection == InputDirection.POSITIVE)
@@ -232,9 +231,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             {
                 return getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
             }
-            else if (pedestalAxis.equals(Y_AXIS))
+            else if (pedestalAxis.equals(Z_AXIS))
             {
-                return getPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord);
+                return getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
             }
         }
 
@@ -279,9 +278,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
         {
             axis = X_AXIS;
         }
-        else if (isPedestal(xCoord, yCoord + PEDESTAL_OFFSET, zCoord) && isPedestal(xCoord, yCoord - PEDESTAL_OFFSET, zCoord))
+        else if (isPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET) && isPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET))
         {
-            axis = Y_AXIS;
+            axis = Z_AXIS;
         }
 
         return axis;
