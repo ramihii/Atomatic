@@ -289,7 +289,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 
     protected boolean correctStructure()
     {
-        correctStructure = pedestalAxis.equals(pedestalAxis());
+        correctStructure = pedestalAxis.equals(pedestalAxis()) && !pedestalAxis.equals("");
         return correctStructure;
     }
 
@@ -302,7 +302,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
 
     protected boolean correctCrafting()
     {
-        return inputDirection == inputDirection() && AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject()) != null;
+        return inputDirection == inputDirection() && inputDirection != null && AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject()) != null;
 
     }
 
