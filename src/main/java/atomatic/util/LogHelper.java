@@ -1,7 +1,6 @@
 package atomatic.util;
 
 import atomatic.reference.Reference;
-import atomatic.reference.Settings;
 
 import cpw.mods.fml.common.FMLLog;
 

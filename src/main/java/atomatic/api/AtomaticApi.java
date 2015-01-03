@@ -18,7 +18,8 @@ public class AtomaticApi
     /**
      * Adds a new {@link PrimalRecipe}.
      *
-     * @param research the research key required for this recipe to work. {@code null} or empty {@code String} if no research is required.
+     * @param research the research key required for this recipe to work. {@code null} or empty {@code String} if no
+     *                 research is required.
      * @param output   the recipe's output.
      * @param primal   the {@link PrimalObject} used to craft this.
      * @param input    the recipe's input.
@@ -33,7 +34,8 @@ public class AtomaticApi
     /**
      * Adds a new {@link PrimalRecipe}.
      *
-     * @param research the research key required for this recipe to work. {@code null} or empty {@code String} if no research is required.
+     * @param research the research key required for this recipe to work. {@code null} or empty {@code String} if no
+     *                 research is required.
      * @param output   the recipe's output.
      * @param time     the time this recipe takes to make in ticks.
      * @param primal   the {@link PrimalObject} used to craft this.
@@ -51,7 +53,8 @@ public class AtomaticApi
     /**
      * Adds a new {@link PrimalRecipe}.
      *
-     * @param research the research key required for this recipe to work. {@code null} or empty {@code String} if no research is required.
+     * @param research the research key required for this recipe to work. {@code null} or empty {@code String} if no
+     *                 research is required.
      * @param output   the recipe's output.
      * @param seconds  the time this recipe takes to make in seconds.
      * @param primal   the {@link PrimalObject} used to craft this.

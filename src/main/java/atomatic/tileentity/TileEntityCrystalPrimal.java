@@ -4,32 +4,26 @@ import atomatic.api.AtomaticApi;
 import atomatic.api.primal.PrimalObject;
 import atomatic.api.primal.PrimalRecipe;
 
-import atomatic.Atomatic;
 import atomatic.item.ItemPrimalObject;
 import atomatic.reference.Names;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.InputDirection;
 import atomatic.util.LogHelper;
-import atomatic.util.NBTHelper;
 
 import thaumcraft.api.ThaumcraftApiHelper;
+import thaumcraft.api.TileThaumcraft;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.visnet.VisNetHandler;
 import thaumcraft.api.wands.IWandable;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-
-import net.minecraftforge.common.util.ForgeDirection;
 
 // TODO Own special pedestal type for the primal object (maybe?)
 // TODO Explode if crafting is interrupted
@@ -135,8 +129,14 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable
 
                 if (vis.visSize() <= 0 && ticks >= recipe.getTime())
                 {
-                    getPrimalPedestal().decrStackSize(PEDESTAL_SLOT, 1); // TODO NPE? getPrimalPedestal().setInventorySlotContents(PEDESTAL_SLOT, null);
-                    getInputPedestal().setInventorySlotContents(PEDESTAL_SLOT, new ItemStack(recipe.getOutput().getItem(), 1, recipe.getOutput().getItemDamage()));
+                    final String axis = pedestalAxis();
+                    final InputDirection direction = inputDirection();
+
+                    getPrimalPedestal().decrStackSize(PEDESTAL_SLOT, 1);
+                    getInputPedestal(axis, direction).setInventorySlotContents(PEDESTAL_SLOT, recipe.getOutput().copy());
+                    getInputPedestalTileEntity(axis, direction).getWorldObj().markBlockForUpdate(getInputPedestalTileEntity(axis, direction).xCoord, getInputPedestalTileEntity(axis, direction).yCoord, getInputPedestalTileEntity(axis, direction).zCoord);
+                    getInputPedestalTileEntity(axis, direction).markDirty();
+
                     crafting = false;
                     needsUpdate = true;
                 }
@@ -250,12 +250,73 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable
         return worldObj.blockExists(x, y, z) && Item.getItemFromBlock(worldObj.getBlock(x, y, z)) == ThaumcraftReference.arcanePedestal.getItem() && worldObj.getBlockMetadata(x, y, z) == ThaumcraftReference.arcanePedestal.getItemDamage() && worldObj.getTileEntity(x, y, z) instanceof ISidedInventory;
     }
 
-    protected ISidedInventory getPedestal(int x, int y, int z)
+    protected TileThaumcraft getPedestalTileEntity(int x, int y, int z)
     {
-        return isPedestal(x, y, z) ? (ISidedInventory) worldObj.getTileEntity(x, y, z) : null;
+        return isPedestal(x, y, z) ? (TileThaumcraft) worldObj.getTileEntity(x, y, z) : null;
     }
 
-    protected ISidedInventory getInputPedestal()
+    protected IInventory getPedestal(int x, int y, int z)
+    {
+        return isPedestal(x, y, z) ? (IInventory) worldObj.getTileEntity(x, y, z) : null;
+    }
+
+    protected TileThaumcraft getInputPedestalTileEntity()
+    {
+        if (inputDirection() == InputDirection.NEGATIVE)
+        {
+            if (pedestalAxis().equals(X_AXIS))
+            {
+                return getPedestalTileEntity(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (pedestalAxis().equals(Z_AXIS))
+            {
+                return getPedestalTileEntity(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
+            }
+        }
+        else if (inputDirection() == InputDirection.POSITIVE)
+        {
+            if (pedestalAxis().equals(X_AXIS))
+            {
+                return getPedestalTileEntity(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (pedestalAxis().equals(Z_AXIS))
+            {
+                return getPedestalTileEntity(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
+            }
+        }
+
+        return null;
+    }
+
+    protected TileThaumcraft getInputPedestalTileEntity(String axis, InputDirection direction)
+    {
+        if (direction == InputDirection.NEGATIVE)
+        {
+            if (axis.equals(X_AXIS))
+            {
+                return getPedestalTileEntity(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (axis.equals(Z_AXIS))
+            {
+                return getPedestalTileEntity(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
+            }
+        }
+        else if (direction == InputDirection.POSITIVE)
+        {
+            if (axis.equals(X_AXIS))
+            {
+                return getPedestalTileEntity(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (axis.equals(Z_AXIS))
+            {
+                return getPedestalTileEntity(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
+            }
+        }
+
+        return null;
+    }
+
+    protected IInventory getInputPedestal()
     {
         if (inputDirection() == InputDirection.NEGATIVE)
         {
@@ -283,7 +344,35 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable
         return null;
     }
 
-    protected ISidedInventory getPrimalPedestal()
+    protected IInventory getInputPedestal(String axis, InputDirection direction)
+    {
+        if (direction == InputDirection.NEGATIVE)
+        {
+            if (axis.equals(X_AXIS))
+            {
+                return getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (axis.equals(Z_AXIS))
+            {
+                return getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
+            }
+        }
+        else if (direction == InputDirection.POSITIVE)
+        {
+            if (axis.equals(X_AXIS))
+            {
+                return getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (axis.equals(Z_AXIS))
+            {
+                return getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
+            }
+        }
+
+        return null;
+    }
+
+    protected IInventory getPrimalPedestal()
     {
         if (inputDirection() == InputDirection.NEGATIVE)
         {

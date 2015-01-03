@@ -1,7 +1,5 @@
 package atomatic.tileentity;
 
-import atomatic.network.PacketHandler;
-import atomatic.network.message.MessageTileEntityA;
 import atomatic.reference.Names;
 
 import net.minecraft.nbt.NBTTagCompound;
