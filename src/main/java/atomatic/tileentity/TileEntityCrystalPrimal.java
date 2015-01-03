@@ -92,10 +92,13 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                             getPrimalPedestal().setInventorySlotContents(PEDESTAL_SLOT, null);
                             getInputPedestal().setInventorySlotContents(PEDESTAL_SLOT, target);
                             reset();
-                            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                            markDirty();
 
                             LogHelper.debug("Crafting finished");
+                        }
+                        else
+                        {
+                            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                            markDirty();
                         }
                     }
                     else
@@ -142,6 +145,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
         inputDirection = null;
         recipe = null;
 
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        markDirty();
+
         return true;
     }
 
@@ -149,24 +155,24 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
     {
         InputDirection direction = null;
 
-        if (pedestalAxis.equals(X_AXIS))
+        if (pedestalAxis.equals(X_AXIS) && getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord) != null && getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord) != null)
         {
-            if (AtomaticApi.primalRecipeExists(getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord).getStackInSlot(PEDESTAL_SLOT)))
+            if (AtomaticApi.primalRecipeExists(getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord).getStackInSlot(PEDESTAL_SLOT), ItemPrimalObject.getPrimalObject(getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord).getStackInSlot(PEDESTAL_SLOT))))
             {
                 direction = InputDirection.POSITIVE;
             }
-            else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord).getStackInSlot(PEDESTAL_SLOT)))
+            else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord).getStackInSlot(PEDESTAL_SLOT), ItemPrimalObject.getPrimalObject(getPedestal(xCoord + PEDESTAL_OFFSET, yCoord, zCoord).getStackInSlot(PEDESTAL_SLOT))))
             {
                 direction = InputDirection.NEGATIVE;
             }
         }
-        else if (pedestalAxis.equals(Z_AXIS))
+        else if (pedestalAxis.equals(Z_AXIS) && getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET) != null && getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET) != null)
         {
-            if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT)))
+            if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT), ItemPrimalObject.getPrimalObject(getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT))))
             {
                 direction = InputDirection.POSITIVE;
             }
-            else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT)))
+            else if (AtomaticApi.primalRecipeExists(getPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT), ItemPrimalObject.getPrimalObject(getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET).getStackInSlot(PEDESTAL_SLOT))))
             {
                 direction = InputDirection.NEGATIVE;
             }
@@ -310,6 +316,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
     {
         if (!initStructure())
         {
+            LogHelper.debug("Invalid structure");
             return false;
         }
 
@@ -329,7 +336,7 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
         {
             recipe = AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject());
 
-            if (recipe.getResearch().equals("") || recipe.getResearch() == null || ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
+            if (recipe.getResearch() == null || recipe.getResearch().equals("") || ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), recipe.getResearch()))
             {
                 // TODO Also make it possible to drain all of the required aspects out of the wand (draws some extra vis) (maybe?)
                 ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, new AspectList().add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1), true, false);
@@ -337,6 +344,9 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                 time = recipe.getTime();
                 aspects = recipe.getAspects();
                 target = recipe.getOutput();
+
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                markDirty();
 
                 LogHelper.debug("Started primal crafting for recipe " + recipe.toString());
 

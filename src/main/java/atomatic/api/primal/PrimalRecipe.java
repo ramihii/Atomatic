@@ -189,6 +189,6 @@ public class PrimalRecipe
     @Override
     public String toString()
     {
-        return "PrimalRecipe{" + "research='" + research + '\'' + ", output=" + output + ", time=" + time + ", aspects=" + aspects + ", primal=" + primal + ", input=" + input + '}';
+        return "PrimalRecipe{" + "research='" + research + '\'' + ", output=" + output + ", time=" + time + ", aspects=" + AspectListHelper.toString(aspects) + ", primal=" + primal + ", input=" + input + '}';
     }
 }

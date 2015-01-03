@@ -36,4 +36,23 @@ public class AspectListHelper
 
         return true;
     }
+
+    public static String toString(AspectList list)
+    {
+        String s = "AspectList{";
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            if (i == 0)
+            {
+                s = s + list.getAspectsSorted()[i].getTag() + "=" + list.getAmount(list.getAspectsSorted()[i]);
+            }
+            else
+            {
+                s = ", " + s + list.getAspectsSorted()[i].getTag() + "=" + list.getAmount(list.getAspectsSorted()[i]);
+            }
+        }
+
+        return s + "}";
+    }
 }

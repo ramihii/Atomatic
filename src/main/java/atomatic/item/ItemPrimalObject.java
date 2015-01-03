@@ -34,7 +34,7 @@ public class ItemPrimalObject extends ItemA
 
     public static PrimalObject getPrimalObject(ItemStack stack)
     {
-        return getPrimalObject(stack.getItemDamage());
+        return stack == null ? null : getPrimalObject(stack.getItemDamage());
     }
 
     public static PrimalObject getPrimalObject(int meta)
