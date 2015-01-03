@@ -135,7 +135,7 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable
 
                 if (vis.visSize() <= 0 && ticks >= recipe.getTime())
                 {
-                    getPrimalPedestal().setInventorySlotContents(PEDESTAL_SLOT, null); // TODO NPE?
+                    getPrimalPedestal().decrStackSize(PEDESTAL_SLOT, 1); // TODO NPE? getPrimalPedestal().setInventorySlotContents(PEDESTAL_SLOT, null);
                     getInputPedestal().setInventorySlotContents(PEDESTAL_SLOT, new ItemStack(recipe.getOutput().getItem(), 1, recipe.getOutput().getItemDamage()));
                     crafting = false;
                     needsUpdate = true;
