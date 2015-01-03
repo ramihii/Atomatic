@@ -7,6 +7,7 @@ import atomatic.init.ModItems;
 import atomatic.item.ItemPrimalObject;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.InputDirection;
+import atomatic.util.LogHelper;
 
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
@@ -64,9 +65,11 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                             if (aspects.visSize() <= 0 && ticks >= time)
                             {
                                 done = true;
+                                LogHelper.info("Crafting done");
                             }
                             else
                             {
+                                LogHelper.info("Attempting to drain vis");
                                 Aspect aspect = aspects.getAspectsSortedAmount()[aspects.getAspectsSortedAmount().length - 1];
                                 int visDrain = VisNetHandler.drainVis(worldObj, xCoord, yCoord, zCoord, aspect, Math.min(MAX_VIS_DRAIN, aspects.getAmount(aspect)));
 
@@ -75,6 +78,8 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                                     aspects.reduce(aspect, visDrain);
                                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                                     markDirty();
+
+                                    LogHelper.info("Drained " + visDrain + " " + aspect.getTag() + " vis");
                                 }
                             }
                         }
@@ -88,6 +93,8 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
                             reset();
                             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                             markDirty();
+
+                            LogHelper.info("Crafting finished");
                         }
                     }
                     else
@@ -289,6 +296,8 @@ public class TileEntityCrystalPrimal extends TileEntity implements IWandable
             time = recipe.getTime();
             aspects = recipe.getAspects();
             target = recipe.getOutput();
+
+            LogHelper.info("Started primal crafting for recipe " + recipe.toString());
 
             return TRUE;
         }

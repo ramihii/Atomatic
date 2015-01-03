@@ -1,5 +1,7 @@
 package atomatic.api.primal;
 
+import atomatic.api.util.AspectListHelper;
+
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 
@@ -117,64 +119,76 @@ public class PrimalRecipe
         return input;
     }
 
-    /**
-     * Checks if this {@link PrimalRecipe} matches the given {@link PrimalRecipe}.
-     *
-     * @param recipe the other {@link PrimalRecipe}.
-     *
-     * @return {@code true} if the two {@link PrimalRecipe} match, otherwise {@code false}.
-     */
-    public boolean matches(PrimalRecipe recipe)
+    @Override
+    public boolean equals(Object o)
     {
+        if (this == o)
+        {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        PrimalRecipe recipe = (PrimalRecipe) o;
+
+        if (time != recipe.time)
+        {
+            return false;
+        }
+
+        if (!AspectListHelper.equals(aspects, recipe.aspects))
+        {
+            return false;
+        }
+
+        if (!input.equals(recipe.input))
+        {
+            return false;
+        }
+
+        if (!output.equals(recipe.output))
+        {
+            return false;
+        }
+
+        if (primal != recipe.primal)
+        {
+            return false;
+        }
+
         if (!research.equals(recipe.research))
         {
             return false;
         }
 
-        if (!output.isItemEqual(recipe.output))
-        {
-            return false;
-        }
-
-        if (aspects.aspects.size() != recipe.aspects.aspects.size())
-        {
-            return false;
-        }
-
-        for (int i = 0; i < aspects.getAspectsSorted().length; i++)
-        {
-            if (!aspects.getAspectsSorted()[i].getTag().equals(recipe.aspects.getAspectsSorted()[i].getTag()))
-            {
-                return false;
-            }
-
-            if (aspects.getAmount(aspects.getAspectsSorted()[i]) != recipe.aspects.getAmount(recipe.aspects.getAspectsSorted()[i]))
-            {
-                return false;
-            }
-        }
-
-        return primal.toString().equals(recipe.primal.toString()) && input.isItemEqual(recipe.input);
+        return true;
     }
 
     @Override
     public int hashCode()
     {
-        int factor = 37;
-        int hashCode = 1;
+        int result = research.hashCode();
 
-        hashCode = (factor * hashCode) + research.hashCode();
-        hashCode = (factor * hashCode) + output.hashCode();
-        hashCode = (factor * hashCode) + time;
+        result = 31 * result + output.hashCode();
+        result = 31 * result + time;
 
         for (Aspect aspect : aspects.getAspectsSorted())
         {
-            hashCode = (factor * hashCode) + aspect.getTag().hashCode();
+            result = 31 * result + aspect.getTag().hashCode();
         }
 
-        hashCode = (factor * hashCode) + primal.hashCode();
-        hashCode = (factor * hashCode) + input.hashCode();
+        result = 31 * result + primal.hashCode();
+        result = 31 * result + input.hashCode();
 
-        return hashCode;
+        return result;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "PrimalRecipe{" + "research='" + research + '\'' + ", output=" + output + ", time=" + time + ", aspects=" + aspects + ", primal=" + primal + ", input=" + input + '}';
     }
 }
