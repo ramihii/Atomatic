@@ -45,6 +45,7 @@ public class Names
         public static final String CRAFTING = "crafting";
         public static final String VIS = "vis";
         public static final String RECIPE = "recipe";
+        public static final String NULL_PLAYER = "nullplayer";
     }
 
     public static final class Containers

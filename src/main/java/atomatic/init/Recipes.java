@@ -47,6 +47,9 @@ public class Recipes
 
     private static void initInfusionRecipes()
     {
+        // Instability steps:
+        // neglible, minor, moderate, high, very high, dangerous
+
         ItemStack core = new ItemStack(Items.ender_pearl);
         ItemStack balancedShard = ThaumcraftReference.balancedShard;
         ItemStack shard = ThaumcraftReference.airShard;
