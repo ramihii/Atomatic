@@ -31,8 +31,6 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-// TODO Own special pedestal type for the primal object (maybe?)
-// TODO Explode if crafting is interrupted
 // TODO Some fancy particles during the crafting
 // TODO Start crafting only with wand
 public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, IAspectContainer
@@ -49,7 +47,6 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
     private static final int FALSE = -TRUE;
 
     protected int ticks = 0;
-    protected boolean wanded = false;
     protected boolean crafting = false;
     protected AspectList vis = new AspectList();
     protected PrimalRecipe recipe = null;
@@ -65,7 +62,6 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
     protected void readNBT(NBTTagCompound nbtTagCompound)
     {
         ticks = nbtTagCompound.getInteger(Names.NBT.TICKS);
-        wanded = nbtTagCompound.getBoolean(Names.NBT.WANDED);
         crafting = nbtTagCompound.getBoolean(Names.NBT.CRAFTING);
         vis.readFromNBT(nbtTagCompound, Names.NBT.VIS);
 
@@ -92,7 +88,6 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
     protected void writeNBT(NBTTagCompound nbtTagCompound)
     {
         nbtTagCompound.setInteger(Names.NBT.TICKS, ticks);
-        nbtTagCompound.setBoolean(Names.NBT.WANDED, wanded);
         nbtTagCompound.setBoolean(Names.NBT.CRAFTING, crafting);
         vis.writeToNBT(nbtTagCompound, Names.NBT.VIS);
         nbtTagCompound.setInteger(Names.NBT.RECIPE, recipe == null ? 0 : recipe.hashCode());
@@ -128,13 +123,6 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
         }
         else
         {
-            if (wanded && canCraft())
-            {
-                needsUpdate = true;
-                crafting = true;
-                vis = recipe.getAspects();
-            }
-
             if (crafting && canCraft())
             {
                 int random = worldObj.rand.nextInt(100);
@@ -194,7 +182,6 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
                     worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.RANDOM_FIZZ, 0.9F, 1.0F);
 
                     ticks = 0;
-                    wanded = false;
                     crafting = false;
                     vis = new AspectList();
                     recipe = null;
@@ -205,7 +192,6 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
             if (crafting && !canCraft())
             {
                 ticks = 0;
-                wanded = false;
                 crafting = false;
                 vis = new AspectList();
                 recipe = null;
@@ -245,7 +231,8 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
                 worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.THAUMCRAFT_CRAFT_START, 0.7F, 1.0F);
                 recipe = pr;
                 ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, new AspectList().add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1), true, false);
-                wanded = true;
+                crafting = true;
+                vis = recipe.getAspects();
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 markDirty();
                 return TRUE;
@@ -330,6 +317,11 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
     public int containerContains(Aspect tag)
     {
         return 0;
+    }
+
+    public boolean isCrafting()
+    {
+        return crafting;
     }
 
     protected InputDirection inputDirection()
