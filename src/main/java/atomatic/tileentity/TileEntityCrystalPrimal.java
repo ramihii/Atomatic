@@ -118,16 +118,18 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
             {
                 if (ticks == 0)
                 {
+                    LogHelper.debug("Playing sound " + Sounds.INFUSER_START + " at tick " + ticks + " (" + toString() + ")");
                     worldObj.playSound((double) xCoord, (double) yCoord, (double) zCoord, Sounds.INFUSER_START, 0.5F, 1.0F, false);
                 }
                 else if (ticks % SOUND_FREQUENCY == 0)
                 {
+                    LogHelper.debug("Playing sound " + Sounds.INFUSER + " at tick " + ticks + " (" + toString() + ")");
                     worldObj.playSound((double) xCoord, (double) yCoord, (double) zCoord, Sounds.INFUSER, 0.5F, 1.0F, false);
                 }
 
                 if (ticks % FREQUENCY == 0)
                 {
-                    LogHelper.debug("Attempting to drain vis (" + toString() + ")");
+                    LogHelper.debug("Attempting to drain vis at tick " + ticks + " (" + toString() + ")");
                     Aspect aspect = vis.getAspectsSortedAmount()[vis.getAspectsSortedAmount().length - 1];
                     int visDrain = VisNetHandler.drainVis(worldObj, xCoord, yCoord, zCoord, aspect, Math.min(MAX_VIS_DRAIN, vis.getAmount(aspect)));
 
@@ -183,6 +185,7 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
             {
                 if (recipe.equals(AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject())))
                 {
+                    worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.CRAFT_FAIL, 1.0F, 0.6F);
                     return FALSE;
                 }
             }
