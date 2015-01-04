@@ -362,14 +362,14 @@ public class TileEntityPrimalAltarOld extends TileEntityA implements ISidedInven
     {
         inventory[slot] = stack;
 
-        if(stack != null && stack.stackSize > getInventoryStackLimit())
+        if (stack != null && stack.stackSize > getInventoryStackLimit())
         {
             stack.stackSize = getInventoryStackLimit();
         }
 
         markDirty();
 
-        if(!worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
             worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
         }

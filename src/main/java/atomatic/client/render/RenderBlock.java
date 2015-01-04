@@ -1,7 +1,6 @@
 package atomatic.client.render;
 
 import atomatic.block.BlockCrystalPrimal;
-import atomatic.block.BlockPrimalAltar;
 import atomatic.client.model.Models;
 import atomatic.reference.Textures;
 

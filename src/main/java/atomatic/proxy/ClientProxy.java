@@ -1,12 +1,7 @@
 package atomatic.proxy;
 
 import atomatic.client.render.RenderBlock;
-import atomatic.client.render.RenderCrystalSimple;
-import atomatic.reference.Textures;
 
-import net.minecraft.tileentity.TileEntity;
-
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy

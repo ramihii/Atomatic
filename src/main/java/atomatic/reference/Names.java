@@ -46,6 +46,16 @@ public class Names
         public static final String VIS = "vis";
         public static final String RECIPE = "recipe";
         public static final String NULL_PLAYER = "nullplayer";
+        public static final String NULL_PEDESTALS = "nullpedestals";
+        public static final String PEDESTALS = "pedestals";
+        public static final String NULL_CRYSTALS = "nullcrystals";
+        public static final String CRYSTALS = "crystals";
+        public static final String POS_X = "posx";
+        public static final String POS_Y = "posy";
+        public static final String POS_Z = "posz";
+        public static final String COUNT = "count";
+        public static final String NULL_PRIMAL_PEDESTAL = "nullprimalPedestal";
+        public static final String PRIMAL_PEDESTAL = "primalPedestal";
         public static final String RUNNING_ADJUSTMENTS = "runningAdjustments";
         public static final String RUNNING_ADJUSTMENTS_TICKS = "runningAdjustmentsTicks";
         public static final String RUNNING_ADJUSTMENTS_COUNT = "runningAdjustmentsCount";

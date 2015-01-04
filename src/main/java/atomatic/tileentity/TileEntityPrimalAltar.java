@@ -13,7 +13,6 @@ import atomatic.reference.Names;
 import atomatic.reference.Sounds;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.AdjustmentHelper;
-import atomatic.util.InputDirection;
 import atomatic.util.LogHelper;
 
 import thaumcraft.api.ThaumcraftApi;
@@ -50,8 +49,6 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     public static final int INVENTORY_STACK_LIMIT = 1;
     public static final int CRYSTAL_OFFSET = 2;
     public static final int PEDESTAL_OFFSET = CRYSTAL_OFFSET * 2;
-    public static final String X_AXIS = "x";
-    public static final String Z_AXIS = "z";
     public static final int PEDESTAL_SLOT = 0;
     public static final int MAX_VIS_DRAIN = 20;
     public static final int FREQUENCY = 5;
@@ -62,19 +59,18 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     private static final int TRUE = 1;
     private static final int FALSE = -TRUE;
 
-    protected int ticks = 0;
-    protected boolean crafting = false;
-    protected AspectList vis = new AspectList();
-    protected PrimalRecipe recipe = null;
-    protected EntityPlayer player = null;
-    protected boolean runningAdjustments = false;
-    protected int runningAdjustmentsTicks = 0;
-    protected int runningAdjustmentsCount = 0;
-
     private ItemStack[] inventory;
+    private int ticks = 0;
+    private boolean crafting = false;
+    private AspectList vis = new AspectList();
+    private PrimalRecipe recipe = null;
+    private EntityPlayer player = null;
     private List<ChunkCoordinates> pedestals = new ArrayList<ChunkCoordinates>();
     private List<ChunkCoordinates> crystals = new ArrayList<ChunkCoordinates>();
     private ChunkCoordinates primalPedestal = null;
+    private boolean runningAdjustments = false;
+    private int runningAdjustmentsTicks = 0;
+    private int runningAdjustmentsCount = 0;
 
     public TileEntityPrimalAltar()
     {
@@ -91,6 +87,20 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     @Override
     protected void readNBT(NBTTagCompound nbtTagCompound)
     {
+        NBTTagList tagList = nbtTagCompound.getTagList(Names.NBT.ITEMS, 10);
+        inventory = new ItemStack[this.getSizeInventory()];
+
+        for (int i = 0; i < tagList.tagCount(); ++i)
+        {
+            NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+            byte slotIndex = tagCompound.getByte("Slot");
+
+            if (slotIndex >= 0 && slotIndex < inventory.length)
+            {
+                inventory[slotIndex] = ItemStack.loadItemStackFromNBT(tagCompound);
+            }
+        }
+
         ticks = nbtTagCompound.getInteger(Names.NBT.TICKS);
         crafting = nbtTagCompound.getBoolean(Names.NBT.CRAFTING);
         vis.readFromNBT(nbtTagCompound, Names.NBT.VIS);
@@ -115,23 +125,70 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             player.readFromNBT(nbtTagCompound);
         }
 
+        if (nbtTagCompound.getBoolean(Names.NBT.NULL_PEDESTALS))
+        {
+            pedestals = new ArrayList<ChunkCoordinates>();
+        }
+        else
+        {
+            NBTTagCompound compound = nbtTagCompound.getCompoundTag(Names.NBT.PEDESTALS);
+            int count = compound.getInteger(Names.NBT.COUNT);
+
+            pedestals = new ArrayList<ChunkCoordinates>();
+
+            for (int i = 0; i <= count; i++)
+            {
+                NBTTagCompound cc = compound.getCompoundTag(Integer.toString(i));
+
+                int x = cc.getInteger(Names.NBT.POS_X);
+                int y = cc.getInteger(Names.NBT.POS_Y);
+                int z = cc.getInteger(Names.NBT.POS_Z);
+
+                pedestals.add(new ChunkCoordinates(x, y, z));
+            }
+        }
+
+        if (nbtTagCompound.getBoolean(Names.NBT.NULL_CRYSTALS))
+        {
+            crystals = new ArrayList<ChunkCoordinates>();
+        }
+        else
+        {
+            NBTTagCompound compound = nbtTagCompound.getCompoundTag(Names.NBT.CRYSTALS);
+            int count = compound.getInteger(Names.NBT.COUNT);
+
+            crystals = new ArrayList<ChunkCoordinates>();
+
+            for (int i = 0; i <= count; i++)
+            {
+                NBTTagCompound cc = compound.getCompoundTag(Integer.toString(i));
+
+                int x = cc.getInteger(Names.NBT.POS_X);
+                int y = cc.getInteger(Names.NBT.POS_Y);
+                int z = cc.getInteger(Names.NBT.POS_Z);
+
+                crystals.add(new ChunkCoordinates(x, y, z));
+            }
+        }
+
+        if (nbtTagCompound.getBoolean(Names.NBT.NULL_PRIMAL_PEDESTAL))
+        {
+            primalPedestal = null;
+        }
+        else
+        {
+            NBTTagCompound compound = nbtTagCompound.getCompoundTag(Names.NBT.PRIMAL_PEDESTAL);
+
+            int x = compound.getInteger(Names.NBT.POS_X);
+            int y = compound.getInteger(Names.NBT.POS_Y);
+            int z = compound.getInteger(Names.NBT.POS_Z);
+
+            primalPedestal = new ChunkCoordinates(x, y, z);
+        }
+
         runningAdjustments = nbtTagCompound.getBoolean(Names.NBT.RUNNING_ADJUSTMENTS);
         runningAdjustmentsTicks = nbtTagCompound.getInteger(Names.NBT.RUNNING_ADJUSTMENTS_TICKS);
         runningAdjustmentsCount = nbtTagCompound.getInteger(Names.NBT.RUNNING_ADJUSTMENTS_COUNT);
-
-        NBTTagList tagList = nbtTagCompound.getTagList(Names.NBT.ITEMS, 10);
-        inventory = new ItemStack[this.getSizeInventory()];
-
-        for (int i = 0; i < tagList.tagCount(); ++i)
-        {
-            NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
-            byte slotIndex = tagCompound.getByte("Slot");
-
-            if (slotIndex >= 0 && slotIndex < inventory.length)
-            {
-                inventory[slotIndex] = ItemStack.loadItemStackFromNBT(tagCompound);
-            }
-        }
     }
 
     @Override
@@ -144,6 +201,20 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     @Override
     protected void writeNBT(NBTTagCompound nbtTagCompound)
     {
+        NBTTagList tagList = new NBTTagList();
+
+        for (int currentIndex = 0; currentIndex < inventory.length; ++currentIndex)
+        {
+            if (inventory[currentIndex] != null)
+            {
+                NBTTagCompound tagCompound = new NBTTagCompound();
+                tagCompound.setByte("Slot", (byte) currentIndex);
+                inventory[currentIndex].writeToNBT(tagCompound);
+                tagList.appendTag(tagCompound);
+            }
+        }
+
+        nbtTagCompound.setTag(Names.NBT.ITEMS, tagList);
         nbtTagCompound.setInteger(Names.NBT.TICKS, ticks);
         nbtTagCompound.setBoolean(Names.NBT.CRAFTING, crafting);
         vis.writeToNBT(nbtTagCompound, Names.NBT.VIS);
@@ -159,24 +230,83 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             nbtTagCompound.setBoolean(Names.NBT.NULL_PLAYER, false);
         }
 
+        if (pedestals.size() <= 0)
+        {
+            nbtTagCompound.setBoolean(Names.NBT.NULL_PEDESTALS, true);
+        }
+        else
+        {
+            NBTTagCompound compound = new NBTTagCompound();
+
+            int count = 0;
+
+            for (ChunkCoordinates coordinates : pedestals)
+            {
+                NBTTagCompound cc = new NBTTagCompound();
+
+                cc.setInteger(Names.NBT.POS_X, coordinates.posX);
+                cc.setInteger(Names.NBT.POS_Y, coordinates.posY);
+                cc.setInteger(Names.NBT.POS_Z, coordinates.posZ);
+
+                compound.setTag(Integer.toString(count), cc);
+
+                count++;
+            }
+
+            compound.setInteger(Names.NBT.COUNT, count);
+
+            nbtTagCompound.setTag(Names.NBT.PEDESTALS, compound);
+            nbtTagCompound.setBoolean(Names.NBT.NULL_PEDESTALS, false);
+        }
+
+        if (crystals.size() <= 0)
+        {
+            nbtTagCompound.setBoolean(Names.NBT.NULL_CRYSTALS, true);
+        }
+        else
+        {
+            NBTTagCompound compound = new NBTTagCompound();
+
+            int count = 0;
+
+            for (ChunkCoordinates coordinates : crystals)
+            {
+                NBTTagCompound cc = new NBTTagCompound();
+
+                cc.setInteger(Names.NBT.POS_X, coordinates.posX);
+                cc.setInteger(Names.NBT.POS_Y, coordinates.posY);
+                cc.setInteger(Names.NBT.POS_Z, coordinates.posZ);
+
+                compound.setTag(Integer.toString(count), cc);
+
+                count++;
+            }
+
+            compound.setInteger(Names.NBT.COUNT, count);
+
+            nbtTagCompound.setTag(Names.NBT.CRYSTALS, compound);
+            nbtTagCompound.setBoolean(Names.NBT.NULL_CRYSTALS, false);
+        }
+
+        if (primalPedestal != null)
+        {
+            nbtTagCompound.setBoolean(Names.NBT.PRIMAL_PEDESTAL, true);
+        }
+        else
+        {
+            NBTTagCompound compound = new NBTTagCompound();
+
+            compound.setInteger(Names.NBT.POS_X, primalPedestal.posX);
+            compound.setInteger(Names.NBT.POS_Y, primalPedestal.posY);
+            compound.setInteger(Names.NBT.POS_Z, primalPedestal.posZ);
+
+            nbtTagCompound.setTag(Names.NBT.PRIMAL_PEDESTAL, compound);
+            nbtTagCompound.setBoolean(Names.NBT.NULL_PRIMAL_PEDESTAL, false);
+        }
+
         nbtTagCompound.setBoolean(Names.NBT.RUNNING_ADJUSTMENTS, runningAdjustments);
         nbtTagCompound.setInteger(Names.NBT.RUNNING_ADJUSTMENTS_TICKS, runningAdjustmentsTicks);
         nbtTagCompound.setInteger(Names.NBT.RUNNING_ADJUSTMENTS_COUNT, runningAdjustmentsCount);
-
-        NBTTagList tagList = new NBTTagList();
-
-        for (int currentIndex = 0; currentIndex < inventory.length; ++currentIndex)
-        {
-            if (inventory[currentIndex] != null)
-            {
-                NBTTagCompound tagCompound = new NBTTagCompound();
-                tagCompound.setByte("Slot", (byte) currentIndex);
-                inventory[currentIndex].writeToNBT(tagCompound);
-                tagList.appendTag(tagCompound);
-            }
-        }
-
-        nbtTagCompound.setTag(Names.NBT.ITEMS, tagList);
     }
 
     @Override
@@ -450,14 +580,14 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     {
         inventory[slot] = stack;
 
-        if(stack != null && stack.stackSize > getInventoryStackLimit())
+        if (stack != null && stack.stackSize > getInventoryStackLimit())
         {
             stack.stackSize = getInventoryStackLimit();
         }
 
         markDirty();
 
-        if(!worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
             worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
         }

@@ -1,8 +1,8 @@
 package atomatic.init;
 
 import atomatic.block.BlockA;
-import atomatic.block.BlockPrimalAltar;
 import atomatic.block.BlockInverseDirt;
+import atomatic.block.BlockPrimalAltar;
 import atomatic.reference.Names;
 import atomatic.reference.Reference;
 
