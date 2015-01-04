@@ -5,6 +5,7 @@ public class Names
     public static final class Blocks
     {
         public static final String INVERSE_DIRT = "inverseDirt";
+        public static final String PRIMAL_ALTAR = "primalAltar";
         public static final String CRYSTAL_PRIMAL = "crystalPrimal";
     }
 
@@ -39,9 +40,8 @@ public class Names
         public static final String USED = "used";
         public static final String UUID_MOST_SIG = "UUIDMostSig";
         public static final String UUID_LEAST_SIG = "UUIDLeastSig";
-
+        public static final String ITEMS = "Items";
         public static final String TICKS = "ticks";
-        public static final String WANDED = "wanded";
         public static final String CRAFTING = "crafting";
         public static final String VIS = "vis";
         public static final String RECIPE = "recipe";
@@ -52,6 +52,7 @@ public class Names
     {
         public static final String VANILLA_INVENTORY = "container.inventory";
         public static final String VANILLA_CRAFTING = "container.crafting";
+        public static final String PRIMAL_ALTAR = "primalAltar";
     }
 
     public static final class Keys
@@ -62,6 +63,7 @@ public class Names
     {
         public static final String STONE_DEVICE = "blockStoneDevice";
         public static final String FLUX_GAS = "blockFluxGas";
+        public static final String FLUX_GOO = "blockFluxGoo";
     }
 
     public static final class ThaumcraftItems

@@ -1,6 +1,7 @@
 package atomatic.client.render;
 
 import atomatic.block.BlockCrystalPrimal;
+import atomatic.block.BlockPrimalAltar;
 import atomatic.client.model.Models;
 import atomatic.reference.Textures;
 
@@ -15,7 +16,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderCrystalBlock implements ISimpleBlockRenderingHandler
+public class RenderBlock implements ISimpleBlockRenderingHandler
 {
     public static final int ID = RenderingRegistry.getNextAvailableRenderId();
 
@@ -31,10 +32,9 @@ public class RenderCrystalBlock implements ISimpleBlockRenderingHandler
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Textures.Models.TEXTURE_CRYSTAL_PRIMAL);
                 crystalSimpleGL11();
             }
-            /* else if (block instanceof BlockCrystalSolarWeak)
+            /* else if (block instanceof BlockPrimalAltar)
             {
-                FMLClientHandler.instance().getClient().renderEngine
-                        .bindTexture(CrystalResources.Models.TEXTURE_CRYSTAL_SOLAR_WEAK);
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Textures.Models.TEXTURE_PRIMAL_ALTAR);
                 crystalSimpleGL11();
             } */
 

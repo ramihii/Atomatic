@@ -1,13 +1,11 @@
 package atomatic.api.primal;
 
-import atomatic.api.AtomaticApi;
 import atomatic.api.util.AspectListHelper;
 
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class PrimalRecipe
 {

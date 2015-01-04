@@ -1,11 +1,14 @@
 package atomatic.api;
 
+import atomatic.api.primal.AdjustEffect;
+import atomatic.api.primal.Adjustment;
 import atomatic.api.primal.PrimalObject;
 import atomatic.api.primal.PrimalRecipe;
 
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +19,11 @@ public class AtomaticApi
      * All {@link PrimalRecipe}s.
      */
     private static List<PrimalRecipe> primalRecipes = new ArrayList<PrimalRecipe>();
+
+    /**
+     * All primal crafting adjusters.
+     */
+    private static Map<List<Object>, Adjustment> primalCraftingAdjusters = new HashMap<List<Object>, Adjustment>();
 
     /**
      * Warp effects for {@link PrimalRecipe}s.
@@ -153,6 +161,35 @@ public class AtomaticApi
     public static boolean primalRecipeExists(ItemStack input, PrimalObject primal)
     {
         return getPrimalRecipe(input, primal) != null;
+    }
+
+    /**
+     * Adds a new primal crafting adjuster.
+     *
+     * @param stack    the primal crafting adjuster.
+     * @param effect   the {@link AdjustEffect}.
+     * @param strength the strength of the {@link AdjustEffect}.
+     */
+    public static void addPrimalCraftingAdjuster(ItemStack stack, AdjustEffect effect, int strength)
+    {
+        primalCraftingAdjusters.put(Arrays.asList(stack.getItem(), stack.getItemDamage()), new Adjustment(effect, strength));
+    }
+
+    /**
+     * Gives a primal crafting adjustment.
+     *
+     * @param stack the {@link ItemStack}.
+     *
+     * @return the {@link Adjustment}.
+     */
+    public static Adjustment getAdjustment(ItemStack stack)
+    {
+        if (stack != null && primalCraftingAdjusters.containsKey(Arrays.asList(stack.getItem(), stack.getItemDamage())))
+        {
+            return primalCraftingAdjusters.get(Arrays.asList(stack.getItem(), stack.getItemDamage()));
+        }
+
+        return null;
     }
 
     /**

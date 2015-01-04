@@ -10,4 +10,6 @@ public class Sounds
     public static final String THAUMCRAFT_INFUSER = PREFIX + "infuser";
 
     public static final String RANDOM_FIZZ = "random.fizz";
+
+    public static final String NEUTRAL_SWIM = "game.neutral.swim";
 }

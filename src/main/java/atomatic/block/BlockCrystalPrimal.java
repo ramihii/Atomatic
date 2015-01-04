@@ -1,9 +1,7 @@
 package atomatic.block;
 
-import atomatic.client.render.RenderCrystalBlock;
+import atomatic.client.render.RenderBlock;
 import atomatic.reference.Names;
-import atomatic.reference.Particles;
-import atomatic.tileentity.TileEntityCrystalPrimal;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -11,18 +9,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import java.util.Random;
-
 public class BlockCrystalPrimal extends BlockA implements ITileEntityProvider
 {
     public BlockCrystalPrimal()
     {
         super(Material.glass);
         this.setHardness(6f);
-        this.setBlockName(Names.Blocks.CRYSTAL_PRIMAL);
+        this.setBlockName(Names.Blocks.PRIMAL_ALTAR);
     }
 
     @Override
@@ -34,7 +27,7 @@ public class BlockCrystalPrimal extends BlockA implements ITileEntityProvider
     @Override
     public int getRenderType()
     {
-        return RenderCrystalBlock.ID;
+        return RenderBlock.ID;
     }
 
     @Override
@@ -50,35 +43,8 @@ public class BlockCrystalPrimal extends BlockA implements ITileEntityProvider
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random)
-    {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
-
-        if (tileEntity != null && tileEntity instanceof TileEntityCrystalPrimal)
-        {
-            TileEntityCrystalPrimal crystalPrimal = (TileEntityCrystalPrimal) tileEntity;
-
-            if (crystalPrimal.isCrafting())
-            {
-                world.spawnParticle(Particles.RED_DUST, (double) ((x + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) y + 0.8F, (double) ((z + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
-
-                if (crystalPrimal.getInputPedestalTileEntity() != null)
-                {
-                    world.spawnParticle(Particles.FLAME, (double) ((crystalPrimal.getInputPedestalTileEntity().xCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) crystalPrimal.getInputPedestalTileEntity().yCoord + 0.9F, (double) ((crystalPrimal.getInputPedestalTileEntity().yCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
-                }
-
-                if (crystalPrimal.getPrimalPedestalTileEntity() != null)
-                {
-                    world.spawnParticle(Particles.ENCHANTMENT_TABLE, (double) ((crystalPrimal.getPrimalPedestalTileEntity().xCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) crystalPrimal.getPrimalPedestalTileEntity().yCoord + 0.9F, (double) ((crystalPrimal.getPrimalPedestalTileEntity().yCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
-                }
-            }
-        }
-    }
-
-    @Override
     public TileEntity createNewTileEntity(World world, int meta)
     {
-        return new TileEntityCrystalPrimal();
+        return null; // TODO new TileEntityPrimalAltar();
     }
 }

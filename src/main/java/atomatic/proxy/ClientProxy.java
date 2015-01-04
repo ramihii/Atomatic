@@ -1,9 +1,10 @@
 package atomatic.proxy;
 
-import atomatic.client.render.RenderCrystalBlock;
+import atomatic.client.render.RenderBlock;
 import atomatic.client.render.RenderCrystalSimple;
 import atomatic.reference.Textures;
-import atomatic.tileentity.TileEntityCrystalPrimal;
+
+import net.minecraft.tileentity.TileEntity;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -19,7 +20,9 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerRenderer()
     {
-        RenderingRegistry.registerBlockHandler(new RenderCrystalBlock());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystalPrimal.class, new RenderCrystalSimple(Textures.Models.TEXTURE_CRYSTAL_PRIMAL));
+        RenderingRegistry.registerBlockHandler(new RenderBlock());
+
+        // ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPrimalAltar.class, new RenderCrystalSimple(Textures.Models.TEXTURE_CRYSTAL_PRIMAL));
+        // ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrystalPrimal.class, new RenderCrystalSimple(Textures.Models.TEXTURE_CRYSTAL_PRIMAL));
     }
 }

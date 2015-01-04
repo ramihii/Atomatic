@@ -27,14 +27,20 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, IAspectContainer
+public class TileEntityPrimalAltarOld extends TileEntityA implements ISidedInventory, IWandable, IAspectContainer
 {
-    public static final int PEDESTAL_OFFSET = 2;
+    public static final int INVENTORY_SIZE = 1;
+    public static final int DISPLAY_SLOT_INVENTORY_INDEX = 0;
+    public static final int[] SLOTS = new int[]{DISPLAY_SLOT_INVENTORY_INDEX};
+    public static final int INVENTORY_STACK_LIMIT = 1;
+    public static final int CRYSTAL_OFFSET = 2;
+    public static final int PEDESTAL_OFFSET = CRYSTAL_OFFSET * 2;
     public static final String X_AXIS = "x";
     public static final String Z_AXIS = "z";
     public static final int PEDESTAL_SLOT = 0;
@@ -50,6 +56,13 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
     protected AspectList vis = new AspectList();
     protected PrimalRecipe recipe = null;
     protected EntityPlayer player = null;
+
+    private ItemStack[] inventory;
+
+    public TileEntityPrimalAltarOld()
+    {
+        inventory = new ItemStack[INVENTORY_SIZE];
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound)
@@ -84,6 +97,20 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
         {
             player.readFromNBT(nbtTagCompound);
         }
+
+        NBTTagList tagList = nbtTagCompound.getTagList(Names.NBT.ITEMS, 10);
+        inventory = new ItemStack[this.getSizeInventory()];
+
+        for (int i = 0; i < tagList.tagCount(); ++i)
+        {
+            NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+            byte slotIndex = tagCompound.getByte("Slot");
+
+            if (slotIndex >= 0 && slotIndex < inventory.length)
+            {
+                inventory[slotIndex] = ItemStack.loadItemStackFromNBT(tagCompound);
+            }
+        }
     }
 
     @Override
@@ -110,6 +137,21 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
             player.writeToNBT(nbtTagCompound);
             nbtTagCompound.setBoolean(Names.NBT.NULL_PLAYER, false);
         }
+
+        NBTTagList tagList = new NBTTagList();
+
+        for (int currentIndex = 0; currentIndex < inventory.length; ++currentIndex)
+        {
+            if (inventory[currentIndex] != null)
+            {
+                NBTTagCompound tagCompound = new NBTTagCompound();
+                tagCompound.setByte("Slot", (byte) currentIndex);
+                inventory[currentIndex].writeToNBT(tagCompound);
+                tagList.appendTag(tagCompound);
+            }
+        }
+
+        nbtTagCompound.setTag(Names.NBT.ITEMS, tagList);
     }
 
     @Override
@@ -201,7 +243,7 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
                     getInputPedestalTileEntity(axis, direction).getWorldObj().markBlockForUpdate(getInputPedestalTileEntity(axis, direction).xCoord, getInputPedestalTileEntity(axis, direction).yCoord, getInputPedestalTileEntity(axis, direction).zCoord);
                     getInputPedestalTileEntity(axis, direction).markDirty();
 
-                    worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.RANDOM_FIZZ, 0.9F, 1.0F);
+                    // TODO Find better sound worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.RANDOM_FIZZ, 0.9F, 1.0F);
 
                     if (ThaumcraftApi.getWarp(recipe.getOutput().copy()) > 0)
                     {
@@ -255,13 +297,152 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
     }
 
     @Override
+    public int getSizeInventory()
+    {
+        return inventory.length;
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int slot)
+    {
+        return inventory[slot];
+    }
+
+    @Override
+    public ItemStack decrStackSize(int slot, int amount)
+    {
+        if (inventory[slot] != null)
+        {
+            if (!worldObj.isRemote)
+            {
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            }
+
+            ItemStack stack;
+
+            if (inventory[slot].stackSize <= amount)
+            {
+                stack = inventory[slot];
+                inventory[slot] = null;
+            }
+            else
+            {
+                stack = inventory[slot].splitStack(amount);
+
+                if (inventory[slot].stackSize == 0)
+                {
+                    inventory[slot] = null;
+                }
+            }
+
+            markDirty();
+
+            return stack;
+        }
+
+        return null;
+    }
+
+    @Override
+    public ItemStack getStackInSlotOnClosing(int slot)
+    {
+        if (inventory[slot] != null)
+        {
+            ItemStack stack = inventory[slot];
+            inventory[slot] = null;
+
+            return stack;
+        }
+
+        return null;
+    }
+
+    @Override
+    public void setInventorySlotContents(int slot, ItemStack stack)
+    {
+        inventory[slot] = stack;
+
+        if(stack != null && stack.stackSize > getInventoryStackLimit())
+        {
+            stack.stackSize = getInventoryStackLimit();
+        }
+
+        markDirty();
+
+        if(!worldObj.isRemote)
+        {
+            worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        }
+    }
+
+    @Override
+    public String getInventoryName()
+    {
+        return this.hasCustomName() ? this.getCustomName() : Names.Containers.PRIMAL_ALTAR;
+    }
+
+    @Override
+    public boolean hasCustomInventoryName()
+    {
+        return this.hasCustomName();
+    }
+
+    @Override
+    public int getInventoryStackLimit()
+    {
+        return INVENTORY_STACK_LIMIT;
+    }
+
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer player)
+    {
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64.0D;
+    }
+
+    @Override
+    public void openInventory()
+    {
+
+    }
+
+    @Override
+    public void closeInventory()
+    {
+
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack stack)
+    {
+        return true; // TODO Maybe check for recipe
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int side)
+    {
+        return SLOTS;
+    }
+
+    @Override
+    public boolean canInsertItem(int slot, ItemStack stack, int side)
+    {
+        return inventory[slot] == null;
+    }
+
+    @Override
+    public boolean canExtractItem(int slot, ItemStack stack, int side)
+    {
+        return true;
+    }
+
+    @Override
     public int onWandRightClick(World world, ItemStack wandstack, EntityPlayer player, int x, int y, int z, int side, int md)
     {
         if (!worldObj.isRemote)
         {
             LogHelper.debug("Wanded (" + toString() + ")");
 
-            if (recipe != null && crafting )
+            if (recipe != null && crafting)
             {
                 if (recipe.getStartingAspectsForWand() != null)
                 {
@@ -274,6 +455,30 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
 
                     ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, aspectList, true, false);
                 }
+
+                if (AtomaticApi.getPrimalRecipeWarp(recipe) > 0)
+                {
+                    ThaumcraftApiHelper.addWarpToPlayer(player, AtomaticApi.getPrimalRecipeWarp(recipe) * 2, true);
+                }
+
+                final String axis = pedestalAxis();
+                final InputDirection direction = inputDirection();
+
+                getPrimalPedestal().setInventorySlotContents(PEDESTAL_SLOT, null);
+                getPrimalPedestalTileEntity(axis, direction).getWorldObj().markBlockForUpdate(getPrimalPedestalTileEntity(axis, direction).xCoord, getPrimalPedestalTileEntity(axis, direction).yCoord, getPrimalPedestalTileEntity(axis, direction).zCoord);
+                getPrimalPedestalTileEntity(axis, direction).markDirty();
+
+                getInputPedestal(axis, direction).setInventorySlotContents(PEDESTAL_SLOT, null);
+                getInputPedestalTileEntity(axis, direction).getWorldObj().markBlockForUpdate(getInputPedestalTileEntity(axis, direction).xCoord, getInputPedestalTileEntity(axis, direction).yCoord, getInputPedestalTileEntity(axis, direction).zCoord);
+                getInputPedestalTileEntity(axis, direction).markDirty();
+
+                worldObj.setBlock(xCoord, yCoord + 1, zCoord, Block.getBlockFromItem(ThaumcraftReference.fluxGas.getItem()), ThaumcraftReference.fluxGas.getItemDamage(), 3);
+                worldObj.setBlock(xCoord + 1, yCoord, zCoord, Block.getBlockFromItem(ThaumcraftReference.fluxGas.getItem()), ThaumcraftReference.fluxGas.getItemDamage(), 3);
+                worldObj.setBlock(xCoord - 1, yCoord, zCoord, Block.getBlockFromItem(ThaumcraftReference.fluxGas.getItem()), ThaumcraftReference.fluxGas.getItemDamage(), 3);
+                worldObj.setBlock(xCoord, yCoord, zCoord + 1, Block.getBlockFromItem(ThaumcraftReference.fluxGas.getItem()), ThaumcraftReference.fluxGas.getItemDamage(), 3);
+                worldObj.setBlock(xCoord, yCoord, zCoord - 1, Block.getBlockFromItem(ThaumcraftReference.fluxGas.getItem()), ThaumcraftReference.fluxGas.getItemDamage(), 3);
+                worldObj.setBlock(getPrimalPedestalTileEntity(axis, direction).xCoord, getPrimalPedestalTileEntity(axis, direction).yCoord + 1, getPrimalPedestalTileEntity(axis, direction).zCoord, Block.getBlockFromItem(ThaumcraftReference.fluxGoo.getItem()), ThaumcraftReference.fluxGoo.getItemDamage(), 3);
+                worldObj.setBlock(getInputPedestalTileEntity(axis, direction).xCoord, getInputPedestalTileEntity(axis, direction).yCoord + 1, getInputPedestalTileEntity(axis, direction).zCoord, Block.getBlockFromItem(ThaumcraftReference.fluxGoo.getItem()), ThaumcraftReference.fluxGoo.getItemDamage(), 3);
 
                 ticks = 0;
                 crafting = false;
