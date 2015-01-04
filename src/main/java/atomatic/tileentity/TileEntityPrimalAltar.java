@@ -57,6 +57,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     public static final int FREQUENCY = 5;
     public static final int SOUND_FREQUENCY = 65;
     public static final int ADJUSTMENT_FREQUENCY = 100;
+    public static final int MAX_ADJUSTMENTS = 3;
 
     private static final int TRUE = 1;
     private static final int FALSE = -TRUE;
@@ -68,6 +69,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     protected EntityPlayer player = null;
     protected boolean runningAdjustments = false;
     protected int runningAdjustmentsTicks = 0;
+    protected int runningAdjustmentsCount = 0;
 
     private ItemStack[] inventory;
     private List<ChunkCoordinates> pedestals = new ArrayList<ChunkCoordinates>();
@@ -115,6 +117,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
         runningAdjustments = nbtTagCompound.getBoolean(Names.NBT.RUNNING_ADJUSTMENTS);
         runningAdjustmentsTicks = nbtTagCompound.getInteger(Names.NBT.RUNNING_ADJUSTMENTS_TICKS);
+        runningAdjustmentsCount = nbtTagCompound.getInteger(Names.NBT.RUNNING_ADJUSTMENTS_COUNT);
 
         NBTTagList tagList = nbtTagCompound.getTagList(Names.NBT.ITEMS, 10);
         inventory = new ItemStack[this.getSizeInventory()];
@@ -158,6 +161,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
         nbtTagCompound.setBoolean(Names.NBT.RUNNING_ADJUSTMENTS, runningAdjustments);
         nbtTagCompound.setInteger(Names.NBT.RUNNING_ADJUSTMENTS_TICKS, runningAdjustmentsTicks);
+        nbtTagCompound.setInteger(Names.NBT.RUNNING_ADJUSTMENTS_COUNT, runningAdjustmentsCount);
 
         NBTTagList tagList = new NBTTagList();
 
@@ -185,6 +189,12 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         {
             ++ticks;
             LogHelper.debug("Tick " + ticks + " (" + toString() + ")");
+
+            if (runningAdjustments)
+            {
+                ++runningAdjustmentsTicks;
+                LogHelper.debug("Running adjustments tick " + ticks + " (" + toString() + ")");
+            }
         }
 
         if (worldObj.isRemote)
@@ -209,10 +219,54 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             {
                 if (ticks % ADJUSTMENT_FREQUENCY == 0)
                 {
-
+                    LogHelper.debug("Started running adjustments at tick " + ticks + " (" + toString() + ")");
+                    runningAdjustments = true;
+                    needsUpdate = true;
                 }
 
-                int random = worldObj.rand.nextInt(500);
+                boolean stabilize = false;
+                int stabilizeAmount = 0;
+
+                boolean moreMaxDrain = false;
+                int moreMaxDrainAmount = 0;
+
+                if (runningAdjustments)
+                {
+                    if (runningAdjustmentsTicks % FREQUENCY == 0)
+                    {
+                        LogHelper.debug("Running adjustment at running tick " + runningAdjustmentsTicks + " and at tick " + ticks + " (" + toString() + ")");
+                        Adjustment adjustment = getRuntimeAdjustments()[runningAdjustmentsCount];
+
+                        if (adjustment.effect == AdjustEffect.STABILIZE)
+                        {
+                            stabilize = true;
+                            stabilizeAmount = adjustment.strength;
+                        }
+                        else if (adjustment.effect == AdjustEffect.MORE_MAX_DRAIN)
+                        {
+                            moreMaxDrain = true;
+                            moreMaxDrainAmount = adjustment.strength;
+                        }
+
+                        ++runningAdjustmentsCount;
+                        needsUpdate = true;
+                    }
+
+                    if (runningAdjustmentsCount >= MAX_ADJUSTMENTS || runningAdjustmentsCount >= getRuntimeAdjustments().length)
+                    {
+                        runningAdjustments = false;
+                        needsUpdate = true;
+                    }
+                }
+
+                int maxInstability = 500;
+
+                if (stabilize)
+                {
+                    maxInstability += stabilizeAmount;
+                }
+
+                int random = worldObj.rand.nextInt(maxInstability);
 
                 if (random > 40 && random < 55)
                 {
@@ -244,9 +298,16 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
                 if (ticks % FREQUENCY == 0)
                 {
+                    int maxDrain = MAX_VIS_DRAIN;
+
+                    if (moreMaxDrain)
+                    {
+                        maxDrain += moreMaxDrainAmount;
+                    }
+
                     LogHelper.debug("Attempting to drain vis at tick " + ticks + " (" + toString() + ")");
                     Aspect aspect = vis.getAspectsSortedAmount()[vis.getAspectsSortedAmount().length - 1];
-                    int visDrain = VisNetHandler.drainVis(worldObj, xCoord, yCoord, zCoord, aspect, Math.min(MAX_VIS_DRAIN, vis.getAmount(aspect)));
+                    int visDrain = VisNetHandler.drainVis(worldObj, xCoord, yCoord, zCoord, aspect, Math.min(maxDrain, vis.getAmount(aspect)));
 
                     if (visDrain > 0)
                     {
@@ -258,16 +319,11 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
                 if (vis.visSize() <= 0)
                 {
-                    final String axis = pedestalAxis();
-                    final InputDirection direction = inputDirection();
+                    getPrimalPedestalInventory().setInventorySlotContents(PEDESTAL_SLOT, null);
+                    getPrimalPedestal().getWorldObj().markBlockForUpdate(primalPedestal.posX, primalPedestal.posY, primalPedestal.posZ);
+                    getPrimalPedestal().markDirty();
 
-                    getPrimalPedestal().decrStackSize(PEDESTAL_SLOT, 1);
-                    getPrimalPedestalTileEntity(axis, direction).getWorldObj().markBlockForUpdate(getPrimalPedestalTileEntity(axis, direction).xCoord, getPrimalPedestalTileEntity(axis, direction).yCoord, getPrimalPedestalTileEntity(axis, direction).zCoord);
-                    getPrimalPedestalTileEntity(axis, direction).markDirty();
-
-                    getInputPedestal(axis, direction).setInventorySlotContents(PEDESTAL_SLOT, recipe.getOutput().copy());
-                    getInputPedestalTileEntity(axis, direction).getWorldObj().markBlockForUpdate(getInputPedestalTileEntity(axis, direction).xCoord, getInputPedestalTileEntity(axis, direction).yCoord, getInputPedestalTileEntity(axis, direction).zCoord);
-                    getInputPedestalTileEntity(axis, direction).markDirty();
+                    inventory[SLOT_INVENTORY_INDEX] = recipe.getOutput().copy();
 
                     // TODO Find better sound worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.RANDOM_FIZZ, 0.9F, 1.0F);
 
@@ -281,6 +337,9 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                     vis = new AspectList();
                     recipe = null;
                     player = null;
+                    runningAdjustments = false;
+                    runningAdjustmentsTicks = 0;
+                    runningAdjustmentsCount = 0;
                     needsUpdate = true;
                 }
             }
@@ -309,6 +368,9 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                 vis = new AspectList();
                 recipe = null;
                 player = null;
+                runningAdjustments = false;
+                runningAdjustmentsTicks = 0;
+                runningAdjustmentsCount = 0;
                 worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.THAUMCRAFT_CRAFT_FAIL, 1.0F, 0.6F);
                 worldObj.createExplosion(null, (double) (float) xCoord, (double) ((float) yCoord + 0.5F), (double) ((float) zCoord), 4.0F, true);
                 needsUpdate = true;
@@ -528,6 +590,9 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                 vis = new AspectList();
                 recipe = null;
                 player = null;
+                runningAdjustments = false;
+                runningAdjustmentsTicks = 0;
+                runningAdjustmentsCount = 0;
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 markDirty();
                 worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.THAUMCRAFT_CRAFT_FAIL, 1.0F, 0.6F);
@@ -641,6 +706,9 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
                         vis = tempVis;
                         player = entityPlayer;
+                        runningAdjustments = false;
+                        runningAdjustmentsTicks = 0;
+                        runningAdjustmentsCount = 0;
                         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                         markDirty();
                         LogHelper.debug("Crafting started (" + toString() + ")");
@@ -785,7 +853,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         return adjustments;
     }
 
-    protected Adjustment[] getRuntimeAdjustment()
+    protected Adjustment[] getRuntimeAdjustments()
     {
         Adjustment[] temp = new Adjustment[getAdjustments().length];
         int count = 0;

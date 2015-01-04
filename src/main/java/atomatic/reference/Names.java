@@ -48,6 +48,7 @@ public class Names
         public static final String NULL_PLAYER = "nullplayer";
         public static final String RUNNING_ADJUSTMENTS = "runningAdjustments";
         public static final String RUNNING_ADJUSTMENTS_TICKS = "runningAdjustmentsTicks";
+        public static final String RUNNING_ADJUSTMENTS_COUNT = "runningAdjustmentsCount";
     }
 
     public static final class Containers
