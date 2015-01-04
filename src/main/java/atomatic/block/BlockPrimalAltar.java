@@ -64,14 +64,14 @@ public class BlockPrimalAltar extends BlockA implements ITileEntityProvider
             {
                 world.spawnParticle(Particles.RED_DUST, (double) ((x + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) y + 0.8F, (double) ((z + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
 
-                if (primalAltar.getInputPedestalTileEntity() != null)
+                /* if (primalAltar.getInputPedestalTileEntity() != null)
                 {
                     world.spawnParticle(Particles.FLAME, (double) ((primalAltar.getInputPedestalTileEntity().xCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) primalAltar.getInputPedestalTileEntity().yCoord + 0.9F, (double) ((primalAltar.getInputPedestalTileEntity().yCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
-                }
+                } */
 
-                if (primalAltar.getPrimalPedestalTileEntity() != null)
+                if (primalAltar.getPrimalPedestal() != null)
                 {
-                    world.spawnParticle(Particles.ENCHANTMENT_TABLE, (double) ((primalAltar.getPrimalPedestalTileEntity().xCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) primalAltar.getPrimalPedestalTileEntity().yCoord + 0.9F, (double) ((primalAltar.getPrimalPedestalTileEntity().yCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
+                    world.spawnParticle(Particles.ENCHANTMENT_TABLE, (double) ((primalAltar.getPrimalPedestal().xCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) primalAltar.getPrimalPedestal().yCoord + 0.9F, (double) ((primalAltar.getPrimalPedestal().yCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
                 }
             }
         }

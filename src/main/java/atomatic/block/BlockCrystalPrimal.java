@@ -2,6 +2,7 @@ package atomatic.block;
 
 import atomatic.client.render.RenderBlock;
 import atomatic.reference.Names;
+import atomatic.tileentity.TileEntityCrystalPrimal;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -15,7 +16,7 @@ public class BlockCrystalPrimal extends BlockA implements ITileEntityProvider
     {
         super(Material.glass);
         this.setHardness(6f);
-        this.setBlockName(Names.Blocks.PRIMAL_ALTAR);
+        this.setBlockName(Names.Blocks.CRYSTAL_PRIMAL);
     }
 
     @Override
@@ -45,6 +46,6 @@ public class BlockCrystalPrimal extends BlockA implements ITileEntityProvider
     @Override
     public TileEntity createNewTileEntity(World world, int meta)
     {
-        return null; // TODO new TileEntityPrimalAltar();
+        return new TileEntityCrystalPrimal();
     }
 }

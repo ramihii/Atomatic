@@ -933,7 +933,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         return crafting;
     }
 
-    protected boolean checkEnvironment()
+    public boolean checkEnvironment()
     {
         for (ChunkCoordinates coordinates : pedestals)
         {
@@ -954,7 +954,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         return !(getPrimalPedestal() == null || ((IInventory) getPrimalPedestal()).getStackInSlot(PEDESTAL_SLOT).getItem() != ModItems.primalObject);
     }
 
-    protected Adjustment[] getAdjustments()
+    public Adjustment[] getAdjustments()
     {
         Adjustment[] adjustments = null;
 
@@ -983,7 +983,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         return adjustments;
     }
 
-    protected Adjustment[] getRuntimeAdjustments()
+    public Adjustment[] getRuntimeAdjustments()
     {
         Adjustment[] temp = new Adjustment[getAdjustments().length];
         int count = 0;
@@ -1003,7 +1003,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         return adjustments;
     }
 
-    protected boolean setEnvironment()
+    public boolean setEnvironment()
     {
         pedestals.clear();
         crystals.clear();
@@ -1055,47 +1055,47 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         return primalPedestal != null;
     }
 
-    protected boolean canCraft()
+    public boolean canCraft()
     {
         return checkEnvironment() && AtomaticApi.getPrimalRecipe(inventory[SLOT_INVENTORY_INDEX], getPrimalObject()) != null && recipe != null && recipe.equals(AtomaticApi.getPrimalRecipe(inventory[SLOT_INVENTORY_INDEX], getPrimalObject()));
     }
 
-    protected boolean isPedestal(int x, int y, int z)
+    public boolean isPedestal(int x, int y, int z)
     {
         return worldObj.blockExists(x, y, z) && Item.getItemFromBlock(worldObj.getBlock(x, y, z)) == ThaumcraftReference.arcanePedestal.getItem() && worldObj.getBlockMetadata(x, y, z) == ThaumcraftReference.arcanePedestal.getItemDamage() && worldObj.getTileEntity(x, y, z) instanceof ISidedInventory && worldObj.getTileEntity(x, y, z) instanceof TileThaumcraft;
     }
 
-    protected TileThaumcraft getPedestal(int x, int y, int z)
+    public TileThaumcraft getPedestal(int x, int y, int z)
     {
         return isPedestal(x, y, z) ? (TileThaumcraft) worldObj.getTileEntity(x, y, z) : null;
     }
 
-    protected IInventory getPedestalInventory(int x, int y, int z)
+    public IInventory getPedestalInventory(int x, int y, int z)
     {
         return getPedestal(x, y, z) == null ? null : (IInventory) getPedestal(x, y, z);
     }
 
-    protected TileThaumcraft getPrimalPedestal()
+    public TileThaumcraft getPrimalPedestal()
     {
         return getPedestal(primalPedestal.posX, primalPedestal.posY, primalPedestal.posZ);
     }
 
-    protected IInventory getPrimalPedestalInventory()
+    public IInventory getPrimalPedestalInventory()
     {
         return getPrimalPedestal() == null ? null : (IInventory) getPrimalPedestal();
     }
 
-    protected PrimalObject getPrimalObject()
+    public PrimalObject getPrimalObject()
     {
         return getPrimalPedestalInventory() == null ? null : ItemPrimalObject.getPrimalObject(getPrimalPedestalInventory().getStackInSlot(PEDESTAL_SLOT));
     }
 
-    protected boolean isCrystal(int x, int y, int z)
+    public boolean isCrystal(int x, int y, int z)
     {
         return worldObj.blockExists(x, y, z) && worldObj.getTileEntity(x, y, z) instanceof ICrystal;
     }
 
-    protected TileEntity getCrystal(int x, int y, int z)
+    public TileEntity getCrystal(int x, int y, int z)
     {
         return isCrystal(x, y, z) ? worldObj.getTileEntity(x, y, z) : null;
     }
