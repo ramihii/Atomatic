@@ -191,6 +191,7 @@ public class Recipes
 
     private static void initPrimalRecipes()
     {
-        AtomaticApi.addPrimalRecipe(null, new ItemStack(Items.nether_star), 200, PrimalObject.EARTH, new ItemStack(Blocks.dirt));
+        // TODO Test recipe
+        AtomaticApi.addPrimalRecipe(null, new ItemStack(Items.nether_star), 400, PrimalObject.EARTH, new ItemStack(Blocks.dirt));
     }
 }

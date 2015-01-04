@@ -6,6 +6,7 @@ import atomatic.api.primal.PrimalRecipe;
 
 import atomatic.item.ItemPrimalObject;
 import atomatic.reference.Names;
+import atomatic.reference.Sounds;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.util.InputDirection;
 import atomatic.util.LogHelper;
@@ -38,6 +39,7 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
     public static final int PEDESTAL_SLOT = 0;
     public static final int MAX_VIS_DRAIN = 20;
     public static final int FREQUENCY = 5;
+    public static final int SOUND_FREQUENCY = 40;
 
     private static final int TRUE = 1;
     private static final int FALSE = -TRUE;
@@ -100,7 +102,7 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
         if (crafting)
         {
             ++ticks;
-            LogHelper.debug("Ticking (" + toString() + ")");
+            LogHelper.debug("Tick " + ticks + " (" + toString() + ")");
         }
 
         if (!this.worldObj.isRemote)
@@ -114,6 +116,15 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
 
             if (crafting && canCraft())
             {
+                if (ticks == 0)
+                {
+                    worldObj.playSound((double) xCoord, (double) yCoord, (double) zCoord, Sounds.INFUSER_START, 0.5F, 1.0F, false);
+                }
+                else if (ticks % SOUND_FREQUENCY == 0)
+                {
+                    worldObj.playSound((double) xCoord, (double) yCoord, (double) zCoord, Sounds.INFUSER, 0.5F, 1.0F, false);
+                }
+
                 if (ticks % FREQUENCY == 0)
                 {
                     LogHelper.debug("Attempting to drain vis (" + toString() + ")");
@@ -180,6 +191,7 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
 
             if (pr != null && (pr.getResearch() == null || pr.getResearch().equals("") || ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), pr.getResearch())))
             {
+                worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.CRAFT_START, 0.7F, 1.0F);
                 recipe = pr;
                 ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, new AspectList().add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1), true, false);
                 wanded = true;
@@ -187,6 +199,8 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
                 markDirty();
                 return TRUE;
             }
+
+            worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.CRAFT_FAIL, 1.0F, 0.6F);
 
             LogHelper.debug("No recipe found (" + toString() + ")");
         }

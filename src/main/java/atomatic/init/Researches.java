@@ -1,6 +1,6 @@
 package atomatic.init;
 
-import atomatic.reference.Reference;
+import atomatic.reference.ThaumcraftReference;
 import atomatic.util.ResourceLocationHelper;
 
 import thaumcraft.api.ThaumcraftApi;
@@ -72,7 +72,7 @@ public class Researches
 
     private static void initCategories()
     {
-        ResearchCategories.registerCategory(Researches.CATEGORY_QUANTA, ResourceLocationHelper.getResourceLocation("textures/misc/r_quanta.png"), ResourceLocationHelper.getResourceLocation(Reference.THAUMCRAFT_ID, "textures/gui/gui_researchback.png"));
+        ResearchCategories.registerCategory(Researches.CATEGORY_QUANTA, ResourceLocationHelper.getResourceLocation("textures/misc/r_quanta.png"), ResourceLocationHelper.getResourceLocation(ThaumcraftReference.MOD_ID, "textures/gui/gui_researchback.png"));
     }
 
     private static void initQuantaResearch()
