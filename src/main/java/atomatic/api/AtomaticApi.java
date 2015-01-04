@@ -5,8 +5,11 @@ import atomatic.api.primal.PrimalRecipe;
 
 import net.minecraft.item.ItemStack;
 
+import akka.pattern.CircuitBreaker;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AtomaticApi
 {
@@ -14,6 +17,11 @@ public class AtomaticApi
      * All {@link PrimalRecipe}s.
      */
     private static List<PrimalRecipe> primalRecipes = new ArrayList<PrimalRecipe>();
+
+    /**
+     * Warp effects for {@link PrimalRecipe}s.
+     */
+    private static Map<Integer, Integer>
 
     /**
      * Adds a new {@link PrimalRecipe}.

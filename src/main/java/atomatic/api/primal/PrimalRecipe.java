@@ -11,9 +11,14 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class PrimalRecipe
 {
+    public static final int DEFAULT_ASPECT_AMOUNT = 100;
+    public static final int DEFAULT_STARTING_ASPECT_AMOUNT = DEFAULT_ASPECT_AMOUNT / 10;
+    public static final int WAND_MULTIPLIER = 100;
+
     private final String research;
     private final ItemStack output;
     private final AspectList aspects;
+    private final AspectList startingAspects;
     private final PrimalObject primal;
     private final ItemStack input;
 
@@ -31,15 +36,30 @@ public class PrimalRecipe
     }
 
     /**
-     * Constructs a new {@link PrimalRecipe}. You shouldn't use this until I decide to make this public.
+     * Constructs a new {@link PrimalRecipe}.
      *
      * @param research the research key required for this recipe to work.
-     * @param output   the recipe's NBT sensitive output.
+     * @param output   the recipe's output.
      * @param aspects  the primal aspects required to craft this.
      * @param primal   the {@link PrimalObject} used to craft this.
-     * @param input    the recipe's NBT sensitive input.
+     * @param input    the recipe's input.
      */
-    private PrimalRecipe(String research, ItemStack output, AspectList aspects, PrimalObject primal, ItemStack input)
+    public PrimalRecipe(String research, ItemStack output, AspectList aspects, PrimalObject primal, ItemStack input)
+    {
+        this(research, output, aspects, null, primal, input);
+    }
+
+    /**
+     * Constructs a new {@link PrimalRecipe}.
+     *
+     * @param research        the research key required for this recipe to work.
+     * @param output          the recipe's NBT sensitive output.
+     * @param aspects         the primal aspects required to craft this.
+     * @param startingAspects the primal aspects drawn from the wand at the beginning of the crafting process.
+     * @param primal          the {@link PrimalObject} used to craft this.
+     * @param input           the recipe's NBT sensitive input.
+     */
+    private PrimalRecipe(String research, ItemStack output, AspectList aspects, AspectList startingAspects, PrimalObject primal, ItemStack input)
     {
         this.research = research;
 
@@ -57,7 +77,7 @@ public class PrimalRecipe
         if (aspects == null)
         {
             AspectList aspectList = new AspectList();
-            int amount = 100;
+            int amount = DEFAULT_ASPECT_AMOUNT;
 
             for (int i = 0; i < primal.getAspects().length; i++)
             {
@@ -70,6 +90,24 @@ public class PrimalRecipe
         else
         {
             this.aspects = aspects;
+        }
+
+        if (startingAspects == null)
+        {
+            AspectList aspectList = new AspectList();
+            int amount = DEFAULT_STARTING_ASPECT_AMOUNT;
+
+            for (int i = 0; i < primal.getAspects().length; i++)
+            {
+                aspectList.add(primal.getAspects()[i], amount);
+                amount--;
+            }
+
+            this.startingAspects = aspectList;
+        }
+        else
+        {
+            this.startingAspects = startingAspects;
         }
 
         this.primal = primal;
@@ -101,6 +139,35 @@ public class PrimalRecipe
         return aspects;
     }
 
+    public AspectList getAspectsForWand()
+    {
+        AspectList aspectList = new AspectList();
+
+        for (int i = 0; i < aspects.size(); i++)
+        {
+            aspectList.add(aspects.getAspectsSorted()[i], aspects.getAmount(aspects.getAspectsSorted()[i]) * WAND_MULTIPLIER);
+        }
+
+        return aspectList;
+    }
+
+    public AspectList getStartingAspects()
+    {
+        return startingAspects;
+    }
+
+    public AspectList getStartingAspectsForWand()
+    {
+        AspectList aspectList = new AspectList();
+
+        for (int i = 0; i < startingAspects.size(); i++)
+        {
+            aspectList.add(startingAspects.getAspectsSorted()[i], startingAspects.getAmount(startingAspects.getAspectsSorted()[i]) * WAND_MULTIPLIER);
+        }
+
+        return aspectList;
+    }
+
     public PrimalObject getPrimal()
     {
         return primal;
@@ -109,26 +176,6 @@ public class PrimalRecipe
     public ItemStack getInput()
     {
         return input;
-    }
-
-    public static int readHashFromNBT(NBTTagCompound nbtTagCompound)
-    {
-        return nbtTagCompound.getInteger("primalRecipe");
-    }
-
-    public static PrimalRecipe readFromNBT(NBTTagCompound nbtTagCompound)
-    {
-        return AtomaticApi.getPrimalRecipeForHash(nbtTagCompound.getInteger("primalRecipe"));
-    }
-
-    public void writeToNBT(NBTTagCompound nbtTagCompound)
-    {
-        if (nbtTagCompound == null)
-        {
-            nbtTagCompound = new NBTTagCompound();
-        }
-
-        nbtTagCompound.setInteger("primalRecipe", hashCode());
     }
 
     @Override
@@ -147,6 +194,11 @@ public class PrimalRecipe
         PrimalRecipe recipe = (PrimalRecipe) o;
 
         if (!AspectListHelper.equals(aspects, recipe.aspects))
+        {
+            return false;
+        }
+
+        if (!AspectListHelper.equals(startingAspects, recipe.startingAspects))
         {
             return false;
         }
@@ -186,6 +238,11 @@ public class PrimalRecipe
             result = 31 * result + aspect.getTag().hashCode();
         }
 
+        for (Aspect aspect : startingAspects.getAspectsSorted())
+        {
+            result = 31 * result + aspect.getTag().hashCode();
+        }
+
         result = 31 * result + primal.hashCode();
         result = 31 * result + input.hashCode();
 
@@ -195,6 +252,6 @@ public class PrimalRecipe
     @Override
     public String toString()
     {
-        return "PrimalRecipe{" + "research='" + research + '\'' + ", output=" + output + ", aspects=" + AspectListHelper.toString(aspects) + ", primal=" + primal + ", input=" + input + '}';
+        return "PrimalRecipe{" + "research='" + research + '\'' + ", output=" + output + ", aspects=" + AspectListHelper.toString(aspects) + ", startingAspects=" + AspectListHelper.toString(startingAspects) + ", primal=" + primal + ", input=" + input + '}';
     }
 }

@@ -31,8 +31,6 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-// TODO Some fancy particles during the crafting
-// TODO Start crafting only with wand
 public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, IAspectContainer
 {
     public static final int PEDESTAL_OFFSET = 2;
@@ -191,12 +189,29 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
 
             if (crafting && !canCraft())
             {
+                List entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double) xCoord, (double) yCoord, (double) zCoord, (double) (xCoord + 1), (double) (yCoord + 1), (double) (zCoord + 1)).expand(9.0D, 9.0D, 9.0D));
+
+                if (entities != null && entities.size() > 0)
+                {
+                    for (Object entity : entities)
+                    {
+                        if (worldObj.rand.nextFloat() < 0.25F)
+                        {
+                            ThaumcraftApiHelper.addStickyWarpToPlayer((EntityPlayer) entity, 4);
+                        }
+                        else
+                        {
+                            ThaumcraftApiHelper.addWarpToPlayer((EntityPlayer) entity, 4 + worldObj.rand.nextInt(6), true);
+                        }
+                    }
+                }
+
                 ticks = 0;
                 crafting = false;
                 vis = new AspectList();
                 recipe = null;
                 worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.THAUMCRAFT_CRAFT_FAIL, 1.0F, 0.6F);
-                worldObj.createExplosion(null, (double) (float) xCoord, (double) ((float) yCoord + 0.5F), (double) ((float) zCoord), 1.0F, false);
+                worldObj.createExplosion(null, (double) (float) xCoord, (double) ((float) yCoord + 0.5F), (double) ((float) zCoord), 4.0F, true);
                 needsUpdate = true;
             }
         }
@@ -215,27 +230,47 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
         {
             LogHelper.debug("Wanded (" + toString() + ")");
 
-            if (recipe != null)
+            if (recipe != null && crafting )
             {
-                if (recipe.equals(AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject())))
+                if (recipe.getStartingAspectsForWand() != null)
                 {
-                    worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.THAUMCRAFT_CRAFT_FAIL, 1.0F, 0.6F);
-                    return FALSE;
+                    AspectList aspectList = new AspectList();
+
+                    for (int i = 0; i < recipe.getStartingAspectsForWand().getAspectsSorted().length; i++)
+                    {
+                        aspectList.add(recipe.getStartingAspectsForWand().getAspectsSorted()[i], recipe.getStartingAspectsForWand().getAmount(recipe.getStartingAspectsForWand().getAspectsSorted()[i]) * 2);
+                    }
+
+                    ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, aspectList, true, false);
                 }
+
+                ticks = 0;
+                crafting = false;
+                vis = new AspectList();
+                recipe = null;
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                markDirty();
+                worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.THAUMCRAFT_CRAFT_FAIL, 1.0F, 0.6F);
+                worldObj.createExplosion(null, (double) (float) xCoord, (double) ((float) yCoord + 0.5F), (double) ((float) zCoord), 2.0F, false);
+                LogHelper.debug("Crafting stopped (" + toString() + ")");
+                return TRUE;
             }
 
             PrimalRecipe pr = AtomaticApi.getPrimalRecipe(getInputStack(), getPrimalObject());
 
             if (pr != null && (pr.getResearch() == null || pr.getResearch().equals("") || ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), pr.getResearch())))
             {
-                worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.THAUMCRAFT_CRAFT_START, 0.7F, 1.0F);
-                recipe = pr;
-                ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, new AspectList().add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1), true, false);
-                crafting = true;
-                vis = recipe.getAspects().copy();
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                markDirty();
-                return TRUE;
+                if (ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, recipe.getStartingAspectsForWand(), true, false))
+                {
+                    worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.THAUMCRAFT_CRAFT_START, 0.7F, 1.0F);
+                    recipe = pr;
+                    crafting = true;
+                    vis = recipe.getAspects().copy();
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                    markDirty();
+                    LogHelper.debug("Crafting started (" + toString() + ")");
+                    return TRUE;
+                }
             }
 
             worldObj.playSoundEffect((double) xCoord, (double) yCoord, (double) zCoord, Sounds.THAUMCRAFT_CRAFT_FAIL, 1.0F, 0.6F);
@@ -324,6 +359,62 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
         return crafting;
     }
 
+    public TileThaumcraft getInputPedestalTileEntity()
+    {
+        if (inputDirection() == InputDirection.NEGATIVE)
+        {
+            if (pedestalAxis().equals(X_AXIS))
+            {
+                return getPedestalTileEntity(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (pedestalAxis().equals(Z_AXIS))
+            {
+                return getPedestalTileEntity(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
+            }
+        }
+        else if (inputDirection() == InputDirection.POSITIVE)
+        {
+            if (pedestalAxis().equals(X_AXIS))
+            {
+                return getPedestalTileEntity(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (pedestalAxis().equals(Z_AXIS))
+            {
+                return getPedestalTileEntity(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
+            }
+        }
+
+        return null;
+    }
+
+    public TileThaumcraft getPrimalPedestalTileEntity()
+    {
+        if (inputDirection() == InputDirection.NEGATIVE)
+        {
+            if (pedestalAxis().equals(X_AXIS))
+            {
+                return getPedestalTileEntity(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (pedestalAxis().equals(Z_AXIS))
+            {
+                return getPedestalTileEntity(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
+            }
+        }
+        else if (inputDirection() == InputDirection.POSITIVE)
+        {
+            if (pedestalAxis().equals(X_AXIS))
+            {
+                return getPedestalTileEntity(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+            else if (pedestalAxis().equals(Z_AXIS))
+            {
+                return getPedestalTileEntity(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
+            }
+        }
+
+        return null;
+    }
+
     protected InputDirection inputDirection()
     {
         InputDirection direction = null;
@@ -370,34 +461,6 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
     protected IInventory getPedestal(int x, int y, int z)
     {
         return isPedestal(x, y, z) ? (IInventory) worldObj.getTileEntity(x, y, z) : null;
-    }
-
-    protected TileThaumcraft getInputPedestalTileEntity()
-    {
-        if (inputDirection() == InputDirection.NEGATIVE)
-        {
-            if (pedestalAxis().equals(X_AXIS))
-            {
-                return getPedestalTileEntity(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
-            }
-            else if (pedestalAxis().equals(Z_AXIS))
-            {
-                return getPedestalTileEntity(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
-            }
-        }
-        else if (inputDirection() == InputDirection.POSITIVE)
-        {
-            if (pedestalAxis().equals(X_AXIS))
-            {
-                return getPedestalTileEntity(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
-            }
-            else if (pedestalAxis().equals(Z_AXIS))
-            {
-                return getPedestalTileEntity(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
-            }
-        }
-
-        return null;
     }
 
     protected TileThaumcraft getInputPedestalTileEntity(String axis, InputDirection direction)
@@ -478,34 +541,6 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
             else if (axis.equals(Z_AXIS))
             {
                 return getPedestal(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
-            }
-        }
-
-        return null;
-    }
-
-    protected TileThaumcraft getPrimalPedestalTileEntity()
-    {
-        if (inputDirection() == InputDirection.NEGATIVE)
-        {
-            if (pedestalAxis().equals(X_AXIS))
-            {
-                return getPedestalTileEntity(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
-            }
-            else if (pedestalAxis().equals(Z_AXIS))
-            {
-                return getPedestalTileEntity(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
-            }
-        }
-        else if (inputDirection() == InputDirection.POSITIVE)
-        {
-            if (pedestalAxis().equals(X_AXIS))
-            {
-                return getPedestalTileEntity(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
-            }
-            else if (pedestalAxis().equals(Z_AXIS))
-            {
-                return getPedestalTileEntity(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
             }
         }
 

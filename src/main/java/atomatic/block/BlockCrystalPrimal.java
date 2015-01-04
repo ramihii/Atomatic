@@ -57,9 +57,21 @@ public class BlockCrystalPrimal extends BlockA implements ITileEntityProvider
 
         if (tileEntity != null && tileEntity instanceof TileEntityCrystalPrimal)
         {
-            if (((TileEntityCrystalPrimal) tileEntity).isCrafting())
+            TileEntityCrystalPrimal crystalPrimal = (TileEntityCrystalPrimal) tileEntity;
+
+            if (crystalPrimal.isCrafting())
             {
-                world.spawnParticle(Particles.RED_DUST, (double) ((x + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) y + 0.6F, (double) ((z + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(Particles.RED_DUST, (double) ((x + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) y + 0.8F, (double) ((z + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
+
+                if (crystalPrimal.getInputPedestalTileEntity() != null)
+                {
+                    world.spawnParticle(Particles.FLAME, (double) ((crystalPrimal.getInputPedestalTileEntity().xCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) crystalPrimal.getInputPedestalTileEntity().yCoord + 0.9F, (double) ((crystalPrimal.getInputPedestalTileEntity().yCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
+                }
+
+                if (crystalPrimal.getPrimalPedestalTileEntity() != null)
+                {
+                    world.spawnParticle(Particles.ENCHANTMENT_TABLE, (double) ((crystalPrimal.getPrimalPedestalTileEntity().xCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) crystalPrimal.getPrimalPedestalTileEntity().yCoord + 0.9F, (double) ((crystalPrimal.getPrimalPedestalTileEntity().yCoord + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
+                }
             }
         }
     }
