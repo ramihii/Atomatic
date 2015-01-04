@@ -28,43 +28,9 @@ public class AtomaticApi
      */
     public static PrimalRecipe addPrimalRecipe(String research, ItemStack output, PrimalObject primal, ItemStack input)
     {
-        return addPrimalRecipe(research, output, 0, primal, input);
-    }
-
-    /**
-     * Adds a new {@link PrimalRecipe}.
-     *
-     * @param research the research key required for this recipe to work. {@code null} or empty {@code String} if no
-     *                 research is required.
-     * @param output   the recipe's output.
-     * @param time     the time this recipe takes to make in ticks.
-     * @param primal   the {@link PrimalObject} used to craft this.
-     * @param input    the recipe's input.
-     *
-     * @return the created {@link PrimalRecipe}.
-     */
-    public static PrimalRecipe addPrimalRecipe(String research, ItemStack output, int time, PrimalObject primal, ItemStack input)
-    {
-        PrimalRecipe recipe = new PrimalRecipe(research, output, time, primal, input);
+        PrimalRecipe recipe = new PrimalRecipe(research, output, primal, input);
         primalRecipes.add(recipe);
         return recipe;
-    }
-
-    /**
-     * Adds a new {@link PrimalRecipe}.
-     *
-     * @param research the research key required for this recipe to work. {@code null} or empty {@code String} if no
-     *                 research is required.
-     * @param output   the recipe's output.
-     * @param seconds  the time this recipe takes to make in seconds.
-     * @param primal   the {@link PrimalObject} used to craft this.
-     * @param input    the recipe's input.
-     *
-     * @return the created {@link PrimalRecipe}.
-     */
-    public static PrimalRecipe addPrimalRecipeSeconds(String research, ItemStack output, int seconds, PrimalObject primal, ItemStack input)
-    {
-        return addPrimalRecipe(research, output, seconds * 20, primal, input);
     }
 
     /**

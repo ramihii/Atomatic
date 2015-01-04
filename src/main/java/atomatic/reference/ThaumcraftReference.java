@@ -10,6 +10,8 @@ public class ThaumcraftReference
 
     public static final ItemStack arcanePedestal = ItemApi.getBlock(Names.ThaumcraftBlocks.STONE_DEVICE, 1);
 
+    public static final ItemStack fluxGas = ItemApi.getBlock(Names.ThaumcraftBlocks.FLUX_GAS, 7);
+
     public static final ItemStack airShard = ItemApi.getItem(Names.ThaumcraftItems.SHARD, 0);
     public static final ItemStack fireShard = ItemApi.getItem(Names.ThaumcraftItems.SHARD, 1);
     public static final ItemStack waterShard = ItemApi.getItem(Names.ThaumcraftItems.SHARD, 2);

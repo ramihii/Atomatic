@@ -60,6 +60,7 @@ public class Names
     public static final class ThaumcraftBlocks
     {
         public static final String STONE_DEVICE = "blockStoneDevice";
+        public static final String FLUX_GAS = "blockFluxGas";
     }
 
     public static final class ThaumcraftItems

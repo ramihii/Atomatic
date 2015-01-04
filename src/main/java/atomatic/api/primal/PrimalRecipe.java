@@ -13,7 +13,6 @@ public class PrimalRecipe
 {
     private final String research;
     private final ItemStack output;
-    private final int time;
     private final AspectList aspects;
     private final PrimalObject primal;
     private final ItemStack input;
@@ -23,26 +22,24 @@ public class PrimalRecipe
      *
      * @param research the research key required for this recipe to work.
      * @param output   the recipe's output.
-     * @param time     the time this recipe takes to make in ticks.
      * @param primal   the {@link PrimalObject} used to craft this.
      * @param input    the recipe's input.
      */
-    public PrimalRecipe(String research, ItemStack output, int time, PrimalObject primal, ItemStack input)
+    public PrimalRecipe(String research, ItemStack output, PrimalObject primal, ItemStack input)
     {
-        this(research, output, time, null, primal, input);
+        this(research, output, null, primal, input);
     }
 
     /**
-     * Constructs a new {@link PrimalRecipe}. You shouldn't use this TIL I decide to make this public.
+     * Constructs a new {@link PrimalRecipe}. You shouldn't use this until I decide to make this public.
      *
      * @param research the research key required for this recipe to work.
      * @param output   the recipe's NBT sensitive output.
-     * @param time     the time this recipe takes to make in ticks.
      * @param aspects  the primal aspects required to craft this.
      * @param primal   the {@link PrimalObject} used to craft this.
      * @param input    the recipe's NBT sensitive input.
      */
-    private PrimalRecipe(String research, ItemStack output, int time, AspectList aspects, PrimalObject primal, ItemStack input)
+    private PrimalRecipe(String research, ItemStack output, AspectList aspects, PrimalObject primal, ItemStack input)
     {
         this.research = research;
 
@@ -57,12 +54,10 @@ public class PrimalRecipe
             this.output = new ItemStack(output.getItem(), 1, output.getItemDamage());
         }
 
-        this.time = time;
-
         if (aspects == null)
         {
             AspectList aspectList = new AspectList();
-            int amount = 30;
+            int amount = 100;
 
             for (int i = 0; i < primal.getAspects().length; i++)
             {
@@ -99,11 +94,6 @@ public class PrimalRecipe
     public ItemStack getOutput()
     {
         return output;
-    }
-
-    public int getTime()
-    {
-        return time;
     }
 
     public AspectList getAspects()
@@ -156,11 +146,6 @@ public class PrimalRecipe
 
         PrimalRecipe recipe = (PrimalRecipe) o;
 
-        if (time != recipe.time)
-        {
-            return false;
-        }
-
         if (!AspectListHelper.equals(aspects, recipe.aspects))
         {
             return false;
@@ -195,7 +180,6 @@ public class PrimalRecipe
         int result = research == null || research.equals("") ? 1 : research.hashCode();
 
         result = 31 * result + output.hashCode();
-        result = 31 * result + time;
 
         for (Aspect aspect : aspects.getAspectsSorted())
         {
@@ -211,6 +195,6 @@ public class PrimalRecipe
     @Override
     public String toString()
     {
-        return "PrimalRecipe{" + "research='" + research + '\'' + ", output=" + output + ", time=" + time + ", aspects=" + AspectListHelper.toString(aspects) + ", primal=" + primal + ", input=" + input + '}';
+        return "PrimalRecipe{" + "research='" + research + '\'' + ", output=" + output + ", aspects=" + AspectListHelper.toString(aspects) + ", primal=" + primal + ", input=" + input + '}';
     }
 }
