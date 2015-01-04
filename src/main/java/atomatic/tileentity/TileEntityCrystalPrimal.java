@@ -151,7 +151,11 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
                     getInputPedestalTileEntity(axis, direction).getWorldObj().markBlockForUpdate(getInputPedestalTileEntity(axis, direction).xCoord, getInputPedestalTileEntity(axis, direction).yCoord, getInputPedestalTileEntity(axis, direction).zCoord);
                     getInputPedestalTileEntity(axis, direction).markDirty();
 
+                    ticks = 0;
+                    wanded = false;
                     crafting = false;
+                    vis = new AspectList();
+                    recipe = null;
                     needsUpdate = true;
                 }
             }
