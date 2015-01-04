@@ -12,6 +12,7 @@ import atomatic.item.ItemPrimalObject;
 import atomatic.reference.Names;
 import atomatic.reference.Sounds;
 import atomatic.reference.ThaumcraftReference;
+import atomatic.util.AdjustmentHelper;
 import atomatic.util.InputDirection;
 import atomatic.util.LogHelper;
 
@@ -55,6 +56,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     public static final int MAX_VIS_DRAIN = 20;
     public static final int FREQUENCY = 5;
     public static final int SOUND_FREQUENCY = 65;
+    public static final int ADJUSTMENT_FREQUENCY = 100;
 
     private static final int TRUE = 1;
     private static final int FALSE = -TRUE;
@@ -64,6 +66,8 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     protected AspectList vis = new AspectList();
     protected PrimalRecipe recipe = null;
     protected EntityPlayer player = null;
+    protected boolean runningAdjustments = false;
+    protected int runningAdjustmentsTicks = 0;
 
     private ItemStack[] inventory;
     private List<ChunkCoordinates> pedestals = new ArrayList<ChunkCoordinates>();
@@ -109,6 +113,9 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             player.readFromNBT(nbtTagCompound);
         }
 
+        runningAdjustments = nbtTagCompound.getBoolean(Names.NBT.RUNNING_ADJUSTMENTS);
+        runningAdjustmentsTicks = nbtTagCompound.getInteger(Names.NBT.RUNNING_ADJUSTMENTS_TICKS);
+
         NBTTagList tagList = nbtTagCompound.getTagList(Names.NBT.ITEMS, 10);
         inventory = new ItemStack[this.getSizeInventory()];
 
@@ -148,6 +155,9 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             player.writeToNBT(nbtTagCompound);
             nbtTagCompound.setBoolean(Names.NBT.NULL_PLAYER, false);
         }
+
+        nbtTagCompound.setBoolean(Names.NBT.RUNNING_ADJUSTMENTS, runningAdjustments);
+        nbtTagCompound.setInteger(Names.NBT.RUNNING_ADJUSTMENTS_TICKS, runningAdjustmentsTicks);
 
         NBTTagList tagList = new NBTTagList();
 
@@ -197,6 +207,11 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         {
             if (crafting && canCraft())
             {
+                if (ticks % ADJUSTMENT_FREQUENCY == 0)
+                {
+
+                }
+
                 int random = worldObj.rand.nextInt(500);
 
                 if (random > 40 && random < 55)
@@ -770,24 +785,24 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         return adjustments;
     }
 
-    protected Adjustment nextAdjustment()
+    protected Adjustment[] getRuntimeAdjustment()
     {
-        for (ChunkCoordinates coordinates : pedestals)
+        Adjustment[] temp = new Adjustment[getAdjustments().length];
+        int count = 0;
+
+        for (int i = 0; i < getAdjustments().length; i++)
         {
-            if (coordinates.equals(primalPedestal))
+            if (AdjustmentHelper.isRuntimeAdjustment(getAdjustments()[i]))
             {
-                continue;
-            }
-
-            IInventory pedestal = getPedestalInventory(coordinates.posX, coordinates.posY, coordinates.posZ);
-
-            if (AtomaticApi.getAdjustment(pedestal.getStackInSlot(PEDESTAL_SLOT)) != null)
-            {
-                return AtomaticApi.getAdjustment(pedestal.getStackInSlot(PEDESTAL_SLOT));
+                temp[count] = getAdjustments()[i];
+                count++;
             }
         }
 
-        return null;
+        Adjustment[] adjustments = new Adjustment[count];
+        System.arraycopy(temp, 0, adjustments, 0, adjustments.length);
+
+        return adjustments;
     }
 
     protected boolean setEnvironment()

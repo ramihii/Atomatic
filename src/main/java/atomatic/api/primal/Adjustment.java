@@ -10,4 +10,9 @@ public class Adjustment
         this.effect = effect;
         this.strength = strength;
     }
+
+    public Adjustment copy()
+    {
+        return new Adjustment(effect, strength);
+    }
 }

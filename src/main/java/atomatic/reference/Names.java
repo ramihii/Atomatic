@@ -46,6 +46,8 @@ public class Names
         public static final String VIS = "vis";
         public static final String RECIPE = "recipe";
         public static final String NULL_PLAYER = "nullplayer";
+        public static final String RUNNING_ADJUSTMENTS = "runningAdjustments";
+        public static final String RUNNING_ADJUSTMENTS_TICKS = "runningAdjustmentsTicks";
     }
 
     public static final class Containers
