@@ -164,7 +164,7 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
                     if (visDrain > 0)
                     {
                         LogHelper.debug("Drained " + visDrain + " " + aspect.getTag() + " vis (" + toString() + ")");
-                        vis.remove(aspect, visDrain);
+                        vis.reduce(aspect, visDrain);
                         needsUpdate = true;
                     }
                 }
@@ -232,7 +232,7 @@ public class TileEntityCrystalPrimal extends TileEntityA implements IWandable, I
                 recipe = pr;
                 ThaumcraftApiHelper.consumeVisFromWand(wandstack, player, new AspectList().add(Aspect.AIR, 1).add(Aspect.FIRE, 1).add(Aspect.WATER, 1).add(Aspect.EARTH, 1).add(Aspect.ORDER, 1).add(Aspect.ENTROPY, 1), true, false);
                 crafting = true;
-                vis = recipe.getAspects();
+                vis = recipe.getAspects().copy();
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 markDirty();
                 return TRUE;
