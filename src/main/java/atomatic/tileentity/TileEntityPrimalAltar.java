@@ -657,12 +657,6 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                     ThaumcraftApiHelper.addWarpToPlayer(entityPlayer, AtomaticApi.getPrimalRecipeWarp(recipe) * 2, true);
                 }
 
-                // getPrimalPedestalInventory().setInventorySlotContents(PEDESTAL_SLOT, null);
-                // getPrimalPedestal().getWorldObj().markBlockForUpdate(primalPedestal.posX, primalPedestal.posY, primalPedestal.posZ);
-                // getPrimalPedestal().markDirty();
-
-                // inventory[SLOT_INVENTORY_INDEX] = null;
-
                 for (ChunkCoordinates coordinates : pedestals)
                 {
                     worldObj.setBlock(coordinates.posX, coordinates.posY + 1, coordinates.posZ, Block.getBlockFromItem(ThaumcraftReference.fluxGoo.getItem()), ThaumcraftReference.fluxGoo.getItemDamage(), 3);
@@ -794,7 +788,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                         for (int i = 0; i < recipeAspects.size(); i++)
                         {
                             Aspect aspect = recipeAspects.getAspectsSorted()[i];
-                            startingAspects.add(aspect, recipeAspects.getAmount(aspect) - lessWandVisAmount);
+                            startingAspects.add(aspect, recipeAspects.getAmount(aspect) - (lessWandVisAmount * PrimalRecipe.WAND_MULTIPLIER));
                         }
                     }
 

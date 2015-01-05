@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 public class PrimalRecipe
 {
     public static final int DEFAULT_ASPECT_AMOUNT = 100;
-    public static final int DEFAULT_STARTING_ASPECT_AMOUNT = DEFAULT_ASPECT_AMOUNT / 10;
+    public static final int DEFAULT_STARTING_ASPECT_AMOUNT = 10;
     public static final int WAND_MULTIPLIER = 100;
 
     private final String research;
