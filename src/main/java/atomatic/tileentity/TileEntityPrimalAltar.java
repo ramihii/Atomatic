@@ -1,9 +1,11 @@
 package atomatic.tileentity;
 
 import atomatic.api.AtomaticApi;
-import atomatic.api.primal.AdjustEffect;
-import atomatic.api.primal.Adjustment;
-import atomatic.api.primal.ICrystal;
+import atomatic.api.IAltarRelay;
+import atomatic.api.IRelay;
+import atomatic.api.adjusting.AdjustEffect;
+import atomatic.api.adjusting.Adjustment;
+import atomatic.api.ICrystal;
 import atomatic.api.primal.PrimalObject;
 import atomatic.api.primal.PrimalRecipe;
 
@@ -56,15 +58,18 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     public static final int CRYSTAL_OFFSET = 2;
     public static final int CLOSE_CRYSTAL_OFFSET = CRYSTAL_OFFSET - 1;
     public static final int PEDESTAL_OFFSET = CRYSTAL_OFFSET * 2;
+    public static final int ALTAR_RELAY_OFFSET = 2;
+    public static final int PEDESTAL_RELAY_OFFSET = 2;
     public static final int PEDESTAL_SLOT = 0;
     public static final int MAX_VIS_DRAIN = 20;
     public static final int FREQUENCY = 5;
     public static final int SOUND_FREQUENCY = 65;
     public static final int ADJUSTMENT_FREQUENCY = 100;
-    public static final int MAX_ADJUSTMENTS = 3;
 
     private static final int TRUE = 1;
     private static final int FALSE = -TRUE;
+
+    protected List<ChunkCoordinates> noAdjustmentAllowed;
 
     private ItemStack[] inventory;
     private int ticks = 0;
@@ -81,6 +86,12 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
     public TileEntityPrimalAltar()
     {
+        noAdjustmentAllowed = new ArrayList<ChunkCoordinates>();
+        noAdjustmentAllowed.add(new ChunkCoordinates(xCoord + CRYSTAL_OFFSET, yCoord, zCoord));
+        noAdjustmentAllowed.add(new ChunkCoordinates(xCoord - CRYSTAL_OFFSET, yCoord, zCoord));
+        noAdjustmentAllowed.add(new ChunkCoordinates(xCoord, yCoord, zCoord + CRYSTAL_OFFSET));
+        noAdjustmentAllowed.add(new ChunkCoordinates(xCoord, yCoord, zCoord - CRYSTAL_OFFSET));
+
         inventory = new ItemStack[INVENTORY_SIZE];
     }
 
@@ -250,12 +261,6 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         {
             ++ticks;
             logEvent("Tick " + ticks);
-
-            if (runningAdjustments)
-            {
-                ++runningAdjustmentsTicks;
-                logEvent("Running adjustments tick " + ticks);
-            }
         }
 
         if (worldObj.isRemote)
@@ -291,50 +296,55 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                 boolean moreMaxDrain = false;
                 int moreMaxDrainAmount = 0;
 
-                if (runningAdjustments && getRuntimeAdjustments() != null)
+                if (runningAdjustmentsCount < getRuntimeAdjustments().size())
                 {
-                    if (runningAdjustmentsTicks % FREQUENCY == 0)
+                    if (runningAdjustments && getRuntimeAdjustments() != null)
                     {
-                        logEvent("Running adjustment at running tick " + runningAdjustmentsTicks + " and at tick " + ticks);
+                        ++runningAdjustmentsTicks;
+                        logEvent("Running adjustments tick " + ticks);
 
-                        List<Map.Entry<ChunkCoordinates, Adjustment>> entries = Lists.newArrayList(getRuntimeAdjustments().entrySet());
-                        Map.Entry<ChunkCoordinates, Adjustment> entry = entries.get(runningAdjustmentsCount);
-                        ChunkCoordinates coordinates = entry.getKey();
-                        Adjustment adjustment = entry.getValue();
-                        boolean found = false;
+                        if (runningAdjustmentsTicks % FREQUENCY == 0)
+                        {
+                            logEvent("Running adjustment at running tick " + runningAdjustmentsTicks + " and at tick " + ticks);
 
-                        if (adjustment.effect == AdjustEffect.STABILIZE)
-                        {
-                            stabilize = true;
-                            stabilizeAmount = adjustment.strength;
-                            found = true;
-                        }
-                        else if (adjustment.effect == AdjustEffect.MORE_MAX_DRAIN)
-                        {
-                            moreMaxDrain = true;
-                            moreMaxDrainAmount = adjustment.strength;
-                            found = true;
-                        }
+                            List<Map.Entry<ChunkCoordinates, Adjustment>> entries = Lists.newArrayList(getRuntimeAdjustments().entrySet());
+                            Map.Entry<ChunkCoordinates, Adjustment> entry = entries.get(runningAdjustmentsCount);
+                            ChunkCoordinates coordinates = entry.getKey();
+                            Adjustment adjustment = entry.getValue();
+                            boolean found = false;
 
-                        if (found)
-                        {
-                            if (isPedestal(coordinates.posX, coordinates.posY, coordinates.posZ))
+                            if (adjustment.effect == AdjustEffect.STABILIZE)
                             {
-                                getPedestalInventory(coordinates.posX, coordinates.posY, coordinates.posZ).setInventorySlotContents(PEDESTAL_SLOT, null);
-                                worldObj.markBlockForUpdate(coordinates.posX, coordinates.posY, coordinates.posZ);
-                                getPedestal(coordinates.posX, coordinates.posY, coordinates.posZ).markDirty();
+                                stabilize = true;
+                                stabilizeAmount = adjustment.strength;
+                                found = true;
                             }
+                            else if (adjustment.effect == AdjustEffect.MORE_MAX_DRAIN)
+                            {
+                                moreMaxDrain = true;
+                                moreMaxDrainAmount = adjustment.strength;
+                                found = true;
+                            }
+
+                            if (found)
+                            {
+                                if (isPedestal(coordinates.posX, coordinates.posY, coordinates.posZ))
+                                {
+                                    getPedestalInventory(coordinates.posX, coordinates.posY, coordinates.posZ).setInventorySlotContents(PEDESTAL_SLOT, null);
+                                    worldObj.markBlockForUpdate(coordinates.posX, coordinates.posY, coordinates.posZ);
+                                    getPedestal(coordinates.posX, coordinates.posY, coordinates.posZ).markDirty();
+                                }
+                            }
+
+                            ++runningAdjustmentsCount;
+                            needsUpdate = true;
                         }
-
-                        ++runningAdjustmentsCount;
-                        needsUpdate = true;
                     }
-
-                    if (runningAdjustmentsCount >= MAX_ADJUSTMENTS || runningAdjustmentsCount >= getRuntimeAdjustments().size())
-                    {
-                        runningAdjustments = false;
-                        needsUpdate = true;
-                    }
+                }
+                else
+                {
+                    runningAdjustments = false;
+                    needsUpdate = true;
                 }
 
                 int maxInstability = 10000 + ((crystals.size() - 1) * 10);
@@ -979,16 +989,19 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
         for (ChunkCoordinates coordinates : crystals)
         {
-            if (getICrystal(coordinates.posX, coordinates.posY, coordinates.posZ) != null)
+            if (!noAdjustmentAllowed.contains(coordinates))
             {
-                if (getICrystal(coordinates.posX, coordinates.posY, coordinates.posZ).isAdjustment())
+                if (getICrystal(coordinates.posX, coordinates.posY, coordinates.posZ) != null)
                 {
-                    if (adjustments == null)
+                    if (getICrystal(coordinates.posX, coordinates.posY, coordinates.posZ).isAdjustment())
                     {
-                        adjustments = new HashMap<ChunkCoordinates, Adjustment>();
-                    }
+                        if (adjustments == null)
+                        {
+                            adjustments = new HashMap<ChunkCoordinates, Adjustment>();
+                        }
 
-                    adjustments.put(coordinates, getICrystal(coordinates.posX, coordinates.posY, coordinates.posZ).getAdjustment());
+                        adjustments.put(coordinates, getICrystal(coordinates.posX, coordinates.posY, coordinates.posZ).getAdjustment());
+                    }
                 }
             }
         }
@@ -1050,6 +1063,11 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             {
                 primalPedestal = new ChunkCoordinates(xCoord + PEDESTAL_OFFSET, yCoord, zCoord);
             }
+
+            if (isRelay(xCoord + PEDESTAL_OFFSET, yCoord + PEDESTAL_RELAY_OFFSET, zCoord))
+            {
+                crystals.add(new ChunkCoordinates(xCoord + PEDESTAL_OFFSET, yCoord + PEDESTAL_RELAY_OFFSET, zCoord));
+            }
         }
 
         if (isPedestal(xCoord - PEDESTAL_OFFSET, yCoord, zCoord) && isCrystal(xCoord - CRYSTAL_OFFSET, yCoord, zCoord))
@@ -1060,6 +1078,11 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             if (primalPedestal == null && hasPrimalObject(xCoord - PEDESTAL_OFFSET, yCoord, zCoord))
             {
                 primalPedestal = new ChunkCoordinates(xCoord - PEDESTAL_OFFSET, yCoord, zCoord);
+            }
+
+            if (isRelay(xCoord - PEDESTAL_OFFSET, yCoord + PEDESTAL_RELAY_OFFSET, zCoord))
+            {
+                crystals.add(new ChunkCoordinates(xCoord - PEDESTAL_OFFSET, yCoord + PEDESTAL_RELAY_OFFSET, zCoord));
             }
         }
 
@@ -1072,6 +1095,11 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             {
                 primalPedestal = new ChunkCoordinates(xCoord, yCoord, zCoord + PEDESTAL_OFFSET);
             }
+
+            if (isRelay(xCoord, yCoord + PEDESTAL_RELAY_OFFSET, zCoord + PEDESTAL_OFFSET))
+            {
+                crystals.add(new ChunkCoordinates(xCoord, yCoord + PEDESTAL_RELAY_OFFSET, zCoord + PEDESTAL_OFFSET));
+            }
         }
 
         if (isPedestal(xCoord, yCoord, zCoord - PEDESTAL_OFFSET) && isCrystal(xCoord, yCoord, zCoord - CRYSTAL_OFFSET))
@@ -1082,6 +1110,11 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             if (primalPedestal == null && hasPrimalObject(xCoord, yCoord, zCoord - PEDESTAL_OFFSET))
             {
                 primalPedestal = new ChunkCoordinates(xCoord, yCoord, zCoord - PEDESTAL_OFFSET);
+            }
+
+            if (isRelay(xCoord, yCoord + PEDESTAL_RELAY_OFFSET, zCoord - PEDESTAL_OFFSET))
+            {
+                crystals.add(new ChunkCoordinates(xCoord, yCoord + PEDESTAL_RELAY_OFFSET, zCoord - PEDESTAL_OFFSET));
             }
         }
 
@@ -1105,7 +1138,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             crystals.add(new ChunkCoordinates(xCoord, yCoord, zCoord - CLOSE_CRYSTAL_OFFSET));
         }
 
-        return primalPedestal != null;
+        return primalPedestal != null && hasAltarRelay();
     }
 
     public boolean canCraft()
@@ -1184,6 +1217,36 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     public ICrystal getICrystal(int x, int y, int z)
     {
         return getCrystal(x, y, z) != null && getCrystal(x, y, z) instanceof ICrystal ? (ICrystal) worldObj.getTileEntity(x, y, z) : null;
+    }
+
+    public boolean isRelay(int x, int y, int z)
+    {
+        return worldObj.blockExists(x, y, z) && worldObj.getTileEntity(x, y, z) instanceof IRelay;
+    }
+
+    public TileEntity getRelay(int x, int y, int z)
+    {
+        return isRelay(x, y, z) ? worldObj.getTileEntity(x, y, z) : null;
+    }
+
+    public IRelay getIRelay(int x, int y, int z)
+    {
+        return getRelay(x, y, z) != null && getRelay(x, y, z) instanceof IRelay ? (IRelay) worldObj.getTileEntity(x, y, z) : null;
+    }
+
+    public boolean hasAltarRelay()
+    {
+        return worldObj.blockExists(xCoord, yCoord + ALTAR_RELAY_OFFSET, zCoord) && worldObj.getTileEntity(xCoord, yCoord + ALTAR_RELAY_OFFSET, zCoord) instanceof IAltarRelay;
+    }
+
+    public TileEntity getAltarRelay()
+    {
+        return hasAltarRelay() ? worldObj.getTileEntity(xCoord, yCoord + ALTAR_RELAY_OFFSET, zCoord) : null;
+    }
+
+    public IAltarRelay getIAltarRelay(int x, int y, int z)
+    {
+        return getAltarRelay() != null && getAltarRelay() instanceof IAltarRelay ? (IAltarRelay) worldObj.getTileEntity(xCoord, yCoord + ALTAR_RELAY_OFFSET, zCoord) : null;
     }
 
     public void dropItemsAtEntity(Entity entity)

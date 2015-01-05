@@ -1,5 +1,6 @@
 package atomatic.client.render;
 
+import atomatic.client.model.Models;
 import atomatic.util.ActiveNumber;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -15,14 +16,24 @@ import cpw.mods.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public abstract class RenderCrystal extends TileEntitySpecialRenderer
+public class RenderAltarRelay extends TileEntitySpecialRenderer
 {
     protected final IModelCustom model;
     protected final ResourceLocation texture;
     protected ActiveNumber rotation = new ActiveNumber(ActiveNumber.MODE_KEEP_WITHIN_BOUNDS).setBounds(0D, 359D);
     protected ActiveNumber hover = new ActiveNumber(ActiveNumber.MODE_OSCILLATE).setBounds(0D, 2D).setDirection(ActiveNumber.DIR_DEC);
 
-    public RenderCrystal(IModelCustom model, ResourceLocation texture)
+    public RenderAltarRelay(String texture)
+    {
+        this(new ResourceLocation(texture));
+    }
+
+    public RenderAltarRelay(ResourceLocation texture)
+    {
+        this(Models.modelAltarRelay, texture);
+    }
+
+    public RenderAltarRelay(IModelCustom model, ResourceLocation texture)
     {
         this.model = model;
         this.texture = texture;
@@ -35,9 +46,9 @@ public abstract class RenderCrystal extends TileEntitySpecialRenderer
 
         GL11.glPushMatrix();
 
-        GL11.glTranslated(x + .5d, y, z + .5d);
+        GL11.glTranslated(x + .5D, y, z + .5D);
         // GL11.glRotated(0D, 0D, 0D, 0D);
-        GL11.glScaled(.5d, .4d, .5d);
+        GL11.glScaled(1.3D, 1.3D, 1.3D);
 
         model.renderAll();
         GL11.glPopMatrix();

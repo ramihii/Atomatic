@@ -13,6 +13,8 @@ public class ThaumcraftReference
     public static final ItemStack fluxGas = ItemApi.getBlock(Names.ThaumcraftBlocks.FLUX_GAS, 7);
     public static final ItemStack fluxGoo = ItemApi.getBlock(Names.ThaumcraftBlocks.FLUX_GOO, 7);
 
+    public static final ItemStack hole = ItemApi.getBlock(Names.ThaumcraftBlocks.HOLE, 15);
+
     public static final ItemStack wandCasting = ItemApi.getItem(Names.ThaumcraftItems.WAND_CASTING, 0);
 
     public static final ItemStack airShard = ItemApi.getItem(Names.ThaumcraftItems.SHARD, 0);

@@ -6,7 +6,10 @@ public class Names
     {
         public static final String INVERSE_DIRT = "inverseDirt";
         public static final String PRIMAL_ALTAR = "primalAltar";
-        public static final String CRYSTAL_PRIMAL = "crystalPrimal";
+        public static final String CRYSTAL = "crystal";
+        public static final String[] CRYSTAL_TYPES = {"basic", "primal"};
+        public static final String ALTAR_RELAY = "altarRelay";
+        public static final String[] ALTAR_RELAY_TYPES = {"basic"};
     }
 
     public static final class Items
@@ -57,6 +60,7 @@ public class Names
         public static final String RUNNING_ADJUSTMENTS = "runningAdjustments";
         public static final String RUNNING_ADJUSTMENTS_TICKS = "runningAdjustmentsTicks";
         public static final String RUNNING_ADJUSTMENTS_COUNT = "runningAdjustmentsCount";
+        public static final String ALTAR_RELAY = "AltarRelay";
     }
 
     public static final class Containers
@@ -75,6 +79,7 @@ public class Names
         public static final String STONE_DEVICE = "blockStoneDevice";
         public static final String FLUX_GAS = "blockFluxGas";
         public static final String FLUX_GOO = "blockFluxGoo";
+        public static final String HOLE = "blockHole";
     }
 
     public static final class ThaumcraftItems

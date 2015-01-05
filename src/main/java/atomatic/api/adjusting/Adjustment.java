@@ -1,4 +1,4 @@
-package atomatic.api.primal;
+package atomatic.api.adjusting;
 
 public class Adjustment
 {

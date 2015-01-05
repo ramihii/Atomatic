@@ -1,6 +1,7 @@
 package atomatic.client.render;
 
-import atomatic.block.BlockCrystalPrimal;
+import atomatic.block.BlockAltarRelay;
+import atomatic.block.BlockCrystal;
 import atomatic.client.model.Models;
 import atomatic.reference.Textures;
 
@@ -26,10 +27,32 @@ public class RenderBlock implements ISimpleBlockRenderingHandler
         {
             GL11.glPushMatrix();
 
-            if (block instanceof BlockCrystalPrimal)
+            if (block instanceof BlockCrystal)
             {
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Textures.Models.TEXTURE_CRYSTAL_PRIMAL);
-                crystalSimpleGL11();
+                if (metadata == 0)
+                {
+                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(Textures.Models.TEXTURE_CRYSTAL_BASIC);
+                    GL11.glTranslatef(0F, -1F, 0F);
+                    GL11.glScalef(.7F, .7F, .7F);
+                    Models.modelCrystalSimple.renderAll();
+                }
+                else if (metadata == 1)
+                {
+                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(Textures.Models.TEXTURE_CRYSTAL_PRIMAL);
+                    GL11.glTranslatef(0F, -1F, 0F);
+                    GL11.glScalef(.7F, .7F, .7F);
+                    Models.modelCrystalSimple.renderAll();
+                }
+            }
+            else if (block instanceof BlockAltarRelay)
+            {
+                if (metadata == 0)
+                {
+                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(Textures.Models.TEXTURE_ALTAR_RELAY_BASIC);
+                    GL11.glTranslatef(0F, -0.5F, 0F);
+                    GL11.glScalef(1.7F, 1.7F, 1.7F);
+                    Models.modelAltarRelay.renderAll();
+                }
             }
             /* else if (block instanceof BlockPrimalAltar)
             {
@@ -62,17 +85,5 @@ public class RenderBlock implements ISimpleBlockRenderingHandler
     public int getRenderId()
     {
         return ID;
-    }
-
-    protected void crystalSimpleGL11()
-    {
-        GL11.glTranslatef(0f, -1f, 0f); // TODO: tweak to render correctly in inventory & in hand
-        GL11.glScalef(.7f, .7f, .7f);
-        Models.modelCrystalSimple.renderAll();
-    }
-
-    protected void crystalComplexGL11()
-    {
-
     }
 }

@@ -14,6 +14,7 @@ import thaumcraft.api.crafting.ShapedArcaneRecipe;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class Recipes
@@ -21,6 +22,7 @@ public class Recipes
     public static void init()
     {
         initVanillaRecipes();
+        initCompoundRecipes();
         initAlchemyRecipes();
         initArcaneRecipes();
         initInfusionRecipes();
@@ -29,6 +31,12 @@ public class Recipes
 
     private static void initVanillaRecipes()
     {
+    }
+
+    private static void initCompoundRecipes()
+    {
+        ItemStack empty = ThaumcraftReference.hole;
+        // TODO
     }
 
     private static void initAlchemyRecipes()

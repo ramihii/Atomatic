@@ -1,7 +1,7 @@
 package atomatic.api;
 
-import atomatic.api.primal.AdjustEffect;
-import atomatic.api.primal.Adjustment;
+import atomatic.api.adjusting.AdjustEffect;
+import atomatic.api.adjusting.Adjustment;
 import atomatic.api.primal.PrimalObject;
 import atomatic.api.primal.PrimalRecipe;
 

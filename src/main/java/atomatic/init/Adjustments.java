@@ -1,7 +1,7 @@
 package atomatic.init;
 
 import atomatic.api.AtomaticApi;
-import atomatic.api.primal.AdjustEffect;
+import atomatic.api.adjusting.AdjustEffect;
 
 import atomatic.reference.ThaumcraftReference;
 
