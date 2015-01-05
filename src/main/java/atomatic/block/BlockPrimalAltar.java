@@ -61,7 +61,7 @@ public class BlockPrimalAltar extends BlockA implements ITileEntityProvider
     {
         if (!world.isRemote)
         {
-            if (new ItemStack(player.getCurrentEquippedItem().getItem(), 1, 0).isItemEqual(ThaumcraftReference.wandCasting))
+            if (player.getCurrentEquippedItem() != null && !new ItemStack(player.getCurrentEquippedItem().getItem(), 1, 0).isItemEqual(ThaumcraftReference.wandCasting))
             {
                 TileEntity tileEntity = world.getTileEntity(x, y, z);
 
