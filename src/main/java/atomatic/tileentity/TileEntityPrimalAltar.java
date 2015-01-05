@@ -972,14 +972,14 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
             IInventory pedestal = getPedestalInventory(coordinates.posX, coordinates.posY, coordinates.posZ);
 
-            if (AtomaticApi.getAdjustment(pedestal.getStackInSlot(PEDESTAL_SLOT)) != null)
+            if (AtomaticApi.getPrimalCraftingAdjuster(pedestal.getStackInSlot(PEDESTAL_SLOT)) != null)
             {
                 if (adjustments == null)
                 {
                     adjustments = new HashMap<ChunkCoordinates, Adjustment>();
                 }
 
-                adjustments.put(coordinates, AtomaticApi.getAdjustment(pedestal.getStackInSlot(PEDESTAL_SLOT)));
+                adjustments.put(coordinates, AtomaticApi.getPrimalCraftingAdjuster(pedestal.getStackInSlot(PEDESTAL_SLOT)));
             }
         }
 
@@ -1001,14 +1001,14 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
         if (worldObj.blockExists(xCoord, yCoord - 1, zCoord))
         {
-            if (AtomaticApi.getAdjustment(new ItemStack(worldObj.getBlock(xCoord, yCoord - 1, zCoord), 1, worldObj.getBlockMetadata(xCoord, yCoord - 1, zCoord))) != null)
+            if (AtomaticApi.getPrimalCraftingAdjuster(new ItemStack(worldObj.getBlock(xCoord, yCoord - 1, zCoord), 1, worldObj.getBlockMetadata(xCoord, yCoord - 1, zCoord))) != null)
             {
                 if (adjustments == null)
                 {
                     adjustments = new HashMap<ChunkCoordinates, Adjustment>();
                 }
 
-                adjustments.put(new ChunkCoordinates(xCoord, yCoord - 1, zCoord), AtomaticApi.getAdjustment(new ItemStack(worldObj.getBlock(xCoord, yCoord - 1, zCoord), 1, worldObj.getBlockMetadata(xCoord, yCoord - 1, zCoord))));
+                adjustments.put(new ChunkCoordinates(xCoord, yCoord - 1, zCoord), AtomaticApi.getPrimalCraftingAdjuster(new ItemStack(worldObj.getBlock(xCoord, yCoord - 1, zCoord), 1, worldObj.getBlockMetadata(xCoord, yCoord - 1, zCoord))));
             }
         }
 

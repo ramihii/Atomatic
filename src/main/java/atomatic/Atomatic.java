@@ -3,6 +3,7 @@ package atomatic;
 import atomatic.handler.ConfigurationHandler;
 import atomatic.handler.CraftingHandler;
 import atomatic.handler.GuiHandler;
+import atomatic.init.Adjustments;
 import atomatic.init.Aspects;
 import atomatic.init.ModBlocks;
 import atomatic.init.ModItems;
@@ -37,11 +38,8 @@ public class Atomatic
     public void preInit(FMLPreInitializationEvent event)
     {
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
-
         PacketHandler.init();
-
         ModItems.init();
-
         ModBlocks.init();
     }
 
@@ -49,23 +47,18 @@ public class Atomatic
     public void init(FMLInitializationEvent event)
     {
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
         TileEntities.init();
-
         proxy.registerRenderer();
-
         proxy.registerEventHandlers();
-
         CraftingHandler.init();
-
         Recipes.init();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
+        Adjustments.init();
         Aspects.init();
-
         Researches.init();
     }
 }

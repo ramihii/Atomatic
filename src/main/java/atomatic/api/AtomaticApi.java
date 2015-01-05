@@ -5,6 +5,8 @@ import atomatic.api.primal.Adjustment;
 import atomatic.api.primal.PrimalObject;
 import atomatic.api.primal.PrimalRecipe;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -166,6 +168,56 @@ public class AtomaticApi
     /**
      * Adds a new primal crafting adjuster.
      *
+     * @param item     the primal crafting adjuster.
+     * @param effect   the {@link AdjustEffect}.
+     * @param strength the strength of the {@link AdjustEffect}.
+     */
+    public static void addPrimalCraftingAdjuster(Item item, AdjustEffect effect, int strength)
+    {
+        addPrimalCraftingAdjuster(item, 0, effect, strength);
+    }
+
+    /**
+     * Adds a new primal crafting adjuster.
+     *
+     * @param item     the primal crafting adjuster.
+     * @param meta     the item's metadata.
+     * @param effect   the {@link AdjustEffect}.
+     * @param strength the strength of the {@link AdjustEffect}.
+     */
+    public static void addPrimalCraftingAdjuster(Item item, int meta, AdjustEffect effect, int strength)
+    {
+        addPrimalCraftingAdjuster(new ItemStack(item, 1, meta), effect, strength);
+    }
+
+    /**
+     * Adds a new primal crafting adjuster.
+     *
+     * @param block    the primal crafting adjuster.
+     * @param effect   the {@link AdjustEffect}.
+     * @param strength the strength of the {@link AdjustEffect}.
+     */
+    public static void addPrimalCraftingAdjuster(Block block, AdjustEffect effect, int strength)
+    {
+        addPrimalCraftingAdjuster(block, 0, effect, strength);
+    }
+
+    /**
+     * Adds a new primal crafting adjuster.
+     *
+     * @param block    the primal crafting adjuster.
+     * @param meta     the block's metadata.
+     * @param effect   the {@link AdjustEffect}.
+     * @param strength the strength of the {@link AdjustEffect}.
+     */
+    public static void addPrimalCraftingAdjuster(Block block, int meta, AdjustEffect effect, int strength)
+    {
+        addPrimalCraftingAdjuster(new ItemStack(block, 1, meta), effect, strength);
+    }
+
+    /**
+     * Adds a new primal crafting adjuster.
+     *
      * @param stack    the primal crafting adjuster.
      * @param effect   the {@link AdjustEffect}.
      * @param strength the strength of the {@link AdjustEffect}.
@@ -182,7 +234,7 @@ public class AtomaticApi
      *
      * @return the {@link Adjustment}.
      */
-    public static Adjustment getAdjustment(ItemStack stack)
+    public static Adjustment getPrimalCraftingAdjuster(ItemStack stack)
     {
         if (stack != null && primalCraftingAdjusters.containsKey(Arrays.asList(stack.getItem(), stack.getItemDamage())))
         {
