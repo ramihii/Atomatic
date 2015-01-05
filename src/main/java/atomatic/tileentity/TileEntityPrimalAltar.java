@@ -99,26 +99,8 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         ticks = nbtTagCompound.getInteger(Names.NBT.TICKS);
         crafting = nbtTagCompound.getBoolean(Names.NBT.CRAFTING);
         vis.readFromNBT(nbtTagCompound, Names.NBT.VIS);
-
-        int recipeHash = nbtTagCompound.getInteger(Names.NBT.RECIPE);
-
-        if (recipeHash == 0)
-        {
-            recipe = null;
-        }
-        else
-        {
-            recipe = AtomaticApi.getPrimalRecipeForHash(recipeHash);
-        }
-
-        if (nbtTagCompound.getBoolean(Names.NBT.NULL_PLAYER))
-        {
-            player = null;
-        }
-        else
-        {
-            player.readFromNBT(nbtTagCompound);
-        }
+        recipe = nbtTagCompound.getInteger(Names.NBT.RECIPE) == 0 ? null : AtomaticApi.getPrimalRecipeForHash(nbtTagCompound.getInteger(Names.NBT.RECIPE));
+        player = nbtTagCompound.getString(Names.NBT.PLAYER).equals("") ? null : worldObj.getPlayerEntityByName(nbtTagCompound.getString(Names.NBT.PLAYER));
 
         NBTTagList pedestalList = nbtTagCompound.getTagList(Names.NBT.PEDESTALS, 10);
         pedestals = new ArrayList<ChunkCoordinates>(); // TODO .clear(); ?
@@ -187,16 +169,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         nbtTagCompound.setBoolean(Names.NBT.CRAFTING, crafting);
         vis.writeToNBT(nbtTagCompound, Names.NBT.VIS);
         nbtTagCompound.setInteger(Names.NBT.RECIPE, recipe == null ? 0 : recipe.hashCode());
-
-        if (player == null)
-        {
-            nbtTagCompound.setBoolean(Names.NBT.NULL_PLAYER, true);
-        }
-        else
-        {
-            player.writeToNBT(nbtTagCompound);
-            nbtTagCompound.setBoolean(Names.NBT.NULL_PLAYER, false);
-        }
+        nbtTagCompound.setString(Names.NBT.PLAYER, (player == null ? "" : player.getCommandSenderName()));
 
         NBTTagList pedestalList = new NBTTagList();
 
@@ -342,7 +315,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                     }
                 }
 
-                int maxInstability = 500;
+                int maxInstability = 10000;
 
                 if (stabilize)
                 {
@@ -351,7 +324,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
                 int random = worldObj.rand.nextInt(maxInstability);
 
-                if (random > 40 && random < 55)
+                if (random > 432 && random < 450)
                 {
                     worldObj.createExplosion(null, (double) (float) xCoord, (double) ((float) yCoord + 0.5F), (double) ((float) zCoord), 1.2F + worldObj.rand.nextFloat(), false);
                 }
@@ -359,7 +332,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                 {
                     worldObj.setBlock(xCoord, yCoord + 1, zCoord, Block.getBlockFromItem(ThaumcraftReference.fluxGas.getItem()), ThaumcraftReference.fluxGas.getItemDamage(), 3);
                 }
-                else if (random > 90)
+                else if (random > 9998)
                 {
                     List entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double) xCoord, (double) yCoord, (double) zCoord, (double) (xCoord + 1), (double) (yCoord + 1), (double) (zCoord + 1)).expand(9.0D, 9.0D, 9.0D));
 

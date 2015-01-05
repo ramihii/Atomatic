@@ -1,8 +1,5 @@
 package atomatic.util;
 
-import thaumcraft.common.tiles.TileArcaneWorkbench;
-import thaumcraft.common.tiles.TileResearchTable;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;

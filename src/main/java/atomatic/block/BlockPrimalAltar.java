@@ -6,8 +6,6 @@ import atomatic.reference.Sounds;
 import atomatic.reference.ThaumcraftReference;
 import atomatic.tileentity.TileEntityPrimalAltar;
 
-import thaumcraft.api.TileThaumcraft;
-
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;

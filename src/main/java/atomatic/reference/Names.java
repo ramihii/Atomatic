@@ -46,7 +46,7 @@ public class Names
         public static final String CRAFTING = "crafting";
         public static final String VIS = "vis";
         public static final String RECIPE = "recipe";
-        public static final String NULL_PLAYER = "nullplayer";
+        public static final String PLAYER = "playeraltar";
         public static final String PEDESTALS = "pedestals";
         public static final String CRYSTALS = "crystals";
         public static final String INDEX = "index";
