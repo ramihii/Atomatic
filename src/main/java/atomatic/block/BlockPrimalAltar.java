@@ -2,10 +2,16 @@ package atomatic.block;
 
 import atomatic.reference.Names;
 import atomatic.reference.Particles;
+import atomatic.reference.Sounds;
+import atomatic.reference.ThaumcraftReference;
 import atomatic.tileentity.TileEntityPrimalAltar;
+
+import thaumcraft.api.TileThaumcraft;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -49,6 +55,52 @@ public class BlockPrimalAltar extends BlockA implements ITileEntityProvider
         return false;
     }
     */
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9)
+    {
+        if (!world.isRemote)
+        {
+            if (new ItemStack(player.getCurrentEquippedItem().getItem(), 1, 0).isItemEqual(ThaumcraftReference.wandCasting))
+            {
+                TileEntity tileEntity = world.getTileEntity(x, y, z);
+
+                if (tileEntity != null && tileEntity instanceof TileEntityPrimalAltar)
+                {
+                    TileEntityPrimalAltar altar = (TileEntityPrimalAltar) tileEntity;
+
+                    if (!player.isSneaking())
+                    {
+                        if (altar.getStackInSlot(TileEntityPrimalAltar.SLOT_INVENTORY_INDEX) != null)
+                        {
+                            altar.dropItemsAtEntity(player);
+                            world.playSoundEffect((double) x, (double) y, (double) z, Sounds.RANDOM_POP, 0.2F, ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.0F) * 1.5F);
+                            return true;
+                        }
+
+                        if (player.getCurrentEquippedItem() != null)
+                        {
+                            ItemStack stack = player.getCurrentEquippedItem().copy();
+                            stack.stackSize = 1;
+                            altar.setInventorySlotContents(TileEntityPrimalAltar.SLOT_INVENTORY_INDEX, stack);
+                            --player.getCurrentEquippedItem().stackSize;
+
+                            if (player.getCurrentEquippedItem().stackSize <= 0)
+                            {
+                                player.setCurrentItemOrArmor(0, null);
+                            }
+
+                            player.inventory.markDirty();
+                            world.playSoundEffect((double) x, (double) y, (double) z, Sounds.RANDOM_POP, 0.2F, ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.0F) * 1.6F);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 
     @Override
     @SideOnly(Side.CLIENT)

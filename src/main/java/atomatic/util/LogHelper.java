@@ -1,6 +1,7 @@
 package atomatic.util;
 
 import atomatic.reference.Reference;
+import atomatic.tileentity.TileEntityPrimalAltar;
 
 import cpw.mods.fml.common.FMLLog;
 
@@ -58,5 +59,10 @@ public class LogHelper
     public static void warn(Object object)
     {
         log(Level.WARN, object);
+    }
+
+    public static void logAltarEvent(TileEntityPrimalAltar altar, Object object)
+    {
+        debug(object + " (" + altar.toString() + ")");
     }
 }

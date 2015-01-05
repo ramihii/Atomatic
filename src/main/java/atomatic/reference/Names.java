@@ -79,6 +79,7 @@ public class Names
 
     public static final class ThaumcraftItems
     {
+        public static final String WAND_CASTING = "itemWandCasting";
         public static final String SHARD = "itemShard";
         public static final String RESOURCE = "itemResource";
         public static final String ELDRITCH_OBJECT = "itemEldritchObject";
