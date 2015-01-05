@@ -93,7 +93,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         for (int i = 0; i < tagList.tagCount(); ++i)
         {
             NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
-            byte slotIndex = tagCompound.getByte("Slot");
+            byte slotIndex = tagCompound.getByte(Names.NBT.SLOT);
 
             if (slotIndex >= 0 && slotIndex < inventory.length)
             {
@@ -125,65 +125,45 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             player.readFromNBT(nbtTagCompound);
         }
 
-        if (nbtTagCompound.getBoolean(Names.NBT.NULL_PEDESTALS))
-        {
-            pedestals = new ArrayList<ChunkCoordinates>();
-        }
-        else
-        {
-            NBTTagCompound compound = nbtTagCompound.getCompoundTag(Names.NBT.PEDESTALS);
-            int count = compound.getInteger(Names.NBT.COUNT);
+        NBTTagList pedestalList = nbtTagCompound.getTagList(Names.NBT.PEDESTALS, 10);
+        pedestals = new ArrayList<ChunkCoordinates>(); // TODO .clear(); ?
 
-            pedestals = new ArrayList<ChunkCoordinates>();
+        for (int i = 0; i < pedestalList.tagCount(); i++)
+        {
+            NBTTagCompound compound = pedestalList.getCompoundTagAt(i);
+            byte index = compound.getByte(Names.NBT.INDEX);
 
-            for (int i = 0; i <= count; i++)
+            if (index >= 0 && index < pedestalList.tagCount())
             {
-                NBTTagCompound cc = compound.getCompoundTag(Integer.toString(i));
+                int x = compound.getInteger(Names.NBT.POS_X);
+                int y = compound.getInteger(Names.NBT.POS_Y);
+                int z = compound.getInteger(Names.NBT.POS_Z);
 
-                int x = cc.getInteger(Names.NBT.POS_X);
-                int y = cc.getInteger(Names.NBT.POS_Y);
-                int z = cc.getInteger(Names.NBT.POS_Z);
+                pedestals.add(index, new ChunkCoordinates(x, y, z));
 
-                pedestals.add(new ChunkCoordinates(x, y, z));
+                if (compound.getBoolean(Names.NBT.PRIMAL))
+                {
+                    primalPedestal = new ChunkCoordinates(x, y, z);
+                }
             }
         }
 
-        if (nbtTagCompound.getBoolean(Names.NBT.NULL_CRYSTALS))
-        {
-            crystals = new ArrayList<ChunkCoordinates>();
-        }
-        else
-        {
-            NBTTagCompound compound = nbtTagCompound.getCompoundTag(Names.NBT.CRYSTALS);
-            int count = compound.getInteger(Names.NBT.COUNT);
+        NBTTagList crystalList = nbtTagCompound.getTagList(Names.NBT.CRYSTALS, 10);
+        crystals = new ArrayList<ChunkCoordinates>(); // TODO .clear(); ?
 
-            crystals = new ArrayList<ChunkCoordinates>();
+        for (int i = 0; i < crystalList.tagCount(); i++)
+        {
+            NBTTagCompound compound = crystalList.getCompoundTagAt(i);
+            byte index = compound.getByte(Names.NBT.INDEX);
 
-            for (int i = 0; i <= count; i++)
+            if (index >= 0 && index < crystalList.tagCount())
             {
-                NBTTagCompound cc = compound.getCompoundTag(Integer.toString(i));
+                int x = compound.getInteger(Names.NBT.POS_X);
+                int y = compound.getInteger(Names.NBT.POS_Y);
+                int z = compound.getInteger(Names.NBT.POS_Z);
 
-                int x = cc.getInteger(Names.NBT.POS_X);
-                int y = cc.getInteger(Names.NBT.POS_Y);
-                int z = cc.getInteger(Names.NBT.POS_Z);
-
-                crystals.add(new ChunkCoordinates(x, y, z));
+                crystals.add(index, new ChunkCoordinates(x, y, z));
             }
-        }
-
-        if (nbtTagCompound.getBoolean(Names.NBT.NULL_PRIMAL_PEDESTAL))
-        {
-            primalPedestal = null;
-        }
-        else
-        {
-            NBTTagCompound compound = nbtTagCompound.getCompoundTag(Names.NBT.PRIMAL_PEDESTAL);
-
-            int x = compound.getInteger(Names.NBT.POS_X);
-            int y = compound.getInteger(Names.NBT.POS_Y);
-            int z = compound.getInteger(Names.NBT.POS_Z);
-
-            primalPedestal = new ChunkCoordinates(x, y, z);
         }
 
         runningAdjustments = nbtTagCompound.getBoolean(Names.NBT.RUNNING_ADJUSTMENTS);
@@ -201,20 +181,20 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     @Override
     protected void writeNBT(NBTTagCompound nbtTagCompound)
     {
-        NBTTagList tagList = new NBTTagList();
+        NBTTagList items = new NBTTagList();
 
         for (int currentIndex = 0; currentIndex < inventory.length; ++currentIndex)
         {
             if (inventory[currentIndex] != null)
             {
                 NBTTagCompound tagCompound = new NBTTagCompound();
-                tagCompound.setByte("Slot", (byte) currentIndex);
+                tagCompound.setByte(Names.NBT.SLOT, (byte) currentIndex);
                 inventory[currentIndex].writeToNBT(tagCompound);
-                tagList.appendTag(tagCompound);
+                items.appendTag(tagCompound);
             }
         }
 
-        nbtTagCompound.setTag(Names.NBT.ITEMS, tagList);
+        nbtTagCompound.setTag(Names.NBT.ITEMS, items);
         nbtTagCompound.setInteger(Names.NBT.TICKS, ticks);
         nbtTagCompound.setBoolean(Names.NBT.CRAFTING, crafting);
         vis.writeToNBT(nbtTagCompound, Names.NBT.VIS);
@@ -230,80 +210,49 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             nbtTagCompound.setBoolean(Names.NBT.NULL_PLAYER, false);
         }
 
-        if (pedestals.size() <= 0)
-        {
-            nbtTagCompound.setBoolean(Names.NBT.NULL_PEDESTALS, true);
-        }
-        else
-        {
-            NBTTagCompound compound = new NBTTagCompound();
+        NBTTagList pedestalList = new NBTTagList();
 
-            int count = 0;
-
-            for (ChunkCoordinates coordinates : pedestals)
+        for (int i = 0; i < pedestals.size(); i++)
+        {
+            if (pedestals.get(i) != null)
             {
-                NBTTagCompound cc = new NBTTagCompound();
+                NBTTagCompound compound = new NBTTagCompound();
+                compound.setByte(Names.NBT.INDEX, (byte) i);
+                compound.setInteger(Names.NBT.POS_X, pedestals.get(i).posX);
+                compound.setInteger(Names.NBT.POS_Y, pedestals.get(i).posY);
+                compound.setInteger(Names.NBT.POS_Z, pedestals.get(i).posZ);
 
-                cc.setInteger(Names.NBT.POS_X, coordinates.posX);
-                cc.setInteger(Names.NBT.POS_Y, coordinates.posY);
-                cc.setInteger(Names.NBT.POS_Z, coordinates.posZ);
+                if (pedestals.get(i).equals(primalPedestal))
+                {
+                    compound.setBoolean(Names.NBT.PRIMAL, true);
+                }
+                else
+                {
+                    compound.setBoolean(Names.NBT.PRIMAL, false);
+                }
 
-                compound.setTag(Integer.toString(count), cc);
-
-                count++;
+                pedestalList.appendTag(compound);
             }
-
-            compound.setInteger(Names.NBT.COUNT, count);
-
-            nbtTagCompound.setTag(Names.NBT.PEDESTALS, compound);
-            nbtTagCompound.setBoolean(Names.NBT.NULL_PEDESTALS, false);
         }
 
-        if (crystals.size() <= 0)
-        {
-            nbtTagCompound.setBoolean(Names.NBT.NULL_CRYSTALS, true);
-        }
-        else
-        {
-            NBTTagCompound compound = new NBTTagCompound();
+        nbtTagCompound.setTag(Names.NBT.PEDESTALS, pedestalList);
 
-            int count = 0;
+        NBTTagList crystalList = new NBTTagList();
 
-            for (ChunkCoordinates coordinates : crystals)
+        for (int i = 0; i < crystals.size(); i++)
+        {
+            if (crystals.get(i) != null)
             {
-                NBTTagCompound cc = new NBTTagCompound();
-
-                cc.setInteger(Names.NBT.POS_X, coordinates.posX);
-                cc.setInteger(Names.NBT.POS_Y, coordinates.posY);
-                cc.setInteger(Names.NBT.POS_Z, coordinates.posZ);
-
-                compound.setTag(Integer.toString(count), cc);
-
-                count++;
+                NBTTagCompound compound = new NBTTagCompound();
+                compound.setByte(Names.NBT.INDEX, (byte) i);
+                compound.setInteger(Names.NBT.POS_X, crystals.get(i).posX);
+                compound.setInteger(Names.NBT.POS_Y, crystals.get(i).posY);
+                compound.setInteger(Names.NBT.POS_Z, crystals.get(i).posZ);
+                pedestalList.appendTag(compound);
             }
-
-            compound.setInteger(Names.NBT.COUNT, count);
-
-            nbtTagCompound.setTag(Names.NBT.CRYSTALS, compound);
-            nbtTagCompound.setBoolean(Names.NBT.NULL_CRYSTALS, false);
         }
 
-        if (primalPedestal != null)
-        {
-            nbtTagCompound.setBoolean(Names.NBT.PRIMAL_PEDESTAL, true);
-        }
-        else
-        {
-            NBTTagCompound compound = new NBTTagCompound();
-
-            compound.setInteger(Names.NBT.POS_X, primalPedestal.posX);
-            compound.setInteger(Names.NBT.POS_Y, primalPedestal.posY);
-            compound.setInteger(Names.NBT.POS_Z, primalPedestal.posZ);
-
-            nbtTagCompound.setTag(Names.NBT.PRIMAL_PEDESTAL, compound);
-            nbtTagCompound.setBoolean(Names.NBT.NULL_PRIMAL_PEDESTAL, false);
-        }
-
+        nbtTagCompound.setTag(Names.NBT.CRYSTALS, crystalList);
         nbtTagCompound.setBoolean(Names.NBT.RUNNING_ADJUSTMENTS, runningAdjustments);
         nbtTagCompound.setInteger(Names.NBT.RUNNING_ADJUSTMENTS_TICKS, runningAdjustmentsTicks);
         nbtTagCompound.setInteger(Names.NBT.RUNNING_ADJUSTMENTS_COUNT, runningAdjustmentsCount);
