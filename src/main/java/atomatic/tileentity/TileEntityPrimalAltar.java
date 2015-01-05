@@ -313,7 +313,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                 boolean moreMaxDrain = false;
                 int moreMaxDrainAmount = 0;
 
-                if (runningAdjustments)
+                if (runningAdjustments && getRuntimeAdjustments() != null)
                 {
                     if (runningAdjustmentsTicks % FREQUENCY == 0)
                     {
@@ -546,7 +546,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             markThisForUpdate();
         }
 
-        logEvent("Inventory slot contents set (" + inventory[slot].toString() + ")");
+        logEvent("Inventory slot contents set (" + (inventory[slot] == null ? "null" : inventory[slot].toString()) + ")");
     }
 
     @Override
@@ -734,38 +734,41 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
                     boolean noWarp = false;
 
-                    for (Adjustment adjustment : getAdjustments())
+                    if (getAdjustments() != null)
                     {
-                        if (adjustment.effect == AdjustEffect.LESS_VIS)
+                        for (Adjustment adjustment : getAdjustments())
                         {
-                            lessVis = true;
-                            lessVisAmount = adjustment.strength;
-                        }
-                        else if (adjustment.effect == AdjustEffect.LESS_WAND_VIS)
-                        {
-                            lessWandVis = true;
-                            lessWandVisAmount = adjustment.strength;
-                        }
-                        else if (adjustment.effect == AdjustEffect.NO_WAND_VIS)
-                        {
-                            noWandVis = true;
-                        }
-                        else if (adjustment.effect == AdjustEffect.LESS_WARP)
-                        {
-                            lessWarp = true;
-                            lessWarpAmount = adjustment.strength;
-                        }
-                        else if (adjustment.effect == AdjustEffect.NO_WARP)
-                        {
-                            noWarp = true;
+                            if (adjustment.effect == AdjustEffect.LESS_VIS)
+                            {
+                                lessVis = true;
+                                lessVisAmount = adjustment.strength;
+                            }
+                            else if (adjustment.effect == AdjustEffect.LESS_WAND_VIS)
+                            {
+                                lessWandVis = true;
+                                lessWandVisAmount = adjustment.strength;
+                            }
+                            else if (adjustment.effect == AdjustEffect.NO_WAND_VIS)
+                            {
+                                noWandVis = true;
+                            }
+                            else if (adjustment.effect == AdjustEffect.LESS_WARP)
+                            {
+                                lessWarp = true;
+                                lessWarpAmount = adjustment.strength;
+                            }
+                            else if (adjustment.effect == AdjustEffect.NO_WARP)
+                            {
+                                noWarp = true;
+                            }
                         }
                     }
 
-                    AspectList startingAspects = recipe.getStartingAspectsForWand().copy();
+                    AspectList startingAspects = pr.getStartingAspectsForWand().copy();
 
                     if (lessWandVis)
                     {
-                        AspectList recipeAspects = recipe.getStartingAspectsForWand().copy();
+                        AspectList recipeAspects = pr.getStartingAspectsForWand().copy();
                         startingAspects = new AspectList();
 
                         for (int i = 0; i < recipeAspects.size(); i++)
@@ -967,6 +970,11 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
     public Adjustment[] getRuntimeAdjustments()
     {
+        if (getAdjustments() == null)
+        {
+            return null;
+        }
+
         Adjustment[] temp = new Adjustment[getAdjustments().length];
         int count = 0;
 
@@ -977,6 +985,11 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                 temp[count] = getAdjustments()[i];
                 count++;
             }
+        }
+
+        if (count <= 0)
+        {
+            return null;
         }
 
         Adjustment[] adjustments = new Adjustment[count];
