@@ -112,7 +112,7 @@ public class BlockPrimalAltar extends BlockA implements ITileEntityProvider
 
             if (primalAltar.isCrafting())
             {
-                world.spawnParticle(Particles.RED_DUST, (double) ((x + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) y + 0.8F, (double) ((z + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(Particles.RED_DUST, (double) ((x + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), (double) y + 1.1F, (double) ((z + 0.5F) + (random.nextFloat() * 0.5F - 0.3F)), 0.0D, 0.0D, 0.0D);
 
                 /* if (primalAltar.getInputPedestalTileEntity() != null)
                 {

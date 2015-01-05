@@ -40,9 +40,11 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-// TODO Add boost items
+// TODO Add the actual boost items
 public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventory, IWandable, IAspectContainer
 {
     public static final int INVENTORY_SIZE = 1;
@@ -103,7 +105,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         player = nbtTagCompound.getString(Names.NBT.PLAYER).equals("") ? null : worldObj.getPlayerEntityByName(nbtTagCompound.getString(Names.NBT.PLAYER));
 
         NBTTagList pedestalList = nbtTagCompound.getTagList(Names.NBT.PEDESTALS, 10);
-        pedestals = new ArrayList<ChunkCoordinates>(); // TODO .clear(); ?
+        pedestals = new ArrayList<ChunkCoordinates>();
 
         for (int i = 0; i < pedestalList.tagCount(); i++)
         {
@@ -126,7 +128,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         }
 
         NBTTagList crystalList = nbtTagCompound.getTagList(Names.NBT.CRYSTALS, 10);
-        crystals = new ArrayList<ChunkCoordinates>(); // TODO .clear(); ?
+        crystals = new ArrayList<ChunkCoordinates>();
 
         for (int i = 0; i < crystalList.tagCount(); i++)
         {
@@ -315,7 +317,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                     }
                 }
 
-                int maxInstability = 10000;
+                int maxInstability = 10000 + ((crystals.size() - 1) * 10);
 
                 if (stabilize)
                 {
@@ -332,7 +334,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
                 {
                     worldObj.setBlock(xCoord, yCoord + 1, zCoord, Block.getBlockFromItem(ThaumcraftReference.fluxGas.getItem()), ThaumcraftReference.fluxGas.getItemDamage(), 3);
                 }
-                else if (random > 9998)
+                else if (random > 9998 && random < 10001)
                 {
                     List entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double) xCoord, (double) yCoord, (double) zCoord, (double) (xCoord + 1), (double) (yCoord + 1), (double) (zCoord + 1)).expand(9.0D, 9.0D, 9.0D));
 
@@ -561,7 +563,7 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return true; // TODO Maybe check for recipe
+        return true;
     }
 
     @Override
@@ -709,30 +711,55 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
 
                     if (getAdjustments() != null)
                     {
-                        for (Adjustment adjustment : getAdjustments())
+                        for (Map.Entry<ChunkCoordinates, Adjustment> entry : getAdjustments().entrySet())
                         {
+                            ChunkCoordinates coordinates = entry.getKey();
+                            Adjustment adjustment = entry.getValue();
+
+                            if (AdjustmentHelper.isRuntimeAdjustment(adjustment))
+                            {
+                                continue;
+                            }
+
+                            boolean found = false;
+
                             if (adjustment.effect == AdjustEffect.LESS_VIS)
                             {
                                 lessVis = true;
                                 lessVisAmount = adjustment.strength;
+                                found = true;
                             }
                             else if (adjustment.effect == AdjustEffect.LESS_WAND_VIS)
                             {
                                 lessWandVis = true;
                                 lessWandVisAmount = adjustment.strength;
+                                found = true;
                             }
                             else if (adjustment.effect == AdjustEffect.NO_WAND_VIS)
                             {
                                 noWandVis = true;
+                                found = true;
                             }
                             else if (adjustment.effect == AdjustEffect.LESS_WARP)
                             {
                                 lessWarp = true;
                                 lessWarpAmount = adjustment.strength;
+                                found = true;
                             }
                             else if (adjustment.effect == AdjustEffect.NO_WARP)
                             {
                                 noWarp = true;
+                                found = true;
+                            }
+
+                            if (found)
+                            {
+                                if (isPedestal(coordinates.posX, coordinates.posY, coordinates.posZ))
+                                {
+                                    getPedestalInventory(coordinates.posX, coordinates.posY, coordinates.posZ).setInventorySlotContents(PEDESTAL_SLOT, null);
+                                    worldObj.markBlockForUpdate(coordinates.posX, coordinates.posY, coordinates.posZ);
+                                    getPedestal(coordinates.posX, coordinates.posY, coordinates.posZ).markDirty();
+                                }
                             }
                         }
                     }
@@ -912,14 +939,12 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         return getPrimalPedestal() != null && doesPrimalPedestalHavePrimalObject();
     }
 
-    public Adjustment[] getAdjustments()
+    public Map<ChunkCoordinates, Adjustment> getAdjustments()
     {
-        Adjustment[] adjustments = null;
+        Map<ChunkCoordinates, Adjustment> adjustments = null;
 
-        for (int i = 0; i < pedestals.size(); i++)
+        for (ChunkCoordinates coordinates : pedestals)
         {
-            ChunkCoordinates coordinates = pedestals.get(i);
-
             if (coordinates.equals(primalPedestal))
             {
                 continue;
@@ -931,44 +956,55 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
             {
                 if (adjustments == null)
                 {
-                    adjustments = new Adjustment[pedestals.size() - 1];
+                    adjustments = new HashMap<ChunkCoordinates, Adjustment>();
                 }
 
-                adjustments[i] = AtomaticApi.getAdjustment(pedestal.getStackInSlot(PEDESTAL_SLOT));
+                adjustments.put(coordinates, AtomaticApi.getAdjustment(pedestal.getStackInSlot(PEDESTAL_SLOT)));
+            }
+        }
+
+        for (ChunkCoordinates coordinates : crystals)
+        {
+            if (getICrystal(coordinates.posX, coordinates.posY, coordinates.posZ) != null)
+            {
+                if (getICrystal(coordinates.posX, coordinates.posY, coordinates.posZ).isAdjustment())
+                {
+                    if (adjustments == null)
+                    {
+                        adjustments = new HashMap<ChunkCoordinates, Adjustment>();
+                    }
+
+                    adjustments.put(coordinates, getICrystal(coordinates.posX, coordinates.posY, coordinates.posZ).getAdjustment());
+                }
             }
         }
 
         return adjustments;
     }
 
-    public Adjustment[] getRuntimeAdjustments()
+    public Map<ChunkCoordinates, Adjustment> getRuntimeAdjustments()
     {
         if (getAdjustments() == null)
         {
             return null;
         }
 
-        Adjustment[] temp = new Adjustment[getAdjustments().length];
-        int count = 0;
+        Map<ChunkCoordinates, Adjustment> adjustmentMap = null;
 
-        for (int i = 0; i < getAdjustments().length; i++)
+        for (Map.Entry<ChunkCoordinates, Adjustment> entry : getAdjustments().entrySet())
         {
-            if (AdjustmentHelper.isRuntimeAdjustment(getAdjustments()[i]))
+            if (AdjustmentHelper.isRuntimeAdjustment(entry.getValue()))
             {
-                temp[count] = getAdjustments()[i];
-                count++;
+                if (adjustmentMap == null)
+                {
+                    adjustmentMap = new HashMap<ChunkCoordinates, Adjustment>();
+                }
+
+                adjustmentMap.put(entry.getKey(), entry.getValue());
             }
         }
 
-        if (count <= 0)
-        {
-            return null;
-        }
-
-        Adjustment[] adjustments = new Adjustment[count];
-        System.arraycopy(temp, 0, adjustments, 0, adjustments.length);
-
-        return adjustments;
+        return adjustmentMap;
     }
 
     public boolean setEnvironment()
@@ -1098,10 +1134,15 @@ public class TileEntityPrimalAltar extends TileEntityA implements ISidedInventor
         return isCrystal(x, y, z) ? worldObj.getTileEntity(x, y, z) : null;
     }
 
+    public ICrystal getICrystal(int x, int y, int z)
+    {
+        return getCrystal(x, y, z) != null && getCrystal(x, y, z) instanceof ICrystal ? (ICrystal) worldObj.getTileEntity(x, y, z) : null;
+    }
+
     public void dropItemsAtEntity(Entity entity)
     {
         InventoryHelper.dropItemsAtEntity(worldObj, xCoord, yCoord, zCoord, entity);
-        update(); // TODO Might not be necessary
+        update();
     }
 
     private void markThisForUpdate()
