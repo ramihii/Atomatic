@@ -51,6 +51,12 @@ public class RenderAltarRelay extends TileEntitySpecialRenderer
         GL11.glScaled(1.3D, 1.3D, 1.3D);
 
         model.renderAll();
+        // TODO: Does the following render anything?
+//      model.renderPart("A");
+//      model.renderPart("B");
+//      model.renderPart("C");
+//      model.renderPart("D");
+//      model.renderPart("MAIN");
         GL11.glPopMatrix();
     }
 

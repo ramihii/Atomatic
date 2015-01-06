@@ -1,4 +1,4 @@
-# Blender MTL File: 'altarRelay.blend'
+# Blender MTL File: 'placedAspect.vitreus.blend'
 # Material Count: 1
 
 newmtl Material.006
@@ -9,4 +9,4 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 0
-map_Kd altarRelay.png
+map_Kd C:\Programming\Minecraft\Atomatic_new\Atomatic\src\main\resources\assets\atomatic\textures\models\altarRelay.png
